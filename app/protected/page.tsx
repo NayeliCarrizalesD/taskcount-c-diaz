@@ -1,4 +1,33 @@
-import { auth, signOut } from 'app/auth';
+'use client'
+import { Grid, Box } from '@mui/material';
+
+import Blog from './(DashboardLayout)/components/dashboard/Blog';
+import PageContainer from './(DashboardLayout)/components/container/PageContainer';
+// components
+
+
+
+const Dashboard = () => {
+  return (
+    <PageContainer title="Dashboard" description="this is Dashboard">
+      <Box>
+        <Grid container spacing={3}>
+          
+          
+        <Blog />
+          
+          
+          
+        </Grid>
+      </Box>
+    </PageContainer>
+  )
+}
+
+export default Dashboard;
+
+
+/*import { auth, signOut } from 'app/auth';
 
 export default async function ProtectedPage() {
   let session = await auth();
@@ -25,3 +54,4 @@ function SignOut() {
     </form>
   );
 }
+*/
