@@ -19,7 +19,7 @@ export default function Page() {
             href="/protected"
             className="flex h-10 w-full items-center justify-center border transition-all focus:outline-none rounded-full border-blue-300 hover:bg-cyan-600 bg-indigo-950 text-white text-sm sm:text-base sm:h-10 px-2 sm:px-5 m-2"
           >
-           <IoMdLogIn /> Inicio de sesión
+           <IoMdLogIn/> {' '} Inicio de sesión
           </Link>
         </div>
       </div>
