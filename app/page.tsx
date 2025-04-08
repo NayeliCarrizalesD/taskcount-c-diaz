@@ -7,7 +7,7 @@ export default function Page() {
         
         <div className="text-center max-w-screen-sm mb-10">
           <h1 className="text-stone-200 font-bold text-2xl">
-            Despacho contable Carrizales Díaz
+            Despacho Contable Carrizales Díaz
           </h1>
           <p className="text-stone-400 mt-5">
             Bienvenidos! para iniciar sesion da click en el boton de abajo 
@@ -18,7 +18,7 @@ export default function Page() {
             href="/protected"
             className="h-10 w-full items-center text-white justify-center rounded-full border text-sm transition-all focus:outline-none"
           >
-            Protected Page
+            Inicio de sesión
           </Link>
           <p className="text-white">·</p>
           
