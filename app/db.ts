@@ -15,12 +15,12 @@ export async function getUser(email: string) {
   return await db.select().from(users).where(eq(users.email, email));
 }
 
-export async function createUser(email: string, password: string) {
+export async function createUser( name: string, last_name: string, email: string, password: string, ) {
   const users = await ensureTableExists();
   let salt = genSaltSync(10);
   let hash = hashSync(password, salt);
 
-  return await db.insert(users).values({ email, password: hash });
+  return await db.insert(users).values({ name, last_name, email, password: hash });
 }
 
 async function ensureTableExists() {
@@ -35,6 +35,8 @@ async function ensureTableExists() {
     await client`
       CREATE TABLE "User" (
         id SERIAL PRIMARY KEY,
+        name VARCHAR(64),
+        last_name VARCHAR(64),
         email VARCHAR(64),
         password VARCHAR(64)
       );`;
@@ -42,6 +44,8 @@ async function ensureTableExists() {
 
   const table = pgTable('User', {
     id: serial('id').primaryKey(),
+    name: varchar('name', { length: 64 }),
+    last_name: varchar('last_name', { length: 64 }),
     email: varchar('email', { length: 64 }),
     password: varchar('password', { length: 64 }),
   });
