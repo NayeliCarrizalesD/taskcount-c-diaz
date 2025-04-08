@@ -16,7 +16,7 @@ export default function Page() {
         <div className="flex space-x-3">
           <Link
             href="/protected"
-            className="h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none"
+            className="h-10 w-full items-center text-white justify-center rounded-full border text-sm transition-all focus:outline-none"
           >
             Protected Page
           </Link>
