@@ -7,6 +7,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.0.1",
+    "@tabler/core": "^1.1.1",
+    "@tabler/icons-react": "^3.31.0",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
@@ -19,9 +24,11 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "react-mui-sidebar": "^1.6.3"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.16",
     "autoprefixer": "^10.4.16",
     "eslint": "8.56.0",
     "eslint-config-next": "^14.0.4",
