@@ -1,25 +1,21 @@
-"use client";
-import { baselightTheme } from "../utils/theme/DefaultColors";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import './globals.css';
+import RootLayout from './protected/layout';
 
+let title = 'Contadores Carrizales Diaz';
+let description =
+  'Control Interno';
 
+export const metadata = {
+  title,
+  description,
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contadores Carrizales Diaz',
+    description:
+      'Contadores Carrizales Diaz',
+  },
+  metadataBase: new URL('https://taskcount-c-diaz.vercel.app'),
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="es">
-      <body>
-        <ThemeProvider theme={baselightTheme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  );
-}
+// eslint-disable-next-line react/no-children-prop
+<RootLayout children={undefined}/>
