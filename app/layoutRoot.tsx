@@ -3,7 +3,7 @@ import { baselightTheme } from "../utils/theme/DefaultColors";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-export default function RootLayout({
+export default function ProtectRootLayout({
   children,
 }: {
   children: React.ReactNode;
