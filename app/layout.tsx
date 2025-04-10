@@ -1,4 +1,4 @@
-import './globals.css';
+/*import './globals.css';
 
 let title = 'Contadores Carrizales Diaz';
 let description =
@@ -14,17 +14,24 @@ export const metadata = {
       'Contadores Carrizales Diaz',
   },
   metadataBase: new URL('https://taskcount-c-diaz.vercel.app'),
-};
+};*/
 
 // eslint-disable-next-line react/no-children-prop
-export default function RootLayout({
+// filepath: c:\Program Files\Ampps\www\taskcount-c-diaz\app\protected\layout.tsx
+"use client";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { baselightTheme } from "../utils/theme/DefaultColors";
+
+export default function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <body>{children}</body>
-    </html>
+    <ThemeProvider theme={baselightTheme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
   );
 }
