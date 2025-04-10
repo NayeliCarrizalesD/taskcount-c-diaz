@@ -1,5 +1,4 @@
 import './globals.css';
-import RootLayout from './protected/layout';
 
 let title = 'Contadores Carrizales Diaz';
 let description =
