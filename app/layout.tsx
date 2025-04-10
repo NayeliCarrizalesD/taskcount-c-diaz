@@ -18,4 +18,14 @@ export const metadata = {
 };
 
 // eslint-disable-next-line react/no-children-prop
-<RootLayout children={undefined}/>
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="es">
+      <body>{children}</body>
+    </html>
+  );
+}
