@@ -1,6 +1,8 @@
-/*import './globals.css';
+import './globals.css';
 
-let title = 'Contadores Carrizales Diaz';
+import { GeistSans } from 'geist/font/sans';
+
+let title = 'Intranet MGO QOB OVERSEAS';
 let description =
   'Control Interno';
 
@@ -9,29 +11,20 @@ export const metadata = {
   description,
   twitter: {
     card: 'summary_large_image',
-    title: 'Contadores Carrizales Diaz',
-    description:
-      'Contadores Carrizales Diaz',
+    title,
+    description,
   },
-  metadataBase: new URL('https://taskcount-c-diaz.vercel.app'),
-};*/
+  metadataBase: new URL('https://intranet-mgo-qob.vercel.app/'),
+};
 
-// eslint-disable-next-line react/no-children-prop
-// filepath: c:\Program Files\Ampps\www\taskcount-c-diaz\app\protected\layout.tsx
-"use client";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { baselightTheme } from "../utils/theme/DefaultColors";
-
-export default function ProtectedLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider theme={baselightTheme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <html lang="es">
+      <body className={GeistSans.variable}>{children}</body>
+    </html>
   );
 }
