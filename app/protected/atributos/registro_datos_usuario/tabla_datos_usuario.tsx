@@ -3,7 +3,7 @@ import { dbTablas, datosUsuario } from "@/app/schema";
 export default async function TablaDatosUsuarios() {
     let usuarios: any[] = [];
     try {
-        usuarios = await dbTablas.select().from(datosUsuario).orderBy(datosUsuario.apellido);
+        usuarios = await dbTablas.select().from(datosUsuario).orderBy(datosUsuario.id_usuario).limit(5);
     }
     catch (e: any) {
         console.error(e);
@@ -15,8 +15,8 @@ export default async function TablaDatosUsuarios() {
             <table className="w-full text-left table-auto min-w-max">   
                 <thead>
                     <tr>
-                        <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Nombre</th>
-                        <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Apellido</th> 
+                        <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Alta</th>
+                        <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Telefono</th> 
                         <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Correo</th>
                         <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Nivel</th>
                     </tr>
@@ -24,8 +24,8 @@ export default async function TablaDatosUsuarios() {
                 <tbody>
                     {usuarios && usuarios.map((usuario: any, index: number) => (
                         <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={usuario.id}>
-                            <td className="p-4">{usuario.nombre}</td>
-                            <td className="p-4">{usuario.apellido}</td>
+                            <td className="p-4">{usuario.fecha_alta}</td>
+                            <td className="p-4">{usuario.telefono_usuario}</td>
                             <td className="p-4">{usuario.correo}</td>
                             <td className="p-4">
                                 {usuario.nivel === "na1"?"Administrador":""}

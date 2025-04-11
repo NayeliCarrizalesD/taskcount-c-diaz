@@ -41,7 +41,7 @@ async function ensureTableDatosUsuarioExists() {
   }
 
   const tableDatosUsuario = pgTable('datosUsuario', {
-    id: serial('id').primaryKey(),
+    id_usuario: serial('id_usuario').primaryKey(),
     fecha_alta: text('fecha_alta'),
     telefono_usuario: text('telefono_usuario'),
     nivel: text('nivel'),
@@ -52,7 +52,7 @@ async function ensureTableDatosUsuarioExists() {
 }
 
 export const datosUsuario = pgTable('datosUsuario', {
-  id: serial('id').primaryKey(),
+  id_usuario: serial('id_usuario').primaryKey(),
   fecha_alta: text('fecha_alta'),
   telefono_usuario: text('telefono_usuario'),
   nivel: text('nivel'),
