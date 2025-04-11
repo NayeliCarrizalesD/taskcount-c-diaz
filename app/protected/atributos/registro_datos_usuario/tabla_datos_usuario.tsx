@@ -23,7 +23,7 @@ export default async function TablaDatosUsuarios() {
                 </thead>
                 <tbody>
                     {usuarios && usuarios.map((usuario: any, index: number) => (
-                        <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={usuario.id}>
+                        <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={usuario.id_usuario}>
                             <td className="p-4">{usuario.fecha_alta}</td>
                             <td className="p-4">{usuario.telefono_usuario}</td>
                             <td className="p-4">{usuario.correo}</td>
