@@ -1,23 +1,23 @@
 import { FormDatosUsuario } from "@/app/formDatosUsuario";
 import { SubmitButton } from "@/app/submit-button";
-import { createDatosUsuario, getDatosUsuario } from "@/app/schema";
+import { createDatosUsuario, getUsuario } from "@/app/schema";
 import { FiUser } from "react-icons/fi";
 import { redirect } from "next/navigation";
 
 export default function FormularioDatosUsuario() {
   async function datosUsuario(formData: FormData) {
     'use server';
-    let nombre = formData.get('nombre') as string;
-    let apellido = formData.get('apellido') as string;
+    let fecha_alta = formData.get('fecha_alta') as unknown as string;
+    let telefono_usuario = formData.get('telefono_usuario') as string;
     let correo = formData.get('correo') as string;
     let nivel = formData.get('nivel') as string;
-    let usuario = await getDatosUsuario(correo);
+    let usuario = await getUsuario(correo);
 
     if (usuario.length > 0) {
       return console.log('Usuario ya existe');  
     }
     else {
-        await createDatosUsuario(nombre, apellido, correo, nivel);
+        await createDatosUsuario(fecha_alta, telefono_usuario, correo, nivel);
         redirect('/ProtectedRegistroDatosUsuarios');
     }
     }

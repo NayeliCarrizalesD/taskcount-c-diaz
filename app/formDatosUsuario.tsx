@@ -14,28 +14,29 @@ export function FormDatosUsuario({
       >
         <div>
           <label
-            htmlFor="nombre"
+            htmlFor="fecha_alta"
             className="block text-xs text-white uppercase"
           >
-            Nombre
+            fecha alta
           </label>
           <input
-            id="nombre"
-            name="nombre"
+            id="fecha_alta"
+            name="fecha_alta"
+            type="date"
             required
             className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
         </div>
         <div>
           <label
-            htmlFor="apellido"
+            htmlFor="telefono_usuario"
             className="block text-xs text-white uppercase"
           >
-            Apellido
+            Telefono
           </label>
           <input
-            id="apellido"
-            name="apellido"
+            id="telefono_usuario"
+            name="telefono_usuario"
             required
             className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />

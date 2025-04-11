@@ -9,6 +9,56 @@ let db = drizzle(client);
 
 export const dbTablas = drizzle(client)
 
+// Registro de usuarios
+
+export async function getUsuario(correo: string) {
+  const datosUsuario = await ensureTableDatosUsuarioExists();
+  return await db.select().from(datosUsuario).where(eq(datosUsuario.correo, correo));
+}
+
+export async function createDatosUsuario(fecha_alta: string, telefono_usuario: string, nivel: string, correo: string) {
+  const datosUsuario = await ensureTableDatosUsuarioExists();
+  return await db.insert(datosUsuario).values([{ fecha_alta, telefono_usuario, nivel, correo }]);
+}
+
+async function ensureTableDatosUsuarioExists() {
+  const result = await client`
+    SELECT EXISTS (
+      SELECT FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_name = 'datosUsuario'
+    );`;
+
+  if (!result[0].exists) {
+    await client`
+      CREATE TABLE "datosUsuario" (
+        id_usuario SERIAL PRIMARY KEY,
+        fecha_alta TEXT,
+        telefono_usuario TEXT,
+        nivel TEXT,
+        correo TEXT
+      );`;
+  }
+
+  const tableDatosUsuario = pgTable('datosUsuario', {
+    id: serial('id').primaryKey(),
+    fecha_alta: text('fecha_alta'),
+    telefono_usuario: text('telefono_usuario'),
+    nivel: text('nivel'),
+    correo: text('correo')
+  });
+
+  return tableDatosUsuario;
+}
+
+export const datosUsuario = pgTable('datosUsuario', {
+  id: serial('id').primaryKey(),
+  fecha_alta: text('fecha_alta'),
+  telefono_usuario: text('telefono_usuario'),
+  nivel: text('nivel'),
+  correo: text('correo')
+});
+
 // Registro del costo de fletes
 
 export async function getCosto(costo: string) {
@@ -74,62 +124,7 @@ export const costoflete = pgTable('costofletes', {
     tallaenvio: text('tallaenvio'),
     costo: numeric('costo'),
     paqueteria: numeric('paqueteria'),
-  });
-*/
-// Registro de usuarios
-export async function getDatosUsuario(correo: string) {
-  const datosUsuario = await ensureTableDatosUsuarioExists();
-  return await db.select().from(datosUsuario).where(eq(datosUsuario.correo, correo));
-}
-
-export async function getUsuario(correo: string) {
-  const datosUsuario = await ensureTableDatosUsuarioExists();
-  return await db.select().from(datosUsuario).where(eq(datosUsuario.correo, correo));
-}
-
-export async function createDatosUsuario(nombre: string, apellido: string, correo: string, nivel: string) {
-  const datosUsuario = await ensureTableDatosUsuarioExists();
-  return await db.insert(datosUsuario).values([{ nombre, apellido, nivel, correo }]);
-}
-
-async function ensureTableDatosUsuarioExists() {
-  const result = await client`
-    SELECT EXISTS (
-      SELECT FROM information_schema.tables 
-      WHERE table_schema = 'public' 
-      AND table_name = 'datosUsuario'
-    );`;
-
-  if (!result[0].exists) {
-    await client`
-      CREATE TABLE "datosUsuario" (
-        id SERIAL PRIMARY KEY,
-        nombre TEXT,
-        apellido TEXT,
-        nivel TEXT,
-        correo TEXT
-      );`;
-  }
-
-  const tableDatosUsuario = pgTable('datosUsuario', {
-    id: serial('id').primaryKey(),
-    nombre: text('nombre'),
-    apellido: text('apellido'),
-    nivel: text('nivel'),
-    correo: text('correo'),
-  });
-
-  return tableDatosUsuario;
-}
-
-export const datosUsuario = pgTable('datosUsuario', {
-  id: serial('id').primaryKey(),
-  nombre: text('nombre'),
-  apellido: text('apellido'),
-  nivel: text('nivel'),
-  correo: text('correo'),
-});
-
+  });*/
 // Registro de productos
 export async function getProducto(codigo_producto: string) {
   const catalogoProductos = await ensureTableCatalogoProductosExists();

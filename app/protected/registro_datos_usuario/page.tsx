@@ -29,6 +29,7 @@ export default async function ProtectedRegistroDatosUsuarios() {
     return (
       
       <main className="grid bg-black text-white gap-4 p-4 grid-cols-[220px,_1fr]">
+        <SideBarAdmin/>
         {nivelUsuario ==='na1' ?<SideBarAdmin/>: "" }
         {nivelUsuario ==='n1' ?<SideBarN1/>: "" }
         {nivelUsuario ==='n2' ?<SideBarN2/>: "" }
