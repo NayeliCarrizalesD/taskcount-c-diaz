@@ -40,7 +40,17 @@ export function FormDatosUsuario({
             required
             className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
-        </div>     
+        </div>  
+        <div>
+          <label
+            htmlFor="correo"
+            className="block text-xs text-white uppercase"
+          >
+            Correo
+          </label>
+          <SelectCorreos/>
+          
+        </div>   
         <div>
           <label
             htmlFor="nivel"
@@ -61,16 +71,7 @@ export function FormDatosUsuario({
                 <option value={"n3"}>Nivel 3</option>
             </select>
         </div>
-        <div>
-          <label
-            htmlFor="correo"
-            className="block text-xs text-white uppercase"
-          >
-            Correo
-          </label>
-          <SelectCorreos/>
-          
-        </div>
+        
         {children}
       </form>
     );

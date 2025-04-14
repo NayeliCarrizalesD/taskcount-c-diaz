@@ -16,9 +16,9 @@ export async function getUsuario(correo: string) {
   return await db.select().from(datosUsuario).where(eq(datosUsuario.correo, correo));
 }
 
-export async function createDatosUsuario(fecha_alta: string, telefono_usuario: string, nivel: string, correo: string) {
+export async function createDatosUsuario(fecha_alta: string, telefono_usuario: string, correo: string, nivel: string) {
   const datosUsuario = await ensureTableDatosUsuarioExists();
-  return await db.insert(datosUsuario).values([{ fecha_alta, telefono_usuario, nivel, correo }]);
+  return await db.insert(datosUsuario).values([{ fecha_alta, telefono_usuario, correo, nivel }]);
 }
 
 async function ensureTableDatosUsuarioExists() {
@@ -35,8 +35,8 @@ async function ensureTableDatosUsuarioExists() {
         id_usuario SERIAL PRIMARY KEY,
         fecha_alta TEXT,
         telefono_usuario TEXT,
-        nivel TEXT,
-        correo TEXT
+        correo TEXT,
+        nivelTEXT
       );`;
   }
 
@@ -44,8 +44,9 @@ async function ensureTableDatosUsuarioExists() {
     id_usuario: serial('id_usuario').primaryKey(),
     fecha_alta: text('fecha_alta'),
     telefono_usuario: text('telefono_usuario'),
-    nivel: text('nivel'),
-    correo: text('correo')
+    correo: text('correo'),
+    nivel: text('nivel')
+    
   });
 
   return tableDatosUsuario;
@@ -55,8 +56,9 @@ export const datosUsuario = pgTable('datosUsuario', {
   id_usuario: serial('id_usuario').primaryKey(),
   fecha_alta: text('fecha_alta'),
   telefono_usuario: text('telefono_usuario'),
-  nivel: text('nivel'),
-  correo: text('correo')
+  correo: text('correo'),
+  nivel: text('nivel')
+  
 });
 
 // Registro del costo de fletes
