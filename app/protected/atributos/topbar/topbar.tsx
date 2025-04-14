@@ -1,6 +1,5 @@
 import { FaSignOutAlt } from "react-icons/fa";
 import { auth, signOut  } from 'app/auth';
-import { getUsuario } from "@/app/schema";
 import { getUser } from "@/app/db";
 
 export const TopBar = async () => {
@@ -36,23 +35,6 @@ export const TopBar = async () => {
     console.error(error);
   }
 
-  let nivelUsuario: string | undefined;
-    
-  try {
-    correo?.toString();
-    if (correo) {
-      const usuarioResponse = await getUsuario(correo);
-      usuarios = usuarioResponse;
-  
-      if (usuarios.length > 0) {
-        nivelUsuario = usuarios[0].nivel;
-        console.log({nivelUsuario}) // Asignar el nivel del primer usuario a la variable
-      }
-    }
-  }
-  catch (error) {
-    console.error(error);
-  }
 
   return ( 
     <div className="border-b px-4 mb-4 mt-2 pb-4 border-stone-200">
@@ -60,7 +42,7 @@ export const TopBar = async () => {
       <div>
           <span className="text-sm font-bold block">🚀 BUEN DÍA, {nameUsuario} ! </span> {session?.user?.id}
         <span className="text-sm block text-stone-200">
-        {day} de {montName} de {year} {nivelUsuario}
+        {day} de {montName} de {year}
         </span>
       </div>     
         
