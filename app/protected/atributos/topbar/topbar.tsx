@@ -36,13 +36,31 @@ export const TopBar = async () => {
     console.error(error);
   }
 
+  let nivelUsuario: string | undefined;
+    
+  try {
+    correo?.toString();
+    if (correo) {
+      const usuarioResponse = await getUsuario(correo);
+      usuarios = usuarioResponse;
+  
+      if (usuarios.length > 0) {
+        nivelUsuario = usuarios[0].nivel;
+        console.log({nivelUsuario}) // Asignar el nivel del primer usuario a la variable
+      }
+    }
+  }
+  catch (error) {
+    console.error(error);
+  }
+
   return ( 
     <div className="border-b px-4 mb-4 mt-2 pb-4 border-stone-200">
     <div className="flex items-center justify-between p-0.5">
       <div>
           <span className="text-sm font-bold block">🚀 BUEN DÍA, {nameUsuario} ! </span> {session?.user?.id}
         <span className="text-sm block text-stone-200">
-        {day} de {montName} de {year} 
+        {day} de {montName} de {year} {nivelUsuario}
         </span>
       </div>     
         

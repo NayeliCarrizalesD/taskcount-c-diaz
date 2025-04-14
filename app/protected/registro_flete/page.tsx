@@ -20,7 +20,7 @@ export default async function ProtectedRegistroFlete() {
   
       if (usuarios.length > 0) {
         nivelUsuario = usuarios[0].nivel;
-        console.log(nivelUsuario) // Asignar el nivel del primer usuario a la variable
+        console.log({nivelUsuario}) // Asignar el nivel del primer usuario a la variable
       }
     }
   }
