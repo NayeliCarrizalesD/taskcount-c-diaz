@@ -1,6 +1,7 @@
 import { FaSignOutAlt } from "react-icons/fa";
 import { auth, signOut  } from 'app/auth';
 import { getUsuario } from "@/app/schema";
+import { getUser } from "@/app/db";
 
 export const TopBar = async () => {
   const currentDat = new Date();
@@ -22,11 +23,11 @@ export const TopBar = async () => {
   try {
     correo?.toString();
     if (correo) {
-      const usuarioResponse = await getUsuario(correo);
+      const usuarioResponse = await getUser(correo);
       usuarios = usuarioResponse;
   
       if (usuarios.length > 0) {
-        nameUsuario = usuarios[0].nombre; // Asignar el nivel del primer usuario a la variable
+        nameUsuario = usuarios[0].name; // Asignar el nivel del primer usuario a la variable
       }
     }
   
