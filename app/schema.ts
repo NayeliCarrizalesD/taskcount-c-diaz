@@ -133,6 +133,15 @@ export async function getProducto(codigo_producto: string) {
   return await db.select().from(catalogoProductos).where(eq(catalogoProductos.codigo_producto, codigo_producto));
 }
 
+export async function getProductosPaginados(limit: number, offset: number) {
+  return await dbTablas
+      .select()
+      .from(catalogo_productos)
+      .orderBy(catalogo_productos.codigo_producto)
+      .limit(limit)
+      .offset(offset);
+}
+
 export async function createNewProduct(marca_temporal: string, codigo_producto: string, nombre_producto: string, empresa_producto: string, categoria: string, clave_sat: string, correo_empleado: string, subcategoria: string) {
   const catalogoProductos = await ensureTableCatalogoProductosExists();
   return await db.insert(catalogoProductos).values([{ marca_temporal, codigo_producto, nombre_producto, empresa_producto, categoria, clave_sat, correo_empleado, subcategoria }]);
@@ -195,15 +204,6 @@ export async function getClientes(nombre_cliente: string) {
   return await db.select().from(catalogoClientes).where(eq(catalogoClientes.nombre_cliente, nombre_cliente));
 }
 
-export async function getProductosPaginados(limit: number, offset: number) {
-  return await dbTablas
-      .select()
-      .from(catalogo_productos)
-      .orderBy(catalogo_productos.codigo_producto)
-      .limit(limit)
-      .offset(offset);
-}
-
 export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
   return await db.insert(catalogoClientes).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado }]);
@@ -262,6 +262,63 @@ export const datosUsuario1 = pgTable('datosUsuario', {
   nivel: text('nivel'),
   correo: text('correo'),
 });
+
+// Registrar la hora de entrada 
+
+export async function getEntradaSalida(nombre_cliente: string) {
+  const entradaSalidaEmpleado = await ensureTableEntradaSalida();
+  return await db.select().from(entradaSalidaEmpleado).where(eq(entradaSalidaEmpleado.nombre_cliente, nombre_cliente));
+}
+
+export async function createNewEntradaSalida(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string) {
+  const entradaSalidaEmpleado = await ensureTableEntradaSalida();
+  return await db.insert(entradaSalidaEmpleado).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado }]);
+}
+
+async function ensureTableEntradaSalida() {
+  const result = await client`
+    SELECT EXISTS (
+      SELECT FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_name = 'entrada_salida'
+    );`;
+
+  if (!result[0].exists) {
+    await client`
+      CREATE TABLE "entrada_salida" (
+        id_entrada SERIAL PRIMARY KEY,
+        marca_temporal TEXT,
+        nombre_cliente TEXT,
+        telefono_cliente TEXT,
+        correo_cliente TEXT,
+        rfc TEXT,
+        correo_empleado TEXT
+      );`;
+  }
+
+  const tableCatalogo_productos = pgTable('entrada_salida', {
+    id_producto: serial('id_producto').primaryKey(),
+    marca_temporal: text('marca_temporal'),
+    nombre_cliente: text('nombre_cliente'),
+    telefono_cliente: text('telefono_cliente'),
+    correo_cliente: text('correo_cliente'),
+    rfc: text('rfc'),
+    correo_empleado: text('correo_empleado')
+  });
+
+  return tableCatalogo_productos;
+}
+
+export const entrada_salida = pgTable('entrada_salida', {
+  id_producto: serial('id_producto').primaryKey(),
+    marca_temporal: text('marca_temporal'),
+    nombre_cliente: text('nombre_cliente'),
+    telefono_cliente: text('telefono_cliente'),
+    correo_cliente: text('correo_cliente'),
+    rfc: text('rfc'),
+    correo_empleado: text('correo_empleado')
+});
+
 
 
 
