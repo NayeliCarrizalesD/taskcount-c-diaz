@@ -14,7 +14,7 @@ export const RouteSelectAdmin = () => {
   return (
     <div className="space-y-1">
       <TransitionLink Icon={FiHome} title="Inicio" href="/"/>
-      <TransitionLink Icon={LuPackage} title="Reloj checador" href="/protected/registro_entrada_salida"/>
+      <TransitionLink Icon={LuPackage} title="Reloj checador" href="/protected/registro_checador"/>
       <TransitionLink Icon={FiDollarSign} title="Cotizador" href="/protected/cotizador" />
       <TransitionLink Icon={GrDeliver} title="Consultar Fletes" href="/protected/consultar_flete" />
       <TransitionLink Icon={MdOutlineInventory} title="Inventario" href="/protected/inventario" />
