@@ -1,4 +1,4 @@
-import { RegistroFletes } from "../atributos/registro_fletes/registro_fletes";
+import { RegistroEntradaSalida } from "../atributos/registro_entrada_salida/registro_entrada_salida";
 import { SideBarAdmin } from "../atributos/sidebar/sidebar_admin/sidebar";
 import { auth } from 'app/auth';
 import { getUsuario } from "@/app/schema";
@@ -33,7 +33,7 @@ export default async function ProtectedRegistroFlete() {
       {nivelUsuario ==='n1' ?<SideBarN1/>: "" }
       {nivelUsuario ==='n2' ?<SideBarN2/>: "" }
       {nivelUsuario ==='n3' ?<SideBarN3/>: "" }
-      <RegistroFletes/>
+      <RegistroEntradaSalida/>
     </main>   
     );
   }

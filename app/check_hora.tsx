@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { MarcaTemporal } from "./protected/atributos/marca-temporal";
 
 export const CheckHora = () => {
-    const hora = new Date().getHours() + ':' + new Date().getMinutes() ;
+    //const hora = new Date().getHours() + ':' + new Date().getMinutes() ;
 
     const horaok = new Date();
     let horas = horaok.toLocaleTimeString() 

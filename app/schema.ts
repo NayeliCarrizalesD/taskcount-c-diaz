@@ -61,6 +61,114 @@ export const datosUsuario = pgTable('datosUsuario', {
   
 });
 
+// REgistro de clientes 
+
+export async function getClientes(nombre_cliente: string) {
+  const catalogoClientes = await ensureTableCatalogoClientesExists();
+  return await db.select().from(catalogoClientes).where(eq(catalogoClientes.nombre_cliente, nombre_cliente));
+}
+
+export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string) {
+  const catalogoClientes = await ensureTableCatalogoClientesExists();
+  return await db.insert(catalogoClientes).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado }]);
+}
+
+async function ensureTableCatalogoClientesExists() {
+  const result = await client`
+    SELECT EXISTS (
+      SELECT FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_name = 'catalogo_clientes'
+    );`;
+
+  if (!result[0].exists) {
+    await client`
+      CREATE TABLE "catalogo_clientes" (
+        id_producto SERIAL PRIMARY KEY,
+        marca_temporal TEXT,
+        nombre_cliente TEXT,
+        telefono_cliente TEXT,
+        correo_cliente TEXT,
+        rfc TEXT,
+        correo_empleado TEXT
+      );`;
+  }
+
+  const tableCatalogo_productos = pgTable('catalogo_clientes', {
+    id_producto: serial('id_producto').primaryKey(),
+    marca_temporal: text('marca_temporal'),
+    nombre_cliente: text('nombre_cliente'),
+    telefono_cliente: text('telefono_cliente'),
+    correo_cliente: text('correo_cliente'),
+    rfc: text('rfc'),
+    correo_empleado: text('correo_empleado')
+  });
+
+  return tableCatalogo_productos;
+}
+
+export const catalogo_clientes = pgTable('catalogo_clientes', {
+  id_producto: serial('id_producto').primaryKey(),
+    marca_temporal: text('marca_temporal'),
+    nombre_cliente: text('nombre_cliente'),
+    telefono_cliente: text('telefono_cliente'),
+    correo_cliente: text('correo_cliente'),
+    rfc: text('rfc'),
+    correo_empleado: text('correo_empleado')
+});
+
+
+// Registrar la hora de entrada 
+
+export async function getEntradaSalida(correo_empleado: string) {
+  const entradaSalidaEmpleado = await ensureTableEntradaSalida();
+  return await db.select().from(entradaSalidaEmpleado).where(eq(entradaSalidaEmpleado.correo_empleado, correo_empleado));
+}
+
+export async function createNewEntradaSalida(fecha_entrada_salida: string, hora_entrada_salida: string, nombre_empleado: string, correo_empleado: string ) {
+  const entradaSalidaEmpleado = await ensureTableEntradaSalida();
+  return await db.insert(entradaSalidaEmpleado).values([{ fecha_entrada_salida, hora_entrada_salida , nombre_empleado, correo_empleado }]);
+}
+
+async function ensureTableEntradaSalida() {
+  const result = await client`
+    SELECT EXISTS (
+      SELECT FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_name = 'entrada_salida'
+    );`;
+
+  if (!result[0].exists) {
+    await client`
+      CREATE TABLE "entrada_salida" (
+        id_entrada SERIAL PRIMARY KEY,
+        fecha_entrada_salida TEXT,
+        hora_entrada_salida TEXT,
+        nombre_empleado TEXT,
+        correo_empleado TEXT,
+        
+      );`;
+  }
+
+  const tableCatalogo_productos = pgTable('entrada_salida', {
+    id_entrada: serial('id_entrada').primaryKey(),
+    fecha_entrada_salida: text('fecha_entrada_salida'),
+    hora_entrada_salida: text('hora_entrada_salida'),
+    nombre_empleado: text('nombre_empleado'),
+    correo_empleado: text('correo_empleado')
+  });
+
+  return tableCatalogo_productos;
+}
+
+export const entrada_salida = pgTable('entrada_salida', {
+  id_entrada: serial('id_entrada').primaryKey(),
+  fecha_entrada_salida: text('fecha_entrada_salida'),
+  hora_entrada_salida: text('hora_entrada_salida'),
+  nombre_empleado: text('nombre_empleado'),
+  correo_empleado: text('correo_empleado')
+});
+
 // Registro del costo de fletes
 
 export async function getCosto(costo: string) {
@@ -197,62 +305,6 @@ export const catalogo_productos = pgTable('catalogo_productos', {
   subcategoria: text('subcategoria'),
 });
 
-// REgistro de clientes 
-
-export async function getClientes(nombre_cliente: string) {
-  const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.select().from(catalogoClientes).where(eq(catalogoClientes.nombre_cliente, nombre_cliente));
-}
-
-export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string) {
-  const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.insert(catalogoClientes).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado }]);
-}
-
-async function ensureTableCatalogoClientesExists() {
-  const result = await client`
-    SELECT EXISTS (
-      SELECT FROM information_schema.tables 
-      WHERE table_schema = 'public' 
-      AND table_name = 'catalogo_clientes'
-    );`;
-
-  if (!result[0].exists) {
-    await client`
-      CREATE TABLE "catalogo_clientes" (
-        id_producto SERIAL PRIMARY KEY,
-        marca_temporal TEXT,
-        nombre_cliente TEXT,
-        telefono_cliente TEXT,
-        correo_cliente TEXT,
-        rfc TEXT,
-        correo_empleado TEXT
-      );`;
-  }
-
-  const tableCatalogo_productos = pgTable('catalogo_clientes', {
-    id_producto: serial('id_producto').primaryKey(),
-    marca_temporal: text('marca_temporal'),
-    nombre_cliente: text('nombre_cliente'),
-    telefono_cliente: text('telefono_cliente'),
-    correo_cliente: text('correo_cliente'),
-    rfc: text('rfc'),
-    correo_empleado: text('correo_empleado')
-  });
-
-  return tableCatalogo_productos;
-}
-
-export const catalogo_clientes = pgTable('catalogo_clientes', {
-  id_producto: serial('id_producto').primaryKey(),
-    marca_temporal: text('marca_temporal'),
-    nombre_cliente: text('nombre_cliente'),
-    telefono_cliente: text('telefono_cliente'),
-    correo_cliente: text('correo_cliente'),
-    rfc: text('rfc'),
-    correo_empleado: text('correo_empleado')
-});
-
 // esto quedo aqui por si se ocupa para el registro de usuarios
 
 export const datosUsuario1 = pgTable('datosUsuario', {
@@ -261,62 +313,6 @@ export const datosUsuario1 = pgTable('datosUsuario', {
   apellido: text('apellido'),
   nivel: text('nivel'),
   correo: text('correo'),
-});
-
-// Registrar la hora de entrada 
-
-export async function getEntradaSalida(nombre_cliente: string) {
-  const entradaSalidaEmpleado = await ensureTableEntradaSalida();
-  return await db.select().from(entradaSalidaEmpleado).where(eq(entradaSalidaEmpleado.nombre_cliente, nombre_cliente));
-}
-
-export async function createNewEntradaSalida(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string) {
-  const entradaSalidaEmpleado = await ensureTableEntradaSalida();
-  return await db.insert(entradaSalidaEmpleado).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado }]);
-}
-
-async function ensureTableEntradaSalida() {
-  const result = await client`
-    SELECT EXISTS (
-      SELECT FROM information_schema.tables 
-      WHERE table_schema = 'public' 
-      AND table_name = 'entrada_salida'
-    );`;
-
-  if (!result[0].exists) {
-    await client`
-      CREATE TABLE "entrada_salida" (
-        id_entrada SERIAL PRIMARY KEY,
-        marca_temporal TEXT,
-        nombre_cliente TEXT,
-        telefono_cliente TEXT,
-        correo_cliente TEXT,
-        rfc TEXT,
-        correo_empleado TEXT
-      );`;
-  }
-
-  const tableCatalogo_productos = pgTable('entrada_salida', {
-    id_producto: serial('id_producto').primaryKey(),
-    marca_temporal: text('marca_temporal'),
-    nombre_cliente: text('nombre_cliente'),
-    telefono_cliente: text('telefono_cliente'),
-    correo_cliente: text('correo_cliente'),
-    rfc: text('rfc'),
-    correo_empleado: text('correo_empleado')
-  });
-
-  return tableCatalogo_productos;
-}
-
-export const entrada_salida = pgTable('entrada_salida', {
-  id_producto: serial('id_producto').primaryKey(),
-    marca_temporal: text('marca_temporal'),
-    nombre_cliente: text('nombre_cliente'),
-    telefono_cliente: text('telefono_cliente'),
-    correo_cliente: text('correo_cliente'),
-    rfc: text('rfc'),
-    correo_empleado: text('correo_empleado')
 });
 
 

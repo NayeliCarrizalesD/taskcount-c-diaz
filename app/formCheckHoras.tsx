@@ -1,4 +1,4 @@
-export function FormCostoFlete({
+export function FormCheckHora({
     action,
     children,
   }: {
@@ -15,7 +15,7 @@ export function FormCostoFlete({
             htmlFor="origen"
             className="block text-xs text-white uppercase"
           >
-            Origen
+            fecha_entrada_salida
           </label>
           <select
             id="origen"
@@ -35,7 +35,7 @@ export function FormCostoFlete({
             htmlFor="destino"
             className="block text-xs uppercase"
           >
-            Destino
+            hora_entrada_salida
           </label>
           <select
             id="destino"
@@ -62,7 +62,7 @@ export function FormCostoFlete({
             htmlFor="tallaenvio"
             className="block text-xs uppercase"
           >
-            Tamano
+            nombre_empleado
           </label>
           <select
             id="tallaenvio"
@@ -80,7 +80,7 @@ export function FormCostoFlete({
             htmlFor="costo"
             className="block text-xs uppercase"
           >
-            Costo: $
+            correo_empleado
           </label>
           <input
             type="numeric"
@@ -92,24 +92,7 @@ export function FormCostoFlete({
           />
            
         </div>
-        <div>
-          <label
-            htmlFor="id_paqueteria"
-            className="block text-xs uppercase"
-          >
-            paqueteria:
-          </label>
-          <select
-            id="id_paqueteria"
-            name="id_paqueteria"
-            required
-            className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-            >
-            <option value={""}>Seleccione una opción</option>
-            <option value={1}>Paqueteria1</option>
-          </select>
         
-        </div>
 
         {children}
       </form>

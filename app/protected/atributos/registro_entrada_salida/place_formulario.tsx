@@ -1,15 +1,15 @@
 
 //import { insertCostoFlete } from "@/app/action";
-import { FormCostoFlete } from "@/app/formCostoFlete";
+import { FormCheckHora } from "@/app/formCheckHoras";
 import { createCosto, getCosto } from "@/app/schema";
 import { SubmitButtonFlete } from "@/app/submit_button_flete";
 import { redirect } from "next/navigation";
 import { FiFolder } from "react-icons/fi";
 
 
-export default function FormularioCostos() {
+export default function FormularioChecarEntrada() {
   
-    async function costoFlete(formData: FormData) {
+    async function EntradaSalida(formData: FormData) {
         'use server';
         let origen = formData.get('origen') as string;
         let destino = formData.get('destino') as string;
@@ -39,9 +39,9 @@ export default function FormularioCostos() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-                <FormCostoFlete action={costoFlete}>
+                <FormCheckHora action={EntradaSalida}>
                     <SubmitButtonFlete>Capturar</SubmitButtonFlete>
-                </FormCostoFlete>
+                </FormCheckHora>
             </div>
         </div>
     );

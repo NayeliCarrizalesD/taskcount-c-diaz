@@ -1,7 +1,7 @@
 import TableFlete from "../tablaCostoFletes/tabla_costoFlete";
 
 
-export async function TablaCostoFlete() {
+export async function TablaEntradaSalida() {
 
     return (
         <div className="lg:col-span-8 sm:col-span-12 rounded-3xl bg-zinc-800 border border-stone-500 shadow-lg h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
