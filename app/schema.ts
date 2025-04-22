@@ -146,8 +146,7 @@ async function ensureTableEntradaSalida() {
         hora_entrada_salida TEXT,
         checador TEXT,
         nombre_empleado TEXT,
-        correo_empleado TEXT,
-        
+        correo_empleado TEXT
       );`;
   }
 
