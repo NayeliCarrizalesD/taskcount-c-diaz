@@ -5,23 +5,24 @@ export const InputChecadorUsuario = async () => {
   let session = await auth();
   let correo = session?.user?.email;
 
-  let usuarios: any = null;
+  let lastCheck: any = null;
   let checador: string | undefined;
 
 
   try {
       correo?.toString();
       if (correo) {
-        const usuarioResponse = await getLastEntradaSalida(correo);
-        usuarios = usuarioResponse;
+        const usuarioCheck = await getLastEntradaSalida(correo);
+        lastCheck = usuarioCheck;
     
-        if (usuarios && Array.isArray(usuarios) && usuarios.length > 0) {
-            checador = usuarios[0].checador; // Asignar el nivel del primer usuario a la variable
-            if (checador === "Entrada") {
-              checador = "Salida";
-            }
-            console.log({checador}) // Asignar el nivel del primer usuario a la variable
+        if (lastCheck.length > 0) {
+            checador = lastCheck[0].checador; // Asignar el nivel del primer usuario a la variable
+             // Asignar el nivel del primer usuario a la variable
         }
+        if (checador === "Entrada") {
+            checador = "Salida";
+          }
+          console.log({checador})
       }
     
     }
@@ -31,7 +32,7 @@ export const InputChecadorUsuario = async () => {
 
   
   return ( 
-
+<>
     <input
     id="checador"
     name="checador"
@@ -42,6 +43,8 @@ export const InputChecadorUsuario = async () => {
     type="text"
     className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
 />
+{checador}
+</>
    
 );
 

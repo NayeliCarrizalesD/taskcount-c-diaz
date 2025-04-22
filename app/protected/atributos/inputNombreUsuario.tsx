@@ -4,9 +4,10 @@ import { getUser } from "@/app/db";
 export const InputNombreUsuario = async () => {
   let session = await auth();
   let correo = session?.user?.email;
-  const nombre= session?.user?.name;
+  //const nombre= session?.user?.name;
   let usuarios: any[] = [];
   let lastNameUsuario: string | undefined;
+  let nameUser: string | undefined;
 
   try {
       correo?.toString();
@@ -15,6 +16,7 @@ export const InputNombreUsuario = async () => {
         usuarios = usuarioResponse;
     
         if (usuarios.length > 0) {
+            nameUser = usuarios[0].name; // Asignar el nivel del primer usuario a la variable
             lastNameUsuario = usuarios[0].last_name; // Asignar el nivel del primer usuario a la variable
         }
       }
@@ -24,7 +26,7 @@ export const InputNombreUsuario = async () => {
       console.error(error);
     }
 
-  let nombreCompleto = `${nombre} ${lastNameUsuario}`;
+  let nombreCompleto = `${nameUser} ${lastNameUsuario}`;
   
   return ( 
 
