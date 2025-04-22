@@ -125,9 +125,9 @@ export async function getEntradaSalida(correo_empleado: string) {
   return await db.select().from(entradaSalidaEmpleado).where(eq(entradaSalidaEmpleado.correo_empleado, correo_empleado));
 }
 
-export async function createNewEntradaSalida(fecha_entrada_salida: string, hora_entrada_salida: string, nombre_empleado: string, correo_empleado: string ) {
+export async function createNewEntradaSalida(fecha_entrada_salida: string, hora_entrada_salida: string, checador: string, nombre_empleado: string, correo_empleado: string, ) {
   const entradaSalidaEmpleado = await ensureTableEntradaSalida();
-  return await db.insert(entradaSalidaEmpleado).values([{ fecha_entrada_salida, hora_entrada_salida , nombre_empleado, correo_empleado }]);
+  return await db.insert(entradaSalidaEmpleado).values([{ fecha_entrada_salida, hora_entrada_salida , checador, nombre_empleado, correo_empleado }]);
 }
 
 async function ensureTableEntradaSalida() {
@@ -144,6 +144,7 @@ async function ensureTableEntradaSalida() {
         id_entrada SERIAL PRIMARY KEY,
         fecha_entrada_salida TEXT,
         hora_entrada_salida TEXT,
+        hora_entrada_salida TEXT,
         nombre_empleado TEXT,
         correo_empleado TEXT,
         
@@ -154,6 +155,7 @@ async function ensureTableEntradaSalida() {
     id_entrada: serial('id_entrada').primaryKey(),
     fecha_entrada_salida: text('fecha_entrada_salida'),
     hora_entrada_salida: text('hora_entrada_salida'),
+    checador: text('checador'),
     nombre_empleado: text('nombre_empleado'),
     correo_empleado: text('correo_empleado')
   });
@@ -165,6 +167,7 @@ export const entrada_salida = pgTable('entrada_salida', {
   id_entrada: serial('id_entrada').primaryKey(),
   fecha_entrada_salida: text('fecha_entrada_salida'),
   hora_entrada_salida: text('hora_entrada_salida'),
+  checador: text('checador'),
   nombre_empleado: text('nombre_empleado'),
   correo_empleado: text('correo_empleado')
 });

@@ -29,8 +29,8 @@ export const InputNombreUsuario = async () => {
   return ( 
 
     <input
-    id="correo_empleado"
-    name="correo_empleado"
+    id="nombre_empleado"
+    name="nombre_empleado"
     value={nombreCompleto}
     required
     readOnly
