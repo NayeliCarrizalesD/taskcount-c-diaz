@@ -57,6 +57,7 @@ export const tableLogin = pgTable('User', {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 64 }),
   password: varchar('password', { length: 64 }),
+  
 });
 
 export const dbLogin = drizzle(client);

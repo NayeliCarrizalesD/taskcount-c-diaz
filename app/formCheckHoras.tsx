@@ -1,6 +1,7 @@
 import { FechaEntradaSalida } from "./protected/atributos/fecha_entrada_salida";
 import { HoraEntradaSalida } from "./protected/atributos/hora_entrada_salida";
 import { InputCorreoUsuario } from "./protected/atributos/inputCorreoUsuario";
+import { InputNombreUsuario } from "./protected/atributos/inputNombreUsuario";
 
 export function FormCheckHora({
     action,
@@ -41,23 +42,14 @@ export function FormCheckHora({
           >
             nombre_empleado
           </label>
-          <select
-            id="tallaenvio"
-            name="tallaenvio"
-            required
-            className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-          >
-            <option value={""}>Seleccione una opción</option>
-            <option value={"Jumbo"}>Jumbo</option>
-            <option value={"Full"}>Full</option>
-          </select>
+          <InputNombreUsuario/>
         </div>
         <div>
           <label
             htmlFor="costo"
             className="block text-xs uppercase"
           >
-            correo_empleado
+            correo empleado
           </label>
           <InputCorreoUsuario />
            
