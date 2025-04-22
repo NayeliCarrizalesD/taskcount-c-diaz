@@ -15,7 +15,7 @@ export const InputNombreUsuario = async () => {
         usuarios = usuarioResponse;
     
         if (usuarios.length > 0) {
-            lastNameUsuario = usuarios[0].name; // Asignar el nivel del primer usuario a la variable
+            lastNameUsuario = usuarios[0].last_name; // Asignar el nivel del primer usuario a la variable
         }
       }
     
