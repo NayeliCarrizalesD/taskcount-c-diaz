@@ -1,21 +1,21 @@
 import { auth } from 'app/auth';
-import { getEntradaSalida } from '@/app/schema';
+import { getLastEntradaSalida } from '@/app/schema';
 
 export const InputChecadorUsuario = async () => {
   let session = await auth();
   let correo = session?.user?.email;
 
-  let usuarios: any[] = [];
+  let usuarios: any = null;
   let checador: string | undefined;
 
 
   try {
       correo?.toString();
       if (correo) {
-        const usuarioResponse = await getEntradaSalida(correo);
+        const usuarioResponse = await getLastEntradaSalida(correo);
         usuarios = usuarioResponse;
     
-        if (usuarios.length > 0) {
+        if (usuarios && Array.isArray(usuarios) && usuarios.length > 0) {
             checador = usuarios[0].checador; // Asignar el nivel del primer usuario a la variable
             if (checador === "Entrada") {
               checador = "Salida";
