@@ -14,11 +14,6 @@ export const HoraEntradaSalida = () => {
          name="hora_entrada_salida"
         value={horas}
         />
-
-        {horas}
-
-
-    
       
        </div>     
          
