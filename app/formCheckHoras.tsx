@@ -1,4 +1,5 @@
 import { FechaEntradaSalida } from "./protected/atributos/fecha_entrada_salida";
+import { HoraEntradaSalida } from "./protected/atributos/hora_entrada_salida";
 
 export function FormCheckHora({
     action,
@@ -17,7 +18,7 @@ export function FormCheckHora({
             htmlFor="fecha_entrada_salida"
             className="block text-xs text-white uppercase"
           >
-            fecha entrada salida
+            Dia
           </label>
           <FechaEntradaSalida/>
         
@@ -29,25 +30,8 @@ export function FormCheckHora({
           >
             hora_entrada_salida
           </label>
-          <select
-            id="destino"
-            name="destino"
-            required
-            className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 focus:outline-none placeholder-gray-700 shadow-sm focus:border-black  focus:ring-black sm:text-sm"
-          >
-            <option value={""}>Seleccione una opción</option>
-            <option value={"México"}>México</option>
-            <option value={"León"}>León</option>
-            <option value={"Salamanca"}>Salamanca</option>
-            <option value={"Tizayuca"}>Tizayuca</option>
-            <option value={"Querétaro"}>Querétaro</option>
-            <option value={"Guadalajara"}>Guadalajara</option>
-            <option value={"Monterrey"}>Monterrey</option>
-            <option value={"Aguascalientes"}>Aguascalientes</option>
-            <option value={"Lagos de Moreno"}>Lagos de Moreno</option>
-            <option value={"Ciudad de México"}>Ciudad de México</option>
-            <option value={"Mazatlán"}>Mazatlán</option>
-          </select>
+          <HoraEntradaSalida
+          />
         </div>
         <div>
           <label
