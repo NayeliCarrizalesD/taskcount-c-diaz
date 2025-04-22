@@ -37,16 +37,16 @@ export function FormCheckHora({
         </div>
         <div>
           <label
-            htmlFor="tallaenvio"
+            htmlFor="nombre_empleado"
             className="block text-xs uppercase"
           >
-            nombre_empleado
+            nombre
           </label>
           <InputNombreUsuario/>
         </div>
         <div>
           <label
-            htmlFor="costo"
+            htmlFor="correo_empleado"
             className="block text-xs uppercase"
           >
             correo empleado
