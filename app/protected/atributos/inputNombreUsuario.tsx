@@ -24,7 +24,7 @@ export const InputNombreUsuario = async () => {
       console.error(error);
     }
 
-  let nombreCompleto = `${nombre}`+" "+` ${lastNameUsuario}`;
+  let nombreCompleto = `${nombre} ${lastNameUsuario}`;
   
   return ( 
 
