@@ -1,5 +1,6 @@
 import { FechaEntradaSalida } from "./protected/atributos/fecha_entrada_salida";
 import { HoraEntradaSalida } from "./protected/atributos/hora_entrada_salida";
+import { InputCorreoUsuario } from "./protected/atributos/inputCorreoUsuario";
 
 export function FormCheckHora({
     action,
@@ -58,14 +59,7 @@ export function FormCheckHora({
           >
             correo_empleado
           </label>
-          <input
-            type="numeric"
-            step="any"
-            id="costo"
-            name="costo"
-            required
-            className="mt-1 block w-full text-black appearance-none rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-          />
+          <InputCorreoUsuario />
            
         </div>
         
