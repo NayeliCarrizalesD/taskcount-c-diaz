@@ -1,60 +1,49 @@
 "use client";
 
-import { auth } from 'app/auth';
-import { getEntradaSalida } from '@/app/schema';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { auth } from "app/auth";
+import { getEntradaSalida } from "@/app/schema";
 
-export function InputChecadorUsuario(): JSX.Element {
-  const [texto, setTexto] = useState('Entrada'); // Estado para el texto del botón
-  const [checadorValue, setChecadorValue] = useState<string | undefined>(undefined);
+export const InputChecadorUsuario = () => {
+  const [checadorValue, setChecadorValue] = useState<string>("Entrada");
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        let session = await auth();
-        let correo = session?.user?.email;
+        const session = await auth();
+        const correo = session?.user?.email;
 
         if (correo) {
-          const usuarioResponse = await getEntradaSalida(correo);
-          const usuarios = usuarioResponse;
+          const usuarios = await getEntradaSalida(correo);
 
           if (usuarios.length > 0) {
             const checador = usuarios[0].checador;
-            setChecadorValue(checador ?? undefined);
 
-            if (checador === '') {
-              setTexto('Entrada');
-            } else if (checador === 'Entrada') {
-              setTexto('Salida');
-            }else if (checador === 'Salida') {
-                setTexto('Entrada');
-              }
+            // Actualiza el estado basado en el valor de "checador"
+            if (checador === "Entrada") {
+              setChecadorValue("Salida");
+            } else if (checador === "Salida") {
+              setChecadorValue("Entrada");
+            }
           }
         }
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, []); // Ejecuta solo una vez al montar el componente
 
- 
-  
-  return ( 
-
+  return (
     <input
-    id="checador"
-    name="checador"
-    value={checadorValue}
-    required
-    readOnly
-    type="email"
-    className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-/>
-   
-);
-
+      id="checador"
+      name="checador"
+      value={checadorValue} // Asigna el valor del estado al input
+      required
+      readOnly
+      type="text"
+      className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+    />
+  );
 };
-
-
