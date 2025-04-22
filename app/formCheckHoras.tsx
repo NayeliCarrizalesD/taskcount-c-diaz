@@ -37,6 +37,16 @@ export function FormCheckHora({
         </div>
         <div>
           <label
+            htmlFor="checador"
+            className="block text-xs uppercase"
+          >
+            checador
+          </label>
+          <HoraEntradaSalida
+          />
+        </div>
+        <div>
+          <label
             htmlFor="nombre_empleado"
             className="block text-xs uppercase"
           >

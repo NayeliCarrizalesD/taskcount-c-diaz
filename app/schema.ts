@@ -144,7 +144,7 @@ async function ensureTableEntradaSalida() {
         id_entrada SERIAL PRIMARY KEY,
         fecha_entrada_salida TEXT,
         hora_entrada_salida TEXT,
-        hora_entrada_salida TEXT,
+        checador TEXT,
         nombre_empleado TEXT,
         correo_empleado TEXT,
         
