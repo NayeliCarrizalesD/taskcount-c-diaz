@@ -1,3 +1,5 @@
+import { FechaEntradaSalida } from "./protected/atributos/fecha_entrada_salida";
+
 export function FormCheckHora({
     action,
     children,
@@ -12,22 +14,12 @@ export function FormCheckHora({
       >
         <div>
           <label
-            htmlFor="origen"
+            htmlFor="fecha_entrada_salida"
             className="block text-xs text-white uppercase"
           >
-            fecha_entrada_salida
+            fecha entrada salida
           </label>
-          <select
-            id="origen"
-            name="origen"
-            required
-            className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-            >
-                <option value={""}>Seleccione una opción</option>
-                <option value={"Brownsville"}>Brownsville</option>
-                <option value="Monterrey">Monterrey</option>
-                <option value={"León"}>León</option>
-            </select>
+          <FechaEntradaSalida/>
         
         </div>
         <div>
