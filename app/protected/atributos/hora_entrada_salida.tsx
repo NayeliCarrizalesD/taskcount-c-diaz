@@ -15,6 +15,8 @@ export const HoraEntradaSalida = () => {
         value={horas}
         />
 
+        {horas}
+
 
     
       
