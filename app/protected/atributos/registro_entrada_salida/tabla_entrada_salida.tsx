@@ -1,4 +1,5 @@
-import TableFlete from "../tablaCostoFletes/tabla_costoFlete";
+import TablaChecador from "../tablaCostoFletes/tabla_checador";
+
 
 
 export async function TablaEntradaSalida() {
@@ -14,7 +15,7 @@ export async function TablaEntradaSalida() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-             <TableFlete />
+             <TablaChecador />
             </div>
         </div>
     );

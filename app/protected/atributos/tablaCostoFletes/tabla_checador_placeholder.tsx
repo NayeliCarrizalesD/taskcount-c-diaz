@@ -1,6 +1,4 @@
-import TableFlete from "./tabla_costoFlete";
-
-
+import TablaChecador from "./tabla_checador";
 
 export async function TablaChecadorFull() {
 
@@ -15,7 +13,7 @@ export async function TablaChecadorFull() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-             <TableFlete />
+             <TablaChecador />
             </div>
         </div>
     );
