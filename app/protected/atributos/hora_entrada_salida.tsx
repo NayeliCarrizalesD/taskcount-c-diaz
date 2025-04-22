@@ -1,9 +1,9 @@
 
 export const HoraEntradaSalida = () => {
-    //const hora = new Date().getHours() + ':' + new Date().getMinutes() ;
+    const hora = new Date().toLocaleTimeString([], { hour: '2-digit', hour12: false });  
 
-    const horaok = new Date();
-    let horas = horaok.toLocaleTimeString("it-IT") 
+    const minutes = new Date().toLocaleTimeString([], {  minute: '2-digit', hour12: false  });;
+    let horas = hora + ':' + minutes; 
     
 
 
