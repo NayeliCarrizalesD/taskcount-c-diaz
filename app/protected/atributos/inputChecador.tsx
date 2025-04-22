@@ -8,12 +8,6 @@ export const InputChecadorUsuario = async () => {
   let usuarios: any[] = [];
   let checador: string | undefined;
 
-  const inputValue  = document.getElementById('checador') as HTMLInputElement;
-  
-  if (inputValue === null) {
-    const inputValue = document.createElement('input');  
-    inputValue.value = 'Entrada';
-  } else {
 
   try {
       correo?.toString();
@@ -31,7 +25,6 @@ export const InputChecadorUsuario = async () => {
     catch (error) {
       console.error(error);
     }
-}
 
   
   return ( 
