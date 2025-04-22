@@ -28,7 +28,7 @@ export default async function TablaChecador() {
                                 <td className="p-4">{check.fecha_entrada_salida}</td>
                                 <td className="p-4">{check.hora_entrada_salida}</td>
                                 <td className="p-4">{check.checador}</td>
-                                <td className="p-4">$ {check.nombre_empleado}</td>
+                                <td className="p-4">{check.nombre_empleado}</td>
                                 <td className='mx-2 my-2'>
                                     <CopyButton hora={check.hora_entrada_salida} />
                                 </td>
