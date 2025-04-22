@@ -17,9 +17,9 @@ function alertCopiarValor() {
     });
 }
 
-export default function CopyButton({ costo }: { costo: string }) {
+export default function CopyButton({ hora }: { hora: string }) {
     function handleCopy() {
-        navigator.clipboard.writeText(costo);
+        navigator.clipboard.writeText(hora);
         alertCopiarValor();
     }
 

@@ -1,10 +1,10 @@
-import { dbTablas, costoflete } from 'app/schema';
+import { dbTablas, entrada_salida } from 'app/schema';
 import CopyButton from './copyButton';
 
-export default async function TableFlete() {
-    let fletes: any[] = [];
+export default async function TablaChecador() {
+    let checador: any[] = [];
     try {
-        fletes = await dbTablas.select().from(costoflete).orderBy(costoflete.destino);
+        checador = await dbTablas.select().from(entrada_salida).orderBy(entrada_salida.id_entrada).limit(5).execute();
     } catch (e: any) {
         console.error(e);
     }
@@ -15,22 +15,22 @@ export default async function TableFlete() {
                 <table className="w-full text-left table-auto min-w-max">
                     <thead>
                         <tr>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Origen</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Destino</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Tamaño de envio</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Costo</th>
+                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>fecha_entrada_salida</th>
+                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>hora_entrada_salida</th>
+                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>checador</th>
+                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>nombre_empleado</th>
                             <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Copiar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {fletes && fletes.map((flete: any, index: number) => (
-                            <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={flete.id}>
-                                <td className="p-4">{flete.origen}</td>
-                                <td className="p-4">{flete.destino}</td>
-                                <td className="p-4">{flete.tallaenvio}</td>
-                                <td className="p-4">$ {flete.costo}</td>
+                        {checador && checador.map((check: any, index: number) => (
+                            <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={check.id_entrada}>
+                                <td className="p-4">{check.fecha_entrada_salida}</td>
+                                <td className="p-4">{check.hora_entrada_salida}</td>
+                                <td className="p-4">{check.checador}</td>
+                                <td className="p-4">$ {check.nombre_empleado}</td>
                                 <td className='mx-2 my-2'>
-                                    <CopyButton costo={flete.costo} />
+                                    <CopyButton hora={check.hora_entrada_salida} />
                                 </td>
                             </tr>
                         ))}

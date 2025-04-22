@@ -1,5 +1,5 @@
 import Footer from "../footer";
-import { TablaCostoFleteFull } from "../tablaCostoFletes/tabla_costoFlete_placeholder";
+import { TablaCostoFleteFull } from "../tablaCostoFletes/tabla_checador_placeholder";
 import { CambioDolares } from "./cambio_dolares";
 
 import { FormularioCotizador } from "./formulario_cotizador";

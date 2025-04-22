@@ -11,18 +11,18 @@ export default function FormularioChecarEntrada() {
   
     async function EntradaSalida(formData: FormData) {
         'use server';
-        let origen = formData.get('origen') as string;
-        let destino = formData.get('destino') as string;
-        let tallaenvio = formData.get('tallaenvio') as string;
-        let costo = formData.get('costo') as unknown as number;
-        let id_paqueteria = formData.get('id_paqueteria') as unknown as number;
-        let flete = await getCosto(costo.toString());
+        let fecha_entrada_salida = formData.get('fecha_entrada_salida') as string;
+        let hora_entrada_salida = formData.get('hora_entrada_salida') as string;
+        let checador = formData.get('checador') as string;
+        let nombre_empleado = formData.get('nombre_empleado') as unknown as number;
+        let correo_empleado = formData.get('correo_empleado') as unknown as number;
+        let flete = await getCosto(correo_empleado.toString());
     
         if (flete.length > 0) {
             return console.log('Costo ya existe');              
                 // TODO: Handle errors with useFormStatus - return 'Costo ya existe';
         } else {
-            await createCosto(origen, destino, tallaenvio, costo, id_paqueteria);
+            await createCosto(fecha_entrada_salida, hora_entrada_salida, checador, nombre_empleado, correo_empleado);
             redirect('/ProtectedConsultaFlete');
         }             
     }
@@ -32,15 +32,15 @@ export default function FormularioChecarEntrada() {
             <div className="p-4">
                 <h3 className="flex items-center text-lg gap-1.5 font-medium">
                     <FiFolder />
-                    Fletes
+                    Checador
                 </h3>
                 <h3 className="font-normal">
-                    Guardar un costo
+                    Registrar Entrada / Salida
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
                 <FormCheckHora action={EntradaSalida}>
-                    <SubmitButtonFlete>Capturar</SubmitButtonFlete>
+                    <SubmitButtonFlete>Checar</SubmitButtonFlete>
                 </FormCheckHora>
             </div>
         </div>

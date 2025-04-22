@@ -1,14 +1,14 @@
 
 import { TopBar } from "../topbar/topbar";
-import { GridTablaFullCostoFlete } from "./grid_tabla_costoFlete";
+import { GridTablaFullChecador} from "./grid_tabla_checador";
 
 
 
-export function ConsultaFletes() {
+export function ConsultaChecador() {
     return (
         <div className="bg-zinc-700 rounded-3xl pb-4 shadow h-auto">
             <TopBar/>
-            <GridTablaFullCostoFlete />
+            <GridTablaFullChecador />
         </div>
     );
 };

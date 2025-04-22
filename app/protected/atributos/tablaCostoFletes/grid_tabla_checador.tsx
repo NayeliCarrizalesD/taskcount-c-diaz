@@ -1,12 +1,12 @@
 
 import Footer from "../footer";
-import { TablaCostoFleteFull } from "./tabla_costoFlete_placeholder";
+import { TablaChecadorFull } from "./tabla_checador_placeholder";
 
-export const GridTablaFullCostoFlete = () => {
+export const GridTablaFullChecador = () => {
     return (
         <>
             <div className="px-4 grid gap-3 grid-cols-12">
-                <TablaCostoFleteFull />
+                <TablaChecadorFull />
             </div>
             <Footer/>
         </>
