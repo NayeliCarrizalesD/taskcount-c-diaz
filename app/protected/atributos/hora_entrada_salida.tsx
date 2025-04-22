@@ -3,7 +3,7 @@ export const HoraEntradaSalida = () => {
     //const hora = new Date().getHours() + ':' + new Date().getMinutes() ;
 
     const horaok = new Date();
-    let horas = horaok.toLocaleTimeString("en-US") 
+    let horas = horaok.toLocaleTimeString("es-MX") 
     
 
 
