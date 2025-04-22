@@ -8,7 +8,10 @@ export const InputChecadorUsuario = async () => {
   let usuarios: any[] = [];
   let checador: string | undefined;
 
-  
+  const inputValue  = document.getElementById('checador') as HTMLInputElement;
+  if (inputValue) {
+    inputValue.value = 'Entrada';
+  } else {
 
   try {
       correo?.toString();
@@ -18,6 +21,7 @@ export const InputChecadorUsuario = async () => {
     
         if (usuarios.length > 0) {
             checador = usuarios[0].checador; // Asignar el nivel del primer usuario a la variable
+            
         }
       }
     
@@ -25,6 +29,7 @@ export const InputChecadorUsuario = async () => {
     catch (error) {
       console.error(error);
     }
+}
 
   
   return ( 
@@ -35,7 +40,7 @@ export const InputChecadorUsuario = async () => {
     value={checador}
     required
     readOnly
-    type="email"
+    type="text"
     className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
 />
    
