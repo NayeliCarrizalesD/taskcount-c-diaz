@@ -20,6 +20,7 @@ export const InputChecadorUsuario = async () => {
             if (checador === "Entrada") {
               checador = "Salida";
             }
+            console.log({checador}) // Asignar el nivel del primer usuario a la variable
         }
       }
     
