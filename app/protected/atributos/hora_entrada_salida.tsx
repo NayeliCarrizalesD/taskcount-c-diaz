@@ -1,7 +1,7 @@
-
+'use client';
 export const HoraEntradaSalida = () => {
     const horaok = new Date();
-    let horas = horaok.toLocaleTimeString("de-DE") ;
+    let horas = horaok.toLocaleTimeString() ;
 
 
 
