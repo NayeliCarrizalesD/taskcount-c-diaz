@@ -25,10 +25,10 @@ export function FormCheckHora({
         </div>
         <div>
           <label
-            htmlFor="destino"
+            htmlFor="hora_entrada_salida"
             className="block text-xs uppercase"
           >
-            hora_entrada_salida
+            hora
           </label>
           <HoraEntradaSalida
           />
