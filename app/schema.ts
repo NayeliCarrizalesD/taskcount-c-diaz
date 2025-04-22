@@ -1,6 +1,6 @@
 import { pgTable, numeric, serial, text } from "drizzle-orm/pg-core";
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { eq } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 import postgres from 'postgres';
 
 
@@ -123,6 +123,11 @@ export const catalogo_clientes = pgTable('catalogo_clientes', {
 export async function getEntradaSalida(hora_entrada_salida: string) {
   const entrada_salida = await ensureTableEntradaSalida();
   return await db.select().from(entrada_salida).where(eq(entrada_salida.hora_entrada_salida,hora_entrada_salida));
+}
+
+export async function getLastEntradaSalida(correo_empleado: string) {
+  const entrada_salida = await ensureTableEntradaSalida();
+  return (await db.select().from(entrada_salida).where(eq(entrada_salida.correo_empleado, correo_empleado)).orderBy(desc(entrada_salida.id_entrada)).limit(1))[0];
 }
 
 export async function createNewEntradaSalida(fecha_entrada_salida: string, hora_entrada_salida: string, checador: string, nombre_empleado: string, correo_empleado: string, ) {
