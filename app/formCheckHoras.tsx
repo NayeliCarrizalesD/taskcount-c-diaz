@@ -1,5 +1,6 @@
 import { FechaEntradaSalida } from "./protected/atributos/fecha_entrada_salida";
 import { HoraEntradaSalida } from "./protected/atributos/hora_entrada_salida";
+import { InputChecadorUsuario } from "./protected/atributos/inputChecador";
 import { InputCorreoUsuario } from "./protected/atributos/inputCorreoUsuario";
 import { InputNombreUsuario } from "./protected/atributos/inputNombreUsuario";
 
@@ -42,7 +43,7 @@ export function FormCheckHora({
           >
             checador
           </label>
-          <HoraEntradaSalida
+          <InputChecadorUsuario
           />
         </div>
         <div>
