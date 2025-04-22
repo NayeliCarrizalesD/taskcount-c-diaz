@@ -120,9 +120,9 @@ export const catalogo_clientes = pgTable('catalogo_clientes', {
 
 // Registrar la hora de entrada 
 
-export async function getEntradaSalida(correo_empleado: string) {
+export async function getEntradaSalida(id_entrada: string) {
   const entradaSalidaEmpleado = await ensureTableEntradaSalida();
-  return await db.select().from(entradaSalidaEmpleado).where(eq(entradaSalidaEmpleado.correo_empleado, correo_empleado));
+  return await db.select().from(entradaSalidaEmpleado).where(eq(entradaSalidaEmpleado.id_entrada, Number(id_entrada)));
 }
 
 export async function createNewEntradaSalida(fecha_entrada_salida: string, hora_entrada_salida: string, checador: string, nombre_empleado: string, correo_empleado: string, ) {
@@ -151,7 +151,7 @@ async function ensureTableEntradaSalida() {
       );`;
   }
 
-  const tableCatalogo_productos = pgTable('entrada_salida', {
+  const table_entrada_salida = pgTable('entrada_salida', {
     id_entrada: serial('id_entrada').primaryKey(),
     fecha_entrada_salida: text('fecha_entrada_salida'),
     hora_entrada_salida: text('hora_entrada_salida'),
@@ -160,7 +160,7 @@ async function ensureTableEntradaSalida() {
     correo_empleado: text('correo_empleado')
   });
 
-  return tableCatalogo_productos;
+  return table_entrada_salida;
 }
 
 export const entrada_salida = pgTable('entrada_salida', {
