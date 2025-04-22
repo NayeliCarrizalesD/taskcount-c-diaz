@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import { auth } from 'app/auth';
 import { getEntradaSalida } from '@/app/schema';
 import React, { useState } from 'react';
 
-export const InputChecadorUsuario = () => {
+export function InputChecadorUsuario(): JSX.Element {
   const [texto, setTexto] = useState('Entrada'); // Estado para el texto del botón
   const [checadorValue, setChecadorValue] = useState<string | undefined>(undefined);
 
