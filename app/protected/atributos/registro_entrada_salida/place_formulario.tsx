@@ -1,7 +1,7 @@
 
 //import { insertCostoFlete } from "@/app/action";
 import { FormCheckHora } from "@/app/formCheckHoras";
-import { createCosto, getCosto } from "@/app/schema";
+import { createCosto, createNewEntradaSalida, getCosto } from "@/app/schema";
 import { SubmitButtonFlete } from "@/app/submit_button_flete";
 import { redirect } from "next/navigation";
 import { FiFolder } from "react-icons/fi";
@@ -14,15 +14,15 @@ export default function FormularioChecarEntrada() {
         let fecha_entrada_salida = formData.get('fecha_entrada_salida') as string;
         let hora_entrada_salida = formData.get('hora_entrada_salida') as string;
         let checador = formData.get('checador') as string;
-        let nombre_empleado = formData.get('nombre_empleado') as unknown as number;
-        let correo_empleado = formData.get('correo_empleado') as unknown as number;
+        let nombre_empleado = formData.get('nombre_empleado') as string;
+        let correo_empleado = formData.get('correo_empleado') as string;
         let flete = await getCosto(correo_empleado.toString());
     
         if (flete.length > 0) {
             return console.log('Costo ya existe');              
                 // TODO: Handle errors with useFormStatus - return 'Costo ya existe';
         } else {
-            await createCosto(fecha_entrada_salida, hora_entrada_salida, checador, nombre_empleado, correo_empleado);
+            await createNewEntradaSalida(fecha_entrada_salida, hora_entrada_salida, checador, nombre_empleado, correo_empleado);
             redirect('/ProtectedConsultaFlete');
         }             
     }
