@@ -24,7 +24,7 @@ export function FormRegister({
             placeholder="Nombre"
          
             required
-            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-600 text-black shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
         </div>
         <div>
@@ -41,7 +41,7 @@ export function FormRegister({
             placeholder="Apellido"
           
             required
-            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none text-black focus:ring-black sm:text-sm"
           />
         </div>
         <div>
@@ -58,7 +58,7 @@ export function FormRegister({
             placeholder="user@acme.com"
             autoComplete="email"
             required
-            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none text-black focus:ring-black sm:text-sm"
           />
         </div>
         <div>
@@ -73,7 +73,7 @@ export function FormRegister({
             name="password"
             type="password"
             required
-            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 text-black shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
         </div>
         {children}
