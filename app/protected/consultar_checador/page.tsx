@@ -4,7 +4,7 @@ import { getUsuario } from "@/app/schema";
 import { SideBarN1 } from "../atributos/sidebar/sidebar_nivel1/sidebar_n1";
 import { SideBarN2 } from "../atributos/sidebar/sidebar_nivel2/sidebar_n2";
 import { SideBarN3 } from "../atributos/sidebar/sidebar_nivel3/sidebar_n3";
-import { ConsultaChecador } from "../atributos/tablaCostoFletes/checador";
+import { ConsultaChecador } from "../atributos/tablaChecador/checador";
 
 export default async function ProtectedConsultaFlete() {
   let session = await auth();

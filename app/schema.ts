@@ -127,7 +127,7 @@ export async function getEntradaSalida(hora_entrada_salida: string) {
 
 export async function getEntradaSalidaUnUsuario(correo_empleado: string) {
   const entrada_salida = await ensureTableEntradaSalida();
-  return await db.select().from(entrada_salida).where(eq(entrada_salida.correo_empleado,correo_empleado));
+  return await db.select().from(entrada_salida).where(eq(entrada_salida.correo_empleado,correo_empleado)).orderBy(desc(entrada_salida.id_entrada)).limit(5);
 }
 
 export async function getLastEntradaSalida(correo_empleado: string) {

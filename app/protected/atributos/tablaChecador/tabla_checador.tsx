@@ -1,12 +1,22 @@
-import { dbTablas, entrada_salida } from 'app/schema';
+import {  getEntradaSalidaUnUsuario } from 'app/schema';
 import CopyButton from './copyButton';
+import { auth } from '@/app/auth';
 
 export default async function TablaChecador() {
+    let session = await auth();
+    let correo = session?.user?.email;
+
     let checador: any[] = [];
+    //let checadorUsuario: string | undefined;
+    
     try {
-        checador = await dbTablas.select().from(entrada_salida).orderBy(entrada_salida.id_entrada).limit(5).execute();
-    } catch (e: any) {
-        console.error(e);
+        correo?.toString();
+        if (correo) {
+        const checadorUno = await getEntradaSalidaUnUsuario(correo);
+        checador = checadorUno;
+       } 
+    } catch (error) {
+        console.error(error);   
     }
 
     return (
