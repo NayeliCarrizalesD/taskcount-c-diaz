@@ -125,6 +125,11 @@ export async function getEntradaSalida(hora_entrada_salida: string) {
   return await db.select().from(entrada_salida).where(eq(entrada_salida.hora_entrada_salida,hora_entrada_salida));
 }
 
+export async function getEntradaSalidaUnUsuario(correo_empleado: string) {
+  const entrada_salida = await ensureTableEntradaSalida();
+  return await db.select().from(entrada_salida).where(eq(entrada_salida.correo_empleado,correo_empleado));
+}
+
 export async function getLastEntradaSalida(correo_empleado: string) {
   const entrada_salida = await ensureTableEntradaSalida();
   return (await db.select().from(entrada_salida).where(eq(entrada_salida.correo_empleado, correo_empleado)).orderBy(desc(entrada_salida.id_entrada)).limit(1))[0];
