@@ -18,6 +18,7 @@ export function FormCheckHora({
       >
         <div>
           <label
+          
             htmlFor="fecha_entrada_salida"
             className="block text-xs text-white uppercase"
           >
