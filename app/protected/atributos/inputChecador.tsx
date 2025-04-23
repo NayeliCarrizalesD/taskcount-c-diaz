@@ -14,14 +14,10 @@ export const InputChecadorUsuario = async () => {
       if (correo) {
         const usuarioCheck = await getLastEntradaSalida(correo);
         lastCheck = usuarioCheck;
-    
-        if (lastCheck.length > 0) {
-            checador = lastCheck[0].checador; // Asignar el nivel del primer usuario a la variable
-             // Asignar el nivel del primer usuario a la variable
+
+        if (lastCheck) {
+            checador = lastCheck.checador; // Asignar el nivel del usuario a la variable
         }
-        if (checador === "Entrada") {
-            checador = "Salida";
-          }
           console.log({checador})
       }
     
