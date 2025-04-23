@@ -1,22 +1,24 @@
 
 import { IconType } from "react-icons";
 import { FiDollarSign, FiHome } from "react-icons/fi";
-import { GrDeliver } from "react-icons/gr";
+
 import { MdOutlineInventory } from "react-icons/md";
 import Link from "next/link";
-import { FaPen, FaUserEdit } from "react-icons/fa";
-import { LuPackage, LuNotebookText } from "react-icons/lu";
+import { FaPen, FaUserEdit, FaUserClock } from "react-icons/fa";
+import { LuNotebookText } from "react-icons/lu";
 import { FaRegPenToSquare } from "react-icons/fa6";
 import { RiContactsBook3Line } from "react-icons/ri";
+import { TbClockCheck } from "react-icons/tb";
+
 
 
 export const RouteSelectAdmin = () => {
   return (
     <div className="space-y-1">
       <TransitionLink Icon={FiHome} title="Inicio" href="/"/>
-      <TransitionLink Icon={LuPackage} title="Reloj checador" href="/protected/registro_checador"/>
+      <TransitionLink Icon={TbClockCheck} title="Reloj checador" href="/protected/registro_checador"/>
       <TransitionLink Icon={FiDollarSign} title="Cotizador" href="/protected/cotizador" />
-      <TransitionLink Icon={GrDeliver} title="Consultar Fletes" href="/protected/consultar_checador" />
+      <TransitionLink Icon={FaUserClock} title="Consultar Fletes" href="/protected/consultar_checador" />
       <TransitionLink Icon={MdOutlineInventory} title="Inventario" href="/protected/inventario" />
       <TransitionLink Icon={FaPen} title="Datos Usuario" href="/protected/registro_datos_usuario" />
       <TransitionLink Icon={FaRegPenToSquare} title="Registro Productos" href="/protected/registro_productos" />
