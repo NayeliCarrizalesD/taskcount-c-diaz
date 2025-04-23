@@ -21,7 +21,7 @@ export const InputChecadorUsuario = async () => {
                 checador = "Salida";
             } else if (checador === "Salida") {
                 checador = "Entrada";
-            } else {
+            } else if (checador === null) {
                 checador = "Entrada"; // Valor por defecto si no es ni Entrada ni Salida
             }
         }
