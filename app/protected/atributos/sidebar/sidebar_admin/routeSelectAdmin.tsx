@@ -16,7 +16,7 @@ export const RouteSelectAdmin = () => {
       <TransitionLink Icon={FiHome} title="Inicio" href="/"/>
       <TransitionLink Icon={LuPackage} title="Reloj checador" href="/protected/registro_checador"/>
       <TransitionLink Icon={FiDollarSign} title="Cotizador" href="/protected/cotizador" />
-      <TransitionLink Icon={GrDeliver} title="Consultar Fletes" href="/protected/registro_checador" />
+      <TransitionLink Icon={GrDeliver} title="Consultar Fletes" href="/protected/consultar_checador" />
       <TransitionLink Icon={MdOutlineInventory} title="Inventario" href="/protected/inventario" />
       <TransitionLink Icon={FaPen} title="Datos Usuario" href="/protected/registro_datos_usuario" />
       <TransitionLink Icon={FaRegPenToSquare} title="Registro Productos" href="/protected/registro_productos" />
