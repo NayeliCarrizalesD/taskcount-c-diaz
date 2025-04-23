@@ -38,9 +38,10 @@ export const InputChecadorUsuario = async () => {
     <input
     id="checador"
     name="checador"
-    value={checador}
+
     required
-    //defaultValue="Entrada"
+    defaultValue="Entrada"
+    value={checador}
     readOnly
     type="text"
     className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
