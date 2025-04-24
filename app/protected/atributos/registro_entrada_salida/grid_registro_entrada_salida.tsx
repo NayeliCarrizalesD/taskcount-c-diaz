@@ -1,6 +1,5 @@
 import Footer from "../footer";
 import FormularioChecarEntrada from "./place_formulario";
-import FormularioCostos from "./place_formulario";
 import { TablaEntradaSalida } from "./tabla_entrada_salida";
 
 

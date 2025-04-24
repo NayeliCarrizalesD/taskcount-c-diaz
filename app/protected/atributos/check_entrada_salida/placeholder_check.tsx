@@ -1,4 +1,4 @@
-import { CheckHora } from "@/app/check_hora";
+import { CheckHora } from "@/app/protected/atributos/check_entrada_salida/check_hora";
 
 
 export const PlaceholderCheckHora = () => {

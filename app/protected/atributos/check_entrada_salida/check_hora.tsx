@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { FechaEntradaSalida } from "./protected/atributos/fecha_entrada_salida";
+import FormularioChecarEntrada from "../registro_entrada_salida/place_formulario";
 
 export const CheckHora = () => {
     //const hora = new Date().getHours() + ':' + new Date().getMinutes() ;
@@ -22,7 +22,10 @@ export const CheckHora = () => {
     return (
         <div>
             <h1>Estas checando La hora actual es: </h1>
-            <FechaEntradaSalida/>
+
+             <FormularioChecarEntrada />
+
+        
             
         </div>
     );
