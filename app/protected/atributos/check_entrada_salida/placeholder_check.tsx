@@ -1,4 +1,5 @@
 import { CheckHora } from "@/app/protected/atributos/check_entrada_salida/check_hora";
+import FormularioChecarEntrada from "../registro_entrada_salida/place_formulario";
 
 
 export const PlaceholderCheckHora = () => {
@@ -11,7 +12,8 @@ export const PlaceholderCheckHora = () => {
             </div>
 
             <div className="h-64 px-4">
-            <CheckHora/>        
+            <CheckHora/>      
+            <FormularioChecarEntrada/>  
             </div>
         </div>
     );

@@ -23,7 +23,7 @@ export const CheckHora = () => {
         <div>
             <h1>Estas checando La hora actual es: </h1>
 
-             <FormularioChecarEntrada />
+          
 
         
             
