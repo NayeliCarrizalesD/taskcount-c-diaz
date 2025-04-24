@@ -1,6 +1,6 @@
-import { FechaEntradaSalida } from "./protected/atributos/fecha_entrada_salida";
-import { HoraEntradaSalida } from "./protected/atributos/hora_entrada_salida";
-import { InputChecadorUsuario } from "./protected/atributos/inputChecador";
+import { FechaEntradaSalida } from "./protected/atributos/check_entrada_salida/fecha_entrada_salida";
+import { HoraEntradaSalida } from "./protected/atributos/check_entrada_salida/hora_entrada_salida";
+import { InputChecadorUsuario } from "./protected/atributos/check_entrada_salida/inputChecador";
 import { InputCorreoUsuario } from "./protected/atributos/inputCorreoUsuario";
 import { InputNombreUsuario } from "./protected/atributos/inputNombreUsuario";
 

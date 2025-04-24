@@ -37,11 +37,42 @@ export const InputNombreUsuario = async () => {
     required
     readOnly
     type="text"
-    className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-/>
-   
-);
+    className="mt-1 invisible block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+    />   
+  );
+};
 
+
+
+export const TextoInputNombreUsuario = async () => {
+  let session = await auth();
+  let correo = session?.user?.email;
+  let usuarios: any[] = [];
+  let lastNameUsuario: string | undefined;
+  let nameUser: string | undefined;
+
+  try {
+      correo?.toString();
+      if (correo) {
+        const usuarioResponse = await getUser(correo);
+        usuarios = usuarioResponse;
+    
+        if (usuarios.length > 0) {
+            nameUser = usuarios[0].name; // Asignar el nivel del primer usuario a la variable
+            lastNameUsuario = usuarios[0].last_name; // Asignar el nivel del primer usuario a la variable
+        }
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  let nombreCompleto = `${nameUser} ${lastNameUsuario}`;
+  
+  return (
+    <>
+    {nombreCompleto}
+    </> 
+  );
 };
 
 

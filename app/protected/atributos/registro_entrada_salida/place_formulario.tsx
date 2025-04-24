@@ -3,7 +3,10 @@ import { createNewEntradaSalida, getEntradaSalida } from "@/app/schema";
 import { SubmitButtonFlete } from "@/app/submit_button_flete";
 import { redirect } from "next/navigation";
 import { FiFolder } from "react-icons/fi";
-import { TextoInputChecadorUsuario } from "../inputChecador";
+import { TextoInputChecadorUsuario } from "../check_entrada_salida/inputChecador";
+import { TextoInputNombreUsuario } from "../inputNombreUsuario";
+import { TextoFechaEntradaSalida } from "../check_entrada_salida/fecha_entrada_salida";
+import { TextoHoraEntradaSalida } from "../check_entrada_salida/hora_entrada_salida";
 
 
 export default function FormularioChecarEntrada() {
@@ -34,13 +37,13 @@ export default function FormularioChecarEntrada() {
                     Checador
                 </h3>
                 <h3 className="font-normal">
-                     esta registrando <TextoInputChecadorUsuario/> 
+                    Hola <TextoInputNombreUsuario/> se esta registrando <TextoInputChecadorUsuario/> 
                 </h3>
                 <h3 className="font-normal">
-                    El dia : 
+                    El dia: <TextoFechaEntradaSalida/>
                 </h3>
                 <h3 className="font-normal">
-                    Hora : 
+                    Hora: <TextoHoraEntradaSalida/>
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
