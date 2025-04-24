@@ -13,7 +13,7 @@ export const PlaceholderCheckHora = () => {
 
             <div className="h-64 px-4">
             <CheckHora/>      
-            <FormularioChecarEntrada/>  
+            
             </div>
         </div>
     );
