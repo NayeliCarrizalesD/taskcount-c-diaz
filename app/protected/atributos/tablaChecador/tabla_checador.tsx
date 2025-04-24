@@ -25,10 +25,10 @@ export default async function TablaChecador() {
                 <table className="w-full text-left table-auto min-w-max">
                     <thead>
                         <tr>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>fecha_entrada_salida</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>hora_entrada_salida</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>checador</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>nombre_empleado</th>
+                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Fecha</th>
+                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Hora</th>
+                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Entrada / Salida</th>
+                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Nombre</th>
                             <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Copiar</th>
                         </tr>
                     </thead>

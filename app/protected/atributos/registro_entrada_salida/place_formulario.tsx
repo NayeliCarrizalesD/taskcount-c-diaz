@@ -1,5 +1,3 @@
-
-//import { insertCostoFlete } from "@/app/action";
 import { FormCheckHora } from "@/app/formCheckHoras";
 import { createNewEntradaSalida, getEntradaSalida } from "@/app/schema";
 import { SubmitButtonFlete } from "@/app/submit_button_flete";
@@ -36,7 +34,13 @@ export default function FormularioChecarEntrada() {
                     Checador
                 </h3>
                 <h3 className="font-normal">
-                    Registrar Entrada / Salida <TextoInputChecadorUsuario/>
+                     esta registrando <TextoInputChecadorUsuario/> 
+                </h3>
+                <h3 className="font-normal">
+                    El dia : 
+                </h3>
+                <h3 className="font-normal">
+                    Hora : 
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
