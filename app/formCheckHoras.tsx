@@ -22,7 +22,6 @@ export function FormCheckHora({
             htmlFor="fecha_entrada_salida"
             className="block text-xs text-white uppercase"
           >
-            Dia
           </label>
           <FechaEntradaSalida/>
         
@@ -32,7 +31,6 @@ export function FormCheckHora({
             htmlFor="hora_entrada_salida"
             className="block text-xs uppercase"
           >
-            hora
           </label>
           <HoraEntradaSalida
           />
@@ -42,7 +40,6 @@ export function FormCheckHora({
             htmlFor="checador"
             className="block text-xs uppercase"
           >
-            checador
           </label>
           <InputChecadorUsuario
           />
@@ -52,7 +49,6 @@ export function FormCheckHora({
             htmlFor="nombre_empleado"
             className="block text-xs uppercase"
           >
-            nombre
           </label>
           <InputNombreUsuario/>
         </div>
@@ -61,7 +57,6 @@ export function FormCheckHora({
             htmlFor="correo_empleado"
             className="block text-xs uppercase"
           >
-            correo empleado
           </label>
           <InputCorreoUsuario />
            
