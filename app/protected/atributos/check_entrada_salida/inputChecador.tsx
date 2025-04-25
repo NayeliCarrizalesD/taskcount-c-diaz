@@ -42,7 +42,7 @@ export const InputChecadorUsuario = async () => {
         value={checador}
         readOnly
         type="text"
-        className="mt-1 invisible block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+        className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
     />
     </>
   );
