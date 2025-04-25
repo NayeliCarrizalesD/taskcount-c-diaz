@@ -1,3 +1,4 @@
+"use client";
 import { FormCheckHora } from "@/app/formCheckHoras";
 import { createNewEntradaSalida, getEntradaSalida } from "@/app/schema";
 import { SubmitButtonFlete } from "@/app/submit_button_flete";
