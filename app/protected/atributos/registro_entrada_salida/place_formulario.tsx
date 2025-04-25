@@ -1,18 +1,19 @@
 "use client";
 import { FormCheckHora } from "@/app/formCheckHoras";
-import { createNewEntradaSalida, getEntradaSalida } from "@/app/schema";
+//import { createNewEntradaSalida, getEntradaSalida } from "@/app/schema";
 import { SubmitButtonFlete } from "@/app/submit_button_flete";
-import { redirect } from "next/navigation";
+//import { redirect } from "next/navigation";
 import { FiFolder } from "react-icons/fi";
 import { TextoInputChecadorUsuario } from "../check_entrada_salida/inputChecador";
 import { TextoInputNombreUsuario } from "../inputNombreUsuario";
 import { TextoFechaEntradaSalida } from "../check_entrada_salida/fecha_entrada_salida";
 import { TextoHoraEntradaSalida } from "../check_entrada_salida/hora_entrada_salida";
+import { EntradaSalida } from "./funcion_entrada_dalida"; // Importa la función del servidor
 
 
 export default function FormularioChecarEntrada() {
   
-    async function EntradaSalida(formData: FormData) {
+    /*async function EntradaSalida(formData: FormData) {
         'use server';
         let fecha_entrada_salida = formData.get('fecha_entrada_salida') as string;
         let hora_entrada_salida = formData.get('hora_entrada_salida') as string;
@@ -28,7 +29,7 @@ export default function FormularioChecarEntrada() {
             await createNewEntradaSalida(fecha_entrada_salida, hora_entrada_salida, checador, nombre_empleado, correo_empleado);
             redirect('/ProtectedConsultaFlete');
         }             
-    }
+    }*/
 
     return (
         <div className="lg:col-span-4 sm:col-span-12 rounded-3xl bg-zinc-800 border border-stone-500 shadow-lg h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
