@@ -16,7 +16,7 @@ export function FormCheckHora({
         action={action}
         className="flex flex-col space-y-4 bg-zinc-800 px-2 py-5 sm:px-4"
       >
-        <div>
+        <div className="invisible">
           <label
           
             htmlFor="fecha_entrada_salida"
@@ -26,7 +26,7 @@ export function FormCheckHora({
           <FechaEntradaSalida/>
         
         </div>
-        <div>
+        <div >
           <label
             htmlFor="hora_entrada_salida"
             className="block text-xs uppercase"
