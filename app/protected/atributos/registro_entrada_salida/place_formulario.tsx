@@ -48,7 +48,7 @@ export default function FormularioChecarEntrada() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-                <FormCheckHora action={EntradaSalida}>
+                <FormCheckHora action={EntradaSalida} >
                     <SubmitButtonFlete>Checar</SubmitButtonFlete>
                 </FormCheckHora>
             </div>
