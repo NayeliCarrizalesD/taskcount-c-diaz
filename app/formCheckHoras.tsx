@@ -1,4 +1,4 @@
-
+"use client";
 import { FechaEntradaSalida } from "./protected/atributos/check_entrada_salida/fecha_entrada_salida";
 import { HoraEntradaSalida } from "./protected/atributos/check_entrada_salida/hora_entrada_salida";
 import { InputChecadorUsuario } from "./protected/atributos/check_entrada_salida/inputChecador";
