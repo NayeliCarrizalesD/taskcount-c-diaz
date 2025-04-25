@@ -17,7 +17,7 @@ export const HoraEntradaSalida = () => {
 
 export const TextoHoraEntradaSalida = () => {
     const horaok = new Date();
-    let horas = horaok.toLocaleTimeString() ;
+    let horas = horaok.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }); ;
 
     return (
         <>
