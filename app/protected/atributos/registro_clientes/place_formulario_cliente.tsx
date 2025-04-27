@@ -1,4 +1,4 @@
-import { FormRegistroCliente } from "@/app/formRegistroCliente";
+import { FormRegistroCliente } from "@/app/formularios/formRegistroCliente";
 import { createNewClient, getClientes } from "@/app/schema";
 import { SubmitButton } from "@/app/submit-button";
 import { redirect } from "next/navigation";

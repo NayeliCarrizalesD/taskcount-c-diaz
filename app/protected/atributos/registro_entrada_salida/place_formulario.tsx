@@ -1,13 +1,13 @@
 
-import { FormCheckHora } from "@/app/formCheckHoras";
+import { FormCheckHora } from "@/app/formularios/formCheckHoras";
 import { createNewEntradaSalida, getEntradaSalida } from "@/app/schema";
-import { SubmitButtonFlete } from "@/app/submit_button_flete";
 import { redirect } from "next/navigation";
 import { FiFolder } from "react-icons/fi";
 import { TextoInputChecadorUsuario } from "../check_entrada_salida/inputChecador";
 import { TextoInputNombreUsuario } from "../inputNombreUsuario";
 import { TextoFechaEntradaSalida } from "../check_entrada_salida/fecha_entrada_salida";
 import { TextoHoraEntradaSalida } from "../check_entrada_salida/hora_entrada_salida";
+import { SubmitButton } from "@/app/submit-button";
 
 
 export default function FormularioChecarEntrada() {
@@ -49,7 +49,7 @@ export default function FormularioChecarEntrada() {
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
                 <FormCheckHora action={EntradaSalida} >
-                    <SubmitButtonFlete>Checar</SubmitButtonFlete>
+                    <SubmitButton>Checar</SubmitButton>
                 </FormCheckHora>
             </div>
         </div>
