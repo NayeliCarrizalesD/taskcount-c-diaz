@@ -1,5 +1,5 @@
 
-import { FormRegistroProductos } from "@/app/formProducto";
+import { FormRegistroProductos } from "@/app/formularios/formProducto";
 import { createNewProduct, getProducto } from "@/app/schema";
 import { SubmitButton } from "@/app/submit-button";
 import { redirect } from "next/navigation";

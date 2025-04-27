@@ -1,4 +1,4 @@
-import { FormDatosUsuario } from "@/app/formDatosUsuario";
+import { FormDatosUsuario } from "@/app/formularios/formDatosUsuario";
 import { SubmitButton } from "@/app/submit-button";
 import { createDatosUsuario, getUsuario } from "@/app/schema";
 import { FiUser } from "react-icons/fi";
