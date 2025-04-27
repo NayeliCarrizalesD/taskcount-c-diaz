@@ -1,4 +1,4 @@
-import SelectCorreos from "./selectUsuarios";
+import SelectCorreos from "../selectUsuarios";
 
 export function FormDatosUsuario({
     action,

@@ -1,4 +1,4 @@
-import { InputCorreoUsuario } from "./protected/atributos/inputCorreoUsuario";
+import { InputCorreoUsuario } from "../protected/atributos/inputCorreoUsuario";
 
 export function FormRegistroProductos({
     action,
