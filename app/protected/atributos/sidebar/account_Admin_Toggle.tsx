@@ -25,7 +25,7 @@ export const AccountAdminToggle = async () => {
     return (
         <>
           <li>
-            <button className="flex p-0.5 hover:bg-stone-600 rounded-full transition-colors relative gap-2 w-full item-center">
+            <button className="flex ps-2.5 mb-5 hover:bg-stone-600 rounded-full transition-colors relative gap-2 w-full item-center">
         
                 <div className="text-center px-2">
                     <span className="text-sm font-bold block">
