@@ -13,15 +13,22 @@ export function SideBarAdmin(){
    </svg>
 </button>
    
+  <aside id="separator-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+    <div className="h-full px-3 py-4 overflow-y-auto bg-black text-white dark:bg-gray-800">
 
-    <div className="font-[family-name:var(--font-geist-mono)] w-[200px] sm:w-[100px]">   
+    <ul>
       <div className="overflow-y bg-black text-white sticky top-4 h-[calc(100vh-32px-48px)]" >
         <AccountAdminToggle/>
         <RouteSelectAdmin/> 
       </div>
       <Plan/>
+    </ul>
     </div>
+    </aside>
     </>
 
   );
 }
+
+//<div className="font-[family-name:var(--font-geist-mono)] w-[200px]">   
+//
