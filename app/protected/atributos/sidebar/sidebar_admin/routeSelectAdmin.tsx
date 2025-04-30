@@ -14,7 +14,7 @@ import { TbClockCheck } from "react-icons/tb";
 
 export const RouteSelectAdmin = () => {
   return (
-    <div className="space-y-1">
+    <ul>
       <TransitionLink Icon={FiHome} title="Inicio" href="/"/>
       <TransitionLink Icon={TbClockCheck} title="Reloj checador" href="/protected/registro_checador"/>
       <TransitionLink Icon={FaUserClock} title="Consultar Checador" href="/protected/consultar_checador" />
@@ -24,7 +24,7 @@ export const RouteSelectAdmin = () => {
       <TransitionLink Icon={LuNotebookText} title="Catalogo de Productos" href="/protected/catalogo_productos" />
       <TransitionLink Icon={FaUserEdit} title="Registro Clientes" href="/protected/registro_clientes" />
       <TransitionLink Icon={RiContactsBook3Line} title="Catalogo de Clientes" href="/protected/catalogo_clientes" />
-    </div>
+    </ul>
   );
 };
 
@@ -39,13 +39,12 @@ const TransitionLink = ({
 }) => {
   return (
     <li>
-    <Link href={href}
-      className={`flex items-center justify-start gap-2 w-full rounded-full px-2 py-1.5 text-sm text-stone-50 transition-[box-shadow,_background-color,_color] hover:bg-slate-200 bg-transparent hover:text-stone-900 shadow-none `}
-    >
-      <Icon />
-      <span className="sm:appearance-none">{title}</span>
-    </Link>
+      <Link href={href} className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}>
+        <Icon/>
+        <span className="ms-3">{title}</span>
+      </Link>
     </li>
+    
   );
 };
 
