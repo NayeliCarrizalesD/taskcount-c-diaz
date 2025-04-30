@@ -138,7 +138,7 @@ export default async function ProtectedPage() {
    </div>
 </div>
 
-    <Dashboard />
+   
     
 
   </main> 
@@ -146,6 +146,7 @@ export default async function ProtectedPage() {
 }
 
 /*
+ <Dashboard />
 {usuarios.map((usuario) => (
           <p key={usuario.id}>Nivel: {usuario.nivel}</p>
         ))}
