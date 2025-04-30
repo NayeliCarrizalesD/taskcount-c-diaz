@@ -12,7 +12,6 @@ export const RouteSelectNivel1 = () => {
     <div className="space-y-1">
       <TransitionLink Icon={FiHome} title="Inicio" href="/"/>
       <TransitionLink Icon={LuPackage} title="Registrar Flete" href="/protected/registro_flete"/>
-      <TransitionLink Icon={FiDollarSign} title="Cotizador" href="/protected/cotizador" />
       <TransitionLink Icon={MdOutlineInventory} title="Inventario" href="/protected/inventario" />
       <TransitionLink Icon={GrDeliver} title="Consultar Fletes" href="/protected/consultar_flete" />
       <TransitionLink Icon={LuNotebookText } title="Catalogo de Productos" href="/protected/catalogo_productos" />
