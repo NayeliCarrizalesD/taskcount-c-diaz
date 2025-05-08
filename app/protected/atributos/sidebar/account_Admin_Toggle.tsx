@@ -25,7 +25,7 @@ export const AccountAdminToggle = async () => {
     return (
         <>
           <li>
-            <button className="flex ps-2.5 mb-5 hover:bg-stone-600 rounded-full transition-colors relative gap-2 w-full item-center">
+            <div className="flex ps-2.5 mb-5 hover:bg-stone-600 rounded-full transition-colors relative gap-2 w-full item-center">
         
                 <div className="text-center px-2">
                     <span className="text-sm font-bold block">
@@ -36,7 +36,7 @@ export const AccountAdminToggle = async () => {
                         {session?.user?.email}
                     </span>
                 </div>         
-            </button> 
+            </div> 
         </li>  
     </>
 
