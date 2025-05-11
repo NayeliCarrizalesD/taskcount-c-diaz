@@ -25,18 +25,17 @@ export const AccountAdminToggle = async () => {
     return (
         <>
           <li>
-            <div className="flex ps-2.5 mb-5 hover:bg-stone-600 rounded-full transition-colors relative gap-2 w-full item-center">
-        
-                <div className="text-center px-2">
-                    <span className="text-sm font-bold block">
-                        {nameUsuario} 
-                    </span> 
-                    
-                    <span className="text-xs block py-1">
-                        {session?.user?.email}
-                    </span>
-                </div>         
-            </div> 
+            
+              <div className="text-center px-2">
+                  <span className="text-sm font-bold block">
+                      {nameUsuario} 
+                  </span> 
+                  
+                  <span className="text-xs block py-1">
+                      {session?.user?.email}
+                  </span>
+              </div>         
+   
         </li>  
     </>
 
