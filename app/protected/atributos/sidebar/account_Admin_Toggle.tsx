@@ -24,7 +24,7 @@ export const AccountAdminToggle = async () => {
     }
     return (
         <>
-          <li>
+       
             
               <div className="text-center px-2">
                   <span className="text-sm font-bold block">
@@ -35,8 +35,7 @@ export const AccountAdminToggle = async () => {
                       {session?.user?.email}
                   </span>
               </div>         
-   
-        </li>  
+    
     </>
 
     );
