@@ -13,7 +13,7 @@ export const MarcaTemporal = async () => {
   return ( 
     <div>
       <input 
-        className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+        className="block w-full text-sm text-black rounded-full border border-gray-700 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
         id="marca_temporal"
         name="marca_temporal"
         type="text"
