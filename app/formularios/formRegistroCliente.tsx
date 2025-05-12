@@ -12,7 +12,7 @@ export function FormRegistroCliente({
        
       <form
         action={action}
-        className="flex flex-col space-y-4 bg-zinc-800 px-2 py-5 sm:px-4"
+        className="flex flex-col space-y-4 bg-slate-800 px-2 py-5 sm:px-4"
       >
         <div className="invisible">
           <label

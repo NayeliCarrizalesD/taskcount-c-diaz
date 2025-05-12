@@ -4,9 +4,11 @@ import { getUsuario } from "@/app/schema";
 export const AccountAdminToggle = async () => {
     let session = await auth();
     let correo = session?.user?.email;
-    let usuarios: any[] = [];
-    let nameUsuario: string | undefined;
     
+    let nameUsuario  = session?.user?.name;
+    
+    /*let nameUsuario: string | undefined;
+    let usuarios: any[] = [];
     try {
       correo?.toString();
       if (correo) {
@@ -14,14 +16,14 @@ export const AccountAdminToggle = async () => {
         usuarios = usuarioResponse;
   
         if (usuarios.length > 0) {
-          nameUsuario = usuarios[0].nombre; // Asignar el nivel del primer usuario a la variable
+          nameUsuario = usuarios[0].name; // Asignar el nivel del primer usuario a la variable
         }
       }
   
     }
     catch (error) {
       console.error(error);
-    }
+    }*/
     return (
         <>
        
@@ -34,7 +36,7 @@ export const AccountAdminToggle = async () => {
               <div className="flex items-center p-2 text-gray-900 rounded-full dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                   
                   <span className="text-xs block py-1">
-                      {session?.user?.email}
+                      {correo}
                   </span>
               </div>         
     
