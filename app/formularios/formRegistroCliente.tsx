@@ -14,13 +14,8 @@ export function FormRegistroCliente({
         action={action}
         className="flex flex-col space-y-4 bg-slate-800 px-2 py-5 sm:px-4"
       >
-        <div className="invisible h-[5px]">
-          <label
-            htmlFor="marca_temporal"
-            className="block text-xs text-white uppercase"
-          >
-            marca temporal
-          </label>
+        <div className="invisible h-[1px]">
+          
           <MarcaTemporal/>
         
         </div>
