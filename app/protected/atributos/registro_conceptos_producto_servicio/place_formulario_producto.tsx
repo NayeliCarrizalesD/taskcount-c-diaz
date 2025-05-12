@@ -12,21 +12,17 @@ export default function FormularioProductos() {
         'use server';
         
         let marca_temporal = formData.get('marca_temporal') as string;
-        let codigo_producto = formData.get('codigo_producto') as string;
-        let nombre_producto = formData.get('nombre_producto') as string;
-        let empresa_producto = formData.get('empresa_producto') as string;
-        let categoria = formData.get('categoria') as string;
-        let clave_sat = formData.get('clave_sat') as string;
+        let nombre_producto_servicio = formData.get('nombre_producto_servicio') as string;
         let correo_empleado = formData.get('correo_empleado') as string;
-        let subcategoria = formData.get('subcategoria') as string;
+       
 
-        let producto = await getProducto(codigo_producto.toString());
+        let producto = await getProducto(nombre_producto_servicio.toString());
     
         if (producto.length > 0) {
             return console.log('El producto ya existe');              
                 // TODO: Handle errors with useFormStatus - return 'Costo ya existe';
         } else {
-            await createNewProduct(marca_temporal, codigo_producto, nombre_producto, empresa_producto, categoria, clave_sat, correo_empleado, subcategoria);
+            await createNewProduct(marca_temporal, nombre_producto_servicio, correo_empleado);
             redirect('/protected/catalogo_productos'); // Redirigir a la página de registro de productos
         }             
     }
@@ -36,10 +32,10 @@ export default function FormularioProductos() {
             <div className="p-4">
                 <h3 className="flex items-center text-lg gap-1.5 font-medium">
                     <AiOutlineTag />
-                    Productos
+                    Conceptos
                 </h3>
                 <h3 className="font-normal">
-                    Registrar un producto en el catalogo de productos
+                    Registrar un concepto en el catalogo de productos y servicios
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">

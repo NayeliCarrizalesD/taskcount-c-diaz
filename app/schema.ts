@@ -84,7 +84,7 @@ async function ensureTableCatalogoClientesExists() {
   if (!result[0].exists) {
     await client`
       CREATE TABLE "catalogo_clientes" (
-        id_producto SERIAL PRIMARY KEY,
+        id_cliente SERIAL PRIMARY KEY,
         marca_temporal TEXT,
         nombre_cliente TEXT,
         telefono_cliente TEXT,
@@ -94,8 +94,8 @@ async function ensureTableCatalogoClientesExists() {
       );`;
   }
 
-  const tableCatalogo_productos = pgTable('catalogo_clientes', {
-    id_producto: serial('id_producto').primaryKey(),
+  const tableCatalogo_clientes = pgTable('catalogo_clientes', {
+    id_producto: serial('id_cliente').primaryKey(),
     marca_temporal: text('marca_temporal'),
     nombre_cliente: text('nombre_cliente'),
     telefono_cliente: text('telefono_cliente'),
@@ -104,11 +104,11 @@ async function ensureTableCatalogoClientesExists() {
     correo_empleado: text('correo_empleado')
   });
 
-  return tableCatalogo_productos;
+  return tableCatalogo_clientes;
 }
 
 export const catalogo_clientes = pgTable('catalogo_clientes', {
-  id_producto: serial('id_producto').primaryKey(),
+  id_producto: serial('id_cliente').primaryKey(),
     marca_temporal: text('marca_temporal'),
     nombre_cliente: text('nombre_cliente'),
     telefono_cliente: text('telefono_cliente'),
@@ -181,6 +181,61 @@ export const entrada_salida = pgTable('entrada_salida', {
   correo_empleado: text('correo_empleado')
 });
 
+// Registro de productos
+export async function getProducto(nombre_producto_servicio: string) {
+  const catalogoProductos = await ensureTableCatalogoProductosExists();
+  return await db.select().from(catalogoProductos).where(eq(catalogoProductos.nombre_producto_servicio, nombre_producto_servicio));
+}
+
+export async function getProductosPaginados(limit: number, offset: number) {
+  return await dbTablas
+      .select()
+      .from(catalogo_productos)
+      .orderBy(catalogo_productos.nombre_producto_servicio)
+      .limit(limit)
+      .offset(offset);
+}
+
+export async function createNewProduct(marca_temporal: string, nombre_producto_servicio: string, correo_empleado: string ) {
+  const catalogoProductos = await ensureTableCatalogoProductosExists();
+  return await db.insert(catalogoProductos).values([{ marca_temporal, nombre_producto_servicio, correo_empleado }]);
+}
+
+async function ensureTableCatalogoProductosExists() {
+  const result = await client`
+    SELECT EXISTS (
+      SELECT FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_name = 'catalogo_productos'
+    );`;
+
+  if (!result[0].exists) {
+    await client`
+      CREATE TABLE "catalogo_productos" (
+        id_producto SERIAL PRIMARY KEY,
+        marca_temporal TEXT,
+        nombre_producto_servicio TEXT,
+        correo_empleado TEXT
+      );`;
+  }
+
+  const tableCatalogo_productos = pgTable('catalogo_productos', {
+    id_producto: serial('id_producto').primaryKey(),
+    marca_temporal: text('marca_temporal'),
+    nombre_producto_servicio: text('nombre_producto_servicio'),
+    correo_empleado: text('correo_empleado')
+  });
+
+  return tableCatalogo_productos;
+}
+
+export const catalogo_productos = pgTable('catalogo_productos', {
+  id_producto: serial('id_producto').primaryKey(),
+    marca_temporal: text('marca_temporal'),
+    nombre_producto_servicio: text('nombre_producto_servicio'),
+    correo_empleado: text('correo_empleado')
+});
+
 // Registro del costo de fletes
 
 export async function getCosto(costo: string) {
@@ -247,75 +302,7 @@ export const costoflete = pgTable('costofletes', {
     costo: numeric('costo'),
     paqueteria: numeric('paqueteria'),
   });*/
-// Registro de productos
-export async function getProducto(codigo_producto: string) {
-  const catalogoProductos = await ensureTableCatalogoProductosExists();
-  return await db.select().from(catalogoProductos).where(eq(catalogoProductos.codigo_producto, codigo_producto));
-}
 
-export async function getProductosPaginados(limit: number, offset: number) {
-  return await dbTablas
-      .select()
-      .from(catalogo_productos)
-      .orderBy(catalogo_productos.codigo_producto)
-      .limit(limit)
-      .offset(offset);
-}
-
-export async function createNewProduct(marca_temporal: string, codigo_producto: string, nombre_producto: string, empresa_producto: string, categoria: string, clave_sat: string, correo_empleado: string, subcategoria: string) {
-  const catalogoProductos = await ensureTableCatalogoProductosExists();
-  return await db.insert(catalogoProductos).values([{ marca_temporal, codigo_producto, nombre_producto, empresa_producto, categoria, clave_sat, correo_empleado, subcategoria }]);
-}
-
-async function ensureTableCatalogoProductosExists() {
-  const result = await client`
-    SELECT EXISTS (
-      SELECT FROM information_schema.tables 
-      WHERE table_schema = 'public' 
-      AND table_name = 'catalogo_productos'
-    );`;
-
-  if (!result[0].exists) {
-    await client`
-      CREATE TABLE "catalogo_productos" (
-        id_producto SERIAL PRIMARY KEY,
-        marca_temporal TEXT,
-        codigo_producto TEXT,
-        nombre_producto TEXT,
-        empresa_producto TEXT,
-        categoria TEXT,
-        clave_sat TEXT,
-        correo_empleado TEXT,
-        subcategoria TEXT
-      );`;
-  }
-
-  const tableCatalogo_productos = pgTable('catalogo_productos', {
-    id_producto: serial('id_producto').primaryKey(),
-    marca_temporal: text('marca_temporal'),
-    codigo_producto: text('codigo_producto'),
-    nombre_producto: text('nombre_producto'),
-    empresa_producto: text('empresa_producto'),
-    categoria: text('categoria'),
-    clave_sat: text('clave_sat'),
-    correo_empleado: text('correo_empleado'),
-    subcategoria: text('subcategoria'),
-  });
-
-  return tableCatalogo_productos;
-}
-
-export const catalogo_productos = pgTable('catalogo_productos', {
-  id_producto: serial('id_producto').primaryKey(),
-  marca_temporal: text('marca_temporal'),
-  codigo_producto: text('codigo_producto'),
-  nombre_producto: text('nombre_producto'),
-  empresa_producto: text('empresa_producto'),
-  categoria: text('categoria'),
-  clave_sat: text('clave_sat'),
-  correo_empleado: text('correo_empleado'),
-  subcategoria: text('subcategoria'),
-});
 
 // esto quedo aqui por si se ocupa para el registro de usuarios
 

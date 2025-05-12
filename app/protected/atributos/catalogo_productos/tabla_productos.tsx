@@ -6,7 +6,7 @@ export default async function TablaProductos() {
 
     let productos: any[] = [];
     try {
-        productos = await dbTablas.select().from(catalogo_productos).orderBy(catalogo_productos.codigo_producto);
+        productos = await dbTablas.select().from(catalogo_productos).orderBy(catalogo_productos.nombre_producto_servicio);
     }
     catch (e: any) {
         console.error(e);
@@ -18,10 +18,7 @@ export default async function TablaProductos() {
             <table className="w-full text-left table-auto min-w-max">   
                 <thead>
                     <tr>
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Codigo</th>
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre</th>
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Clave SAT</th> 
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Empresa</th> 
+                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre del concepto</th>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Registrado por:</th>
                     </tr>
                 </thead>
@@ -29,9 +26,7 @@ export default async function TablaProductos() {
                     {productos && productos.map((producto: any, index: number) => (
                         <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={producto.id}>
                             <td className="p-4">{producto.codigo_producto}</td>
-                            <td className="p-4">{producto.nombre_producto}</td>
-                            <td className="p-4">{producto.clave_sat}</td>
-                            <td className="p-4">{producto.empresa_producto}</td>
+                            <td className="p-4">{producto.nombre_producto_servicio}</td>
                             <td className="p-4">{producto.correo_empleado}</td>
                         </tr>
                     ))}
