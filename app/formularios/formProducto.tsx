@@ -1,4 +1,5 @@
 import { InputCorreoUsuario } from "../protected/atributos/inputCorreoUsuario";
+import { MarcaTemporal } from "../protected/atributos/marca_temporal";
 
 export function FormRegistroProductos({
     action,
@@ -12,20 +13,14 @@ export function FormRegistroProductos({
         action={action}
         className="flex flex-col space-y-4 bg-slate-800 px-2 py-5 sm:px-4"
       >
-        <div>
+        <div className="invisible h-1" >
           <label
             htmlFor="marca_temporal"
             className="block text-xs text-white uppercase"
           >
             marca temporal
           </label>
-          <input
-            type="text"
-            id="marca_temporal"
-            name="marca_temporal"
-            required
-            className="mt-1 block w-full text-black appearance-none rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-          />
+          <MarcaTemporal/>
         
         </div>
         <div>
