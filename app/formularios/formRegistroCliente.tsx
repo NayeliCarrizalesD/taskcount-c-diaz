@@ -1,4 +1,5 @@
 import { InputCorreoUsuario } from "../protected/atributos/inputCorreoUsuario";
+import { MarcaTemporal } from "../protected/atributos/marca_temporal";
 
 export function FormRegistroCliente({
     action,
@@ -20,13 +21,7 @@ export function FormRegistroCliente({
           >
             marca temporal
           </label>
-          <input
-            type="text"
-            id="marca_temporal"
-            name="marca_temporal"
-            required
-            className="mt-1 block w-full text-black appearance-none rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-          />
+          <MarcaTemporal/>
         
         </div>
         <div>
