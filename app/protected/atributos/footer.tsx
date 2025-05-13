@@ -9,7 +9,7 @@ export default function Footer() {
         className="flex items-center gap-2">
         
           <TbWorld />
-        MGO • QOB • OVERSEAS 
+        CONTADORES • CARRIZALES • DIAZ 
       </p>
     </footer>
   );
