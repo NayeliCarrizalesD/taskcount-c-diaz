@@ -15,7 +15,7 @@ export default async function TablaProductos() {
     return (
         <>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll text-slate-300 bg-neutral-800 rounded-lg bg-clip-border">
-            <table className="w-full text-left table-auto min-w-max">   
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 table-auto min-w-max">   
                 <thead>
                     <tr>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre del concepto</th>
