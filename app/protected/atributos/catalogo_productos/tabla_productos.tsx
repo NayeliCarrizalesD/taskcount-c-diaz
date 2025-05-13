@@ -15,7 +15,7 @@ export default async function TablaProductos() {
     return (
         <>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll  rounded-lg bg-clip-border">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full  dark:text-gray-400 table-auto min-w-max">   
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800  dark:text-gray-400 table-auto min-w-max">   
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre del concepto</th>
@@ -57,26 +57,7 @@ export default async function TablaProductos() {
             </li>
         </ul>
     </nav>
-            <div className="flex justify-between items-center px-4 py-3">
-                <div className="text-sm text-slate-200">
-                    Mostrando <b> productosPorPagina </b>-
-                    <b></b> de <b></b>
-                </div>
-                <div className="flex space-x-1">
-                    <button
-                       
-                        className="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease"
-                    >
-                        Prev
-                    </button>
-                    <button
-                       
-                        className="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease"
-                    >
-                        Sig
-                    </button>
-                </div>
-            </div>
+           
         </div>    
 
         </>
