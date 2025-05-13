@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { AiOutlineTag } from "react-icons/ai";
 
 
-export default function FormularioProductos() {
+export default function FormularioClientesHonorarios() {
   
     async function CatalogoProductos(formData: FormData) {
         'use server';
