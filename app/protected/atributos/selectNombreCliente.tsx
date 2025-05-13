@@ -1,7 +1,7 @@
 
 import {  getTodosProducto } from '@/app/schema';
 
-export const SelectNombreCliente = async () => {
+export const SelectNombreClienteTodos = async () => {
   let clienteNombre: any[] = [];
 
   try {

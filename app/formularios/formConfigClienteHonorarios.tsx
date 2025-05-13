@@ -1,5 +1,4 @@
 import { SelectConcepto } from "../protected/atributos/selectConcepto";
-import { SelectNombreCliente } from "../protected/atributos/SelectNombreCliente";
 
 
 export function FormConfigClienteHonorarios({
@@ -21,7 +20,7 @@ export function FormConfigClienteHonorarios({
           >
             nombre cliente
           </label>
-          <SelectNombreCliente/>
+      
         </div>
         <div>
           <label
