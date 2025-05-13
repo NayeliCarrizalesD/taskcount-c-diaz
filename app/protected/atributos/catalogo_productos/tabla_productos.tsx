@@ -14,7 +14,7 @@ export default async function TablaProductos() {
 
     return (
         <>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll  rounded-lg bg-clip-border bg-gray-50 dark:bg-gray-700 my-10 text-gray-700 dark:text-gray-400">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll  rounded-lg bg-clip-border bg-neutral-800">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800  dark:text-gray-400 table-auto min-w-max">   
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -31,7 +31,7 @@ export default async function TablaProductos() {
                     ))}
                 </tbody>
             </table>
-            <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between bg-gray-50 dark:bg-gray-700 my-10 text-gray-700 dark:text-gray-400 pt-4" aria-label="Table navigation">
+            <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span className="font-semibold text-gray-900 dark:text-white">1-10</span> of <span className="font-semibold text-gray-900 dark:text-white">1000</span></span>
         <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
             <li>
