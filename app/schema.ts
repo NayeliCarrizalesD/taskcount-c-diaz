@@ -67,6 +67,10 @@ export async function getClientes(nombre_cliente: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
   return await db.select().from(catalogoClientes).where(eq(catalogoClientes.nombre_cliente, nombre_cliente));
 }
+export async function getTodosClientes() {
+  const catalogoClientes = await ensureTableCatalogoClientesExists();
+  return await db.select().from(catalogoClientes);
+}
 
 export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
@@ -187,6 +191,11 @@ export async function getProducto(nombre_producto_servicio: string) {
   return await db.select().from(catalogoProductos).where(eq(catalogoProductos.nombre_producto_servicio, nombre_producto_servicio));
 }
 
+export async function getTodosProducto() {
+  const catalogoProductos = await ensureTableCatalogoProductosExists();
+  return await db.select().from(catalogoProductos);
+}
+
 export async function getProductosPaginados(limit: number, offset: number) {
   return await dbTablas
       .select()
@@ -238,59 +247,52 @@ export const catalogo_productos = pgTable('catalogo_productos', {
 
 // Registro del costo de fletes
 
-export async function getCosto(costo: string) {
-  const costofletes = await ensureTableFleteExists();
-  return await db.select().from(costofletes).where(eq(costofletes.costo, costo));
+export async function getClienteHonorarios(nombre_cliente: string) {
+  const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
+  return await db.select().from(configClienteHonorario).where(eq(configClienteHonorario.nombre_cliente, nombre_cliente));
 }
 
 
-export async function createCosto(origen: string, destino: string, tallaenvio: string, costo1: number, id_paqueteria1: number) {
-  const costofletes = await ensureTableFleteExists();
-  const costo = costo1.toString();
-  const id_paqueteria = id_paqueteria1.toString();
-  return await db.insert(costofletes).values([{ origen, destino, tallaenvio, costo, id_paqueteria}]);
+export async function createCosto(nombre_cliente: string, concepto: string, pago1: number) {
+  const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
+  const pago = pago1.toString();
+  return await db.insert(configClienteHonorario).values([{ nombre_cliente, concepto, pago}]);
 }
 
 
-async function ensureTableFleteExists() {
+async function ensureTableConfigClienteHonorarioExists() {
   const result = await client`
     SELECT EXISTS (
       SELECT FROM information_schema.tables 
       WHERE table_schema = 'public' 
-      AND table_name = 'costofletes'
+      AND table_name = 'configClienteHonorario'
     );`;
 
   if (!result[0].exists) {
     await client`
-      CREATE TABLE "costofletes" (
-        id SERIAL PRIMARY KEY,
-        origen TEXT,
-        destino TEXT,
-        tallaenvio TEXT,
-        costo numeric,
-        id_paqueteria numeric
+      CREATE TABLE "configClienteHonorario" (
+        id_cliente_honorario SERIAL PRIMARY KEY,
+        nombre_cliente TEXT,
+        concepto TEXT,
+        pago numeric
       );`;
   }
 
-  const table = pgTable('costofletes', {
-    id: serial('id').primaryKey(),
-    origen: text('origen'),
-    destino: text('destino'),
-    tallaenvio: text('tallaenvio'),
-    costo: numeric('costo'),
-    id_paqueteria: numeric('id_paqueteria'),
+  const table = pgTable('configClienteHonorario', {
+    id_cliente_honorario: serial('id_cliente_honorario').primaryKey(),
+    nombre_cliente: text('nombre_cliente'),
+    concepto: text('concepto'),
+    pago: numeric('pago')
   });
 
   return table;
 }
 
-export const costoflete = pgTable('costofletes', {
-  id: serial('id').primaryKey(),
-  origen: text('origen'),
-  destino: text('destino'),
-  tallaenvio: text('tallaenvio'),
-  costo: numeric('costo'),
-  id_paqueteria: numeric('id_paqueteria'),
+export const costoflete = pgTable('configClienteHonorario', {
+  id_cliente_honorario: serial('id_cliente_honorario').primaryKey(),
+    nombre_cliente: text('nombre_cliente'),
+    concepto: text('concepto'),
+    pago: numeric('pago')
 });
 
 
