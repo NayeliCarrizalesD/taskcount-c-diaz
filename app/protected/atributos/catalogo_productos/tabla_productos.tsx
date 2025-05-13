@@ -14,7 +14,7 @@ export default async function TablaProductos() {
 
     return (
         <>
-        <div className="relative flex flex-col w-full h-full overflow-scroll text-slate-300 bg-neutral-800 shadow-md rounded-lg bg-clip-border">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll text-slate-300 bg-neutral-800 rounded-lg bg-clip-border">
             <table className="w-full text-left table-auto min-w-max">   
                 <thead>
                     <tr>
