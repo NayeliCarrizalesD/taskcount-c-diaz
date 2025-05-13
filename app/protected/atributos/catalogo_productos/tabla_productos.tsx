@@ -25,7 +25,7 @@ export default async function TablaProductos() {
                 <tbody>
                     {productos && productos.map((producto: any, index: number) => (
                         <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={producto.id}>
-                            <td className="p-4">{producto.nombre_producto_servicio}</td>
+                            <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{producto.nombre_producto_servicio}</td>
                             <td className="p-4">{producto.correo_empleado}</td>
                         </tr>
                     ))}
