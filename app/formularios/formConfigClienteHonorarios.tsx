@@ -1,5 +1,5 @@
 import { SelectConcepto } from "../protected/atributos/selectConcepto";
-import { SelectNombreClienteTodos } from "../protected/atributos/SelectNombreCliente";
+import { SelectNombreClienteTodos } from "../protected/atributos/selectNombreCliente";
 
 
 export function FormConfigClienteHonorarios({
