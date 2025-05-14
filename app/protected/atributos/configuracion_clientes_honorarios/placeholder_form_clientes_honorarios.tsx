@@ -10,9 +10,9 @@ export default function FormularioClientesHonorarios() {
     async function CreateCosto(formData: FormData) {
         'use server';
         
-        let nombre_cliente = formData.get('marca_temporal') as string;
-        let concepto = formData.get('nombre_producto_servicio') as string;
-    let pagoStr = formData.get('correo_empleado') as string;
+        let nombre_cliente = formData.get('nombre_cliente') as string;
+        let concepto = formData.get('concepto') as string;
+    let pagoStr = formData.get('pago') as string;
     let pago = Number(pagoStr);
 
     let producto = await getClienteHonorarios(nombre_cliente.toString());
