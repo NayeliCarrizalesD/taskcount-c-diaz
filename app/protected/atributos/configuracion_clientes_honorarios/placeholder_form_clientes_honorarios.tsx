@@ -6,25 +6,23 @@ import { redirect } from "next/navigation";
 import { AiOutlineTag } from "react-icons/ai";
 
 
-export default function FormularioClientesHonorarios() {
-  
+export default function FormularioClientesHonorarios() {  
     async function CreateCosto(formData: FormData) {
         'use server';
         
         let nombre_cliente = formData.get('marca_temporal') as string;
         let concepto = formData.get('nombre_producto_servicio') as string;
-        let pago = formData.get('correo_empleado') as unknown as number;
-       
+    let pagoStr = formData.get('correo_empleado') as string;
+    let pago = Number(pagoStr);
 
-        let producto = await getClienteHonorarios(nombre_cliente.toString());
-    
-        if (producto.length > 0) {
-            return console.log('La configuracion ya existe');              
-                // TODO: Handle errors with useFormStatus - return 'Costo ya existe';
-        } else {
-            await createCosto(nombre_cliente.toString(), concepto.toString(), pago);
-            redirect('/protected/catalogo_productos'); // Redirigir a la página de registro de productos
-        }             
+    let producto = await getClienteHonorarios(nombre_cliente.toString());
+
+    if (producto.length > 0) {
+        return console.log('La configuracion ya existe');              
+    } else {
+        await createCosto(nombre_cliente, concepto, pago);
+        redirect('/protected/catalogo_productos'); // Redirigir a la página de registro de productos
+    }             
     }
 
     return (
