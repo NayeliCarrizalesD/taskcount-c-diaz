@@ -19,7 +19,7 @@ export const SelectConcepto = async () => {
     >
         <option value={""}>Seleccione una opción</option>
         {clienteNombre.map((cliente: any) => (
-        <option key={cliente.nombre_cliente} value={cliente.nombre_cliente}>{cliente.nombre_cliente}</option>   
+        <option key={cliente.nombre_producto_servicio} value={cliente.nombre_producto_servicio}>{cliente.nombre_producto_servicio}</option>   
     ))}
     </select>   
   );
