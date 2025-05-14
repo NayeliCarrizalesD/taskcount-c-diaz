@@ -1,7 +1,6 @@
 
 import { FormConfigClienteHonorarios } from "@/app/formularios/formConfigClienteHonorarios";
-import { FormRegistroProductos } from "@/app/formularios/formProducto";
-import { createNewProduct, getProducto } from "@/app/schema";
+import { createCosto, getClienteHonorarios } from "@/app/schema";
 import { SubmitButton } from "@/app/submit-button";
 import { redirect } from "next/navigation";
 import { AiOutlineTag } from "react-icons/ai";
@@ -9,21 +8,21 @@ import { AiOutlineTag } from "react-icons/ai";
 
 export default function FormularioClientesHonorarios() {
   
-    async function CatalogoProductos(formData: FormData) {
+    async function CreateCosto(formData: FormData) {
         'use server';
         
-        let marca_temporal = formData.get('marca_temporal') as string;
-        let nombre_producto_servicio = formData.get('nombre_producto_servicio') as string;
-        let correo_empleado = formData.get('correo_empleado') as string;
+        let nombre_cliente = formData.get('marca_temporal') as string;
+        let concepto = formData.get('nombre_producto_servicio') as string;
+        let pago = formData.get('correo_empleado') as unknown as number;
        
 
-        let producto = await getProducto(nombre_producto_servicio.toString());
+        let producto = await getClienteHonorarios(nombre_cliente.toString());
     
         if (producto.length > 0) {
-            return console.log('El producto ya existe');              
+            return console.log('La configuracion ya existe');              
                 // TODO: Handle errors with useFormStatus - return 'Costo ya existe';
         } else {
-            await createNewProduct(marca_temporal, nombre_producto_servicio, correo_empleado);
+            await createCosto(nombre_cliente, concepto, pago);
             redirect('/protected/catalogo_productos'); // Redirigir a la página de registro de productos
         }             
     }
@@ -40,7 +39,7 @@ export default function FormularioClientesHonorarios() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-                <FormConfigClienteHonorarios action={CatalogoProductos}>
+                <FormConfigClienteHonorarios action={CreateCosto}>
                     <SubmitButton>Registrar</SubmitButton>
                 </FormConfigClienteHonorarios>
                 
