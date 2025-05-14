@@ -40,7 +40,7 @@ const TransitionLink = ({
 }) => {
   return (
     <li>
-      <Link href={href} className={`flex items-center p-2 text-gray-900 rounded-full dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}>
+      <Link href={href} className={`flex items-center p-2 rounded-full dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group`}>
         <Icon/>
         <span className="ms-3">{title}</span>
       </Link>

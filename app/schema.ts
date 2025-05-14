@@ -245,7 +245,7 @@ export const catalogo_productos = pgTable('catalogo_productos', {
     correo_empleado: text('correo_empleado')
 });
 
-// Registro del costo de fletes
+// Registro del costo de configuracion de clientes honorarios
 
 export async function getClienteHonorarios(nombre_cliente: string) {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
@@ -278,17 +278,17 @@ async function ensureTableConfigClienteHonorarioExists() {
       );`;
   }
 
-  const table = pgTable('configClienteHonorario', {
+  const configClienteHonorario = pgTable('configClienteHonorario', {
     id_cliente_honorario: serial('id_cliente_honorario').primaryKey(),
     nombre_cliente: text('nombre_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago')
   });
 
-  return table;
+  return configClienteHonorario;
 }
 
-export const costoflete = pgTable('configClienteHonorario', {
+export const configClienteHonorario = pgTable('configClienteHonorario', {
   id_cliente_honorario: serial('id_cliente_honorario').primaryKey(),
     nombre_cliente: text('nombre_cliente'),
     concepto: text('concepto'),
