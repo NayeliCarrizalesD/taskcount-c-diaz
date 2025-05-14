@@ -1,11 +1,11 @@
 
-import { getTodosClientes } from '@/app/schema';
+import { getTodosProducto } from '@/app/schema';
 
 export const SelectConcepto = async () => {
   let clienteNombre: any[] = [];
 
   try {
-    clienteNombre = await getTodosClientes();      
+    clienteNombre = await getTodosProducto();      
     }
     catch (error) {
       console.error(error);

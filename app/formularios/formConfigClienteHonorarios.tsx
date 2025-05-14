@@ -1,4 +1,5 @@
 import { SelectConcepto } from "../protected/atributos/selectConcepto";
+import { SelectNombreClienteTodos } from "../protected/atributos/SelectNombreCliente";
 
 
 export function FormConfigClienteHonorarios({
@@ -20,6 +21,7 @@ export function FormConfigClienteHonorarios({
           >
             nombre cliente
           </label>
+          <SelectNombreClienteTodos/>
       
         </div>
         <div>
