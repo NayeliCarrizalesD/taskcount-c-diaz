@@ -22,7 +22,7 @@ export default function FormularioClientesHonorarios() {
             return console.log('La configuracion ya existe');              
                 // TODO: Handle errors with useFormStatus - return 'Costo ya existe';
         } else {
-            await createCosto(nombre_cliente, concepto, pago);
+            await createCosto(nombre_cliente.toString(), concepto.toString(), pago);
             redirect('/protected/catalogo_productos'); // Redirigir a la página de registro de productos
         }             
     }
