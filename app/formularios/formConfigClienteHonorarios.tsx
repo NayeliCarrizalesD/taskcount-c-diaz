@@ -16,7 +16,7 @@ export function FormConfigClienteHonorarios({
       >
         <div>
           <label
-            htmlFor="fecha_alta"
+            htmlFor="nombre_cliente"
             className="block text-xs text-white uppercase"
           >
             nombre cliente
@@ -26,7 +26,7 @@ export function FormConfigClienteHonorarios({
         </div>
         <div>
           <label
-            htmlFor="telefono_usuario"
+            htmlFor="concepto"
             className="block text-xs text-white uppercase"
           >
             concepto
@@ -36,14 +36,14 @@ export function FormConfigClienteHonorarios({
         
         <div>
           <label
-            htmlFor="telefono_usuario"
+            htmlFor="pago"
             className="block text-xs text-white uppercase"
           >
             cantidad
           </label>
           <input
-            id="telefono_usuario"
-            name="telefono_usuario"
+            id="pago"
+            name="pago"
             required
             className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
           />
