@@ -36,12 +36,7 @@ export function FormRegistroPagoCliente({
           />
         </div>
         <div>
-          <label
-            htmlFor="rfc"
-            className="block text-xs uppercase"
-          >
-            rfc 
-          </label>
+          
           <InfoClientePago/>
         </div>
         <div>
