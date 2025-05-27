@@ -5,7 +5,8 @@ import { getUsuario } from "@/app/schema";
 import { SideBarN1 } from "../atributos/sidebar/sidebar_nivel1/sidebar_n1";
 import { SideBarN2 } from "../atributos/sidebar/sidebar_nivel2/sidebar_n2";
 import { SideBarN3 } from "../atributos/sidebar/sidebar_nivel3/sidebar_n3";
-import { RegistroProductos } from "../atributos/registro_conceptos_producto_servicio/registro_productos";
+
+import { RegistroPagoHOnorarios } from "../atributos/registro_pagos/registro_pago_honorarios";
 
 export default async function ProtectedRegistroPagoHonorarios() {
   let session = await auth();
@@ -34,7 +35,7 @@ export default async function ProtectedRegistroPagoHonorarios() {
       {nivelUsuario ==='n2' ?<SideBarN2/>: "" }
       {nivelUsuario ==='n3' ?<SideBarN3/>: "" }
 
-      <RegistroProductos />
+        <RegistroPagoHOnorarios />
    
     </main>   
     );
