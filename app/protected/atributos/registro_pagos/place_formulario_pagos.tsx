@@ -33,7 +33,7 @@ export default function FormularioRegistroPagoHonorarios() {
             <div className="p-4">
                 <h3 className="flex items-center text-lg gap-1.5 font-medium">
                     <AiOutlineTag />
-                    Conceptos
+                    PAgo honorarios 
                 </h3>
                 <h3 className="font-normal">
                     Registrar un concepto en el catalogo de productos y servicios

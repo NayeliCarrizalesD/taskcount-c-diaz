@@ -1,5 +1,6 @@
 import { InputCorreoUsuario } from "../protected/atributos/inputCorreoUsuario";
 import { MarcaTemporal } from "../protected/atributos/marca_temporal";
+import { InfoClientePago } from "../protected/atributos/registro_pagos/Info_resgistro_pago";
 
 export function FormRegistroPagoCliente({
     action,
@@ -41,12 +42,7 @@ export function FormRegistroPagoCliente({
           >
             rfc 
           </label>
-          <input
-          type="text"
-            id="rfc"
-            name="rfc"
-            className="mt-1 block uppercase w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-            /> 
+          <InfoClientePago/>
         </div>
         <div>
           <label
