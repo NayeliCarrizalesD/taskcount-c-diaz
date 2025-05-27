@@ -253,6 +253,12 @@ export async function getClienteHonorarios(nombre_cliente: string) {
 }
 
 
+export async function getClienteHonorariosTodos() {
+  const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
+  return await db.select().from(configClienteHonorario);
+}
+
+
 export async function createCosto(nombre_cliente: string, concepto: string, pago1: number) {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
   const pago = pago1.toString();
@@ -293,6 +299,65 @@ export const configClienteHonorario = pgTable('configClienteHonorario', {
     nombre_cliente: text('nombre_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago')
+});
+
+// Registro del costo de configuracion de clientes honorarios
+
+export async function getRegistroPago(nombre_cliente: string) {
+  const registroPago = await ensureTableRegistroPagoExists();
+  return await db.select().from(registroPago).where(eq(registroPago.nombre_cliente, nombre_cliente));
+}
+
+
+export async function createRegistroPago( nombre_cliente: string, concepto: string, pago1: number, mes_pago: string, marca_temporal: string, correo_empleado: string) {
+  const registroPago = await ensureTableRegistroPagoExists();
+  const pago = pago1.toString();
+  return await db.insert(registroPago).values([{ nombre_cliente, concepto, pago, mes_pago, marca_temporal, correo_empleado }]);
+}
+
+
+async function ensureTableRegistroPagoExists() {
+  const result = await client`
+    SELECT EXISTS (
+      SELECT FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_name = 'registroPago'
+    );`;
+
+  if (!result[0].exists) {
+    await client`
+      CREATE TABLE "configClienteHonorario" (
+        id_pago SERIAL PRIMARY KEY,
+        nombre_cliente TEXT,
+        concepto TEXT,
+        pago numeric,
+        mes_pago TEXT,
+        marca_temporal TEXT,
+        correo_empleado TEXT
+      );`;
+  }
+
+  const registroPago = pgTable('registroPago', {
+    id_pago: serial('id_cliente_honorario').primaryKey(),
+    nombre_cliente: text('nombre_cliente'),
+    concepto: text('concepto'),
+    pago: numeric('pago'),
+    mes_pago : text('mes_pago'),
+    marca_temporal: text('marca_temporal'),
+    correo_empleado: text('correo_empleado') 
+  });
+
+  return registroPago;
+}
+
+export const registroPago = pgTable('registroPago', {
+  id_cliente_honorario: serial('id_cliente_honorario').primaryKey(),
+    nombre_cliente: text('nombre_cliente'),
+    concepto: text('concepto'),
+    pago: numeric('pago'),
+    mes_pago : text('mes_pago'),
+    marca_temporal: text('marca_temporal'),
+    correo_empleado: text('correo_empleado') 
 });
 
 
