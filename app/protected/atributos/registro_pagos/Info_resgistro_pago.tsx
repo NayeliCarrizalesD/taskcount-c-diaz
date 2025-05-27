@@ -1,3 +1,4 @@
+'use client';
 import { auth } from 'app/auth';
 import { getClienteHonorariosTodos, getLastEntradaSalida, getRegistroPago } from '@/app/schema';
 
