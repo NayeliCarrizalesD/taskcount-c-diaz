@@ -1,6 +1,6 @@
-'use client';
-import { auth } from 'app/auth';
-import { getClienteHonorariosTodos, getLastEntradaSalida, getRegistroPago } from '@/app/schema';
+
+//import { auth } from 'app/auth';
+//import { getClienteHonorariosTodos, getLastEntradaSalida, getRegistroPago } from '@/app/schema';
 
 //import React, { useState, useEffect } from 'react';
 
@@ -21,8 +21,8 @@ export const InfoClientePago = () => {
   }, []);*/
 
   async function cargarConcepto(event: React.ChangeEvent<HTMLSelectElement>) {
-    const nombre_cliente = event.target.value;
-    let conceptoPago: any = null;
+    //const nombre_cliente = event.target.value;
+    //let conceptoPago: any = null;
 
     /*try {
     
@@ -80,7 +80,7 @@ export const InfoClientePago = () => {
   );
 };
 
-export const TextoInputChecadorUsuario = async () => {
+{/*export const TextoInputChecadorUsuario = async () => {
   let session = await auth();
   let correo = session?.user?.email;
 
@@ -118,5 +118,5 @@ export const TextoInputChecadorUsuario = async () => {
     </>
   );
 };
-
+*/}
 
