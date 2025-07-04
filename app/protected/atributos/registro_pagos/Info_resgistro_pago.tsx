@@ -8,7 +8,7 @@ export const InfoClientePago = () => {
   const [clienteNombre, setClienteNombre] = useState<any[]>([]);
   const [pagoConcepto, setPagoConcepto] = useState<string>('');
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchClientes = async () => {
       try {
         const data = await getClienteHonorariosTodos();
@@ -18,7 +18,7 @@ export const InfoClientePago = () => {
       }
     };
     fetchClientes();
-  }, []);
+  }, []);*/
 
   async function cargarConcepto(event: React.ChangeEvent<HTMLSelectElement>) {
     const nombre_cliente = event.target.value;
