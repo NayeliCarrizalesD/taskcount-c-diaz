@@ -87,6 +87,21 @@ export function FormRegistroCliente({
           <InputCorreoUsuario/>
         </div>
 
+        <div>
+          <label
+            htmlFor="fecha_alta"
+            className="block text-xs uppercase"
+          >
+            fecha de alta del cliente 
+          </label>
+          <input
+            type="date"
+            id="fecha_alta"
+            name="fecha_alta"
+            className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            />
+        </div>
+
         {children}
       </form>
     );

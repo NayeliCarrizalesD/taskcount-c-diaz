@@ -15,13 +15,14 @@ export default function FormularioClientes() {
         let correo_cliente = formData.get('correo_cliente') as string;
         let rfc = formData.get('rfc') as string;
         let correo_empleado = formData.get('correo_empleado') as string;
+        let fecha_alta = formData.get('fecha_alta') as unknown as string;
 
         let cliente = await getClientes(nombre_cliente.toString());
     
         if (cliente.length > 0) {
             return console.log('El cliente ya existe');              
         } else {
-            await createNewClient(marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc, correo_empleado);
+            await createNewClient(marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc, correo_empleado, fecha_alta);
             redirect('/protected/catalogo_clientes'); // Redirigir a la página de registro de productos
         }             
     }

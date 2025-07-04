@@ -72,9 +72,9 @@ export async function getTodosClientes() {
   return await db.select().from(catalogoClientes).orderBy(catalogoClientes.nombre_cliente);
 }
 
-export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string) {
+export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string,fecha_alta: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.insert(catalogoClientes).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado }]);
+  return await db.insert(catalogoClientes).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado, fecha_alta }]);
 }
 
 async function ensureTableCatalogoClientesExists() {
@@ -94,7 +94,8 @@ async function ensureTableCatalogoClientesExists() {
         telefono_cliente TEXT,
         correo_cliente TEXT,
         rfc TEXT,
-        correo_empleado TEXT
+        correo_empleado TEXT,
+        fecha_alta TEXT
       );`;
   }
 
@@ -105,7 +106,8 @@ async function ensureTableCatalogoClientesExists() {
     telefono_cliente: text('telefono_cliente'),
     correo_cliente: text('correo_cliente'),
     rfc: text('rfc'),
-    correo_empleado: text('correo_empleado')
+    correo_empleado: text('correo_empleado'),
+    fecha_alta: text('fecha_alta')
   });
 
   return tableCatalogo_clientes;
@@ -118,7 +120,8 @@ export const catalogo_clientes = pgTable('catalogo_clientes', {
     telefono_cliente: text('telefono_cliente'),
     correo_cliente: text('correo_cliente'),
     rfc: text('rfc'),
-    correo_empleado: text('correo_empleado')
+    correo_empleado: text('correo_empleado'),
+    fecha_alta: text('fecha_alta')
 });
 
 
