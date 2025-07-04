@@ -2,11 +2,11 @@
 import { auth } from 'app/auth';
 import { getClienteHonorariosTodos, getLastEntradaSalida, getRegistroPago } from '@/app/schema';
 
-import React, { useState, useEffect } from 'react';
+//import React, { useState, useEffect } from 'react';
 
 export const InfoClientePago = () => {
-  const [clienteNombre, setClienteNombre] = useState<any[]>([]);
-  const [pagoConcepto, setPagoConcepto] = useState<string>('');
+ /* const [clienteNombre, setClienteNombre] = useState<any[]>([]);
+  const [pagoConcepto, setPagoConcepto] = useState<string>('');*/
 
   /*useEffect(() => {
     const fetchClientes = async () => {
@@ -24,7 +24,7 @@ export const InfoClientePago = () => {
     const nombre_cliente = event.target.value;
     let conceptoPago: any = null;
 
-    try {
+    /*try {
     
         const usuarioCheck = await getRegistroPago(nombre_cliente);
         conceptoPago = usuarioCheck;
@@ -37,7 +37,7 @@ export const InfoClientePago = () => {
       setPagoConcepto('');
     }
 
-    console.log("Cargando concepto para el cliente:", nombre_cliente);
+    console.log("Cargando concepto para el cliente:", nombre_cliente);*/
   }
 
   return (
@@ -53,10 +53,10 @@ export const InfoClientePago = () => {
           required
           className="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
-          <option value={""}>Seleccione una opción</option>
+          {/*<option value={""}>Seleccione una opción</option>
           {clienteNombre.map((cliente: any) => (
             <option key={cliente.nombre_cliente} value={cliente.nombre_cliente}>{cliente.nombre_cliente}</option>
-          ))}
+          ))}*/}
         </select>
       </div>
 
@@ -70,7 +70,7 @@ export const InfoClientePago = () => {
           name="checador"
           required
           defaultValue="Entrada"
-          value={pagoConcepto}
+          //value={pagoConcepto}
           readOnly
           type="text"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
