@@ -1,9 +1,10 @@
 import { dbTablas, catalogo_clientes } from "@/app/schema";
+import { desc } from "drizzle-orm";
 
 export default async function TablaClientes() {
     let cliente: any[] = [];
     try {
-        cliente = await dbTablas.select().from(catalogo_clientes).orderBy(catalogo_clientes.nombre_cliente);
+        cliente = await dbTablas.select().from(catalogo_clientes).orderBy(desc(catalogo_clientes.nombre_cliente));
     }
     catch (e: any) {
         console.error(e);
