@@ -69,7 +69,7 @@ export async function getClientes(nombre_cliente: string) {
 }
 export async function getTodosClientes() {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.select().from(catalogoClientes);
+  return await db.select().from(catalogoClientes).orderBy(desc(catalogoClientes.nombre_cliente));
 }
 
 export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string) {
