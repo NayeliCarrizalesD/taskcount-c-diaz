@@ -19,7 +19,7 @@ export default async function TablaClientes() {
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>RFC</th>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre / Razon Social </th>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Telefono</th> 
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Correo</th> 
+                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Fecha Alta</th> 
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Registrado por:</th>
                     </tr>
                 </thead>
@@ -29,7 +29,7 @@ export default async function TablaClientes() {
                             <td className="p-4">{cliente.rfc}</td>
                             <td className="p-4">{cliente.nombre_cliente}</td>
                             <td className="p-4">{cliente.telefono_cliente}</td>
-                            <td className="p-4">{cliente.correo_cliente}</td>
+                            <td className="p-4">{cliente.fecha_alta}</td>
                             <td className="p-4">{cliente.correo_empleado}</td>
                         </tr>
                     ))}
