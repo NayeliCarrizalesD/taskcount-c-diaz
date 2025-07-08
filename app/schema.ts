@@ -304,7 +304,7 @@ export const configClienteHonorario = pgTable('configClienteHonorario', {
     pago: numeric('pago')
 });
 
-// Registro del costo de configuracion de clientes honorarios
+// Registro del pago que se le hace a los clientes 
 
 export async function getRegistroPago(nombre_cliente: string) {
   const registroPago = await ensureTableRegistroPagoExists();

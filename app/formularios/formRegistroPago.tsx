@@ -1,6 +1,8 @@
 import { InputCorreoUsuario } from "../protected/atributos/inputCorreoUsuario";
 import { MarcaTemporal } from "../protected/atributos/marca_temporal";
-import { InfoClientePago } from "../protected/atributos/registro_pagos/Info_resgistro_pago";
+import { SelectConcepto } from "../protected/atributos/selectConcepto";
+import { SelectMes } from "../protected/atributos/selectMesPago";
+import { SelectNombreClienteTodos } from "../protected/atributos/selectNombreCliente";
 
 export function FormRegistroPagoCliente({
     action,
@@ -27,45 +29,43 @@ export function FormRegistroPagoCliente({
           >
             nombre cliente
           </label>
-          <input
-            type="text"
-            id="nombre_cliente"
-            name="nombre_cliente"
-            required
-            className="mt-1 block uppercase w-full text-black appearance-none rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-          />
+          <SelectNombreClienteTodos/>
         </div>
-        <div>
-          
-          <InfoClientePago/>
+        <div> 
         </div>
         <div>
           <label
             htmlFor="telefono_cliente"
             className="block text-xs uppercase"
           >
-            telefono cliente
+            concepto
           </label>
-          <input
-          type="number"
-            id="telefono_cliente"
-            name="telefono_cliente"
-            className="mt-1 uppercase block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-          />
+          <SelectConcepto/>
         </div>
         <div>
           <label
-            htmlFor="correo_cliente"
+            htmlFor="pago"
             className="block text-xs uppercase"
           >
-            correo cliente 
+            Cantidad a pagar 
           </label>
           <input
             type="text"
-            id="correo_cliente"
-            name="correo_cliente"
+            id="pago"
+            name="pago"
             className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
             />
+        </div>
+
+        <div>
+          <label
+            htmlFor="mes_pago"
+            className="block text-xs uppercase"
+          >
+            Mes a pagar 
+          </label>
+          
+          <SelectMes/>
         </div>
         
         <div>
@@ -73,7 +73,7 @@ export function FormRegistroPagoCliente({
             htmlFor="correo_empleado"
             className="block text-xs uppercase"
           >
-            correo de la persona que registra al cliente 
+            correo de la persona que registra el pago cliente 
           </label>
           <InputCorreoUsuario/>
         </div>
