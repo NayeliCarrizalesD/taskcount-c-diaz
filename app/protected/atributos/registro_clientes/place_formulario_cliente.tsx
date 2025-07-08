@@ -28,7 +28,7 @@ export default function FormularioClientes() {
     }
 
     return (
-        <div className="lg:col-span-5 sm:col-span-12 overflow-hidden rounded-3xl bg-slate-700 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
+        <div className="lg:col-span-5 sm:col-span-12 overflow-hidden rounded-3xl bg-slate-800 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
             <div className="p-4">
                 <h3 className="flex items-center text-lg gap-1.5 font-medium">
                     <FiFolder />
