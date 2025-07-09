@@ -18,10 +18,9 @@ export function FormRegistroPagoCliente({
         className="flex flex-col space-y-4 bg-slate-800 px-2 py-5 sm:px-4"
       >
         <div className="invisible h-[1px]">
-          
-          <MarcaTemporal/>
-        
+          <MarcaTemporal/>        
         </div>
+
         <div>
           <label
             htmlFor="nombre_cliente"
@@ -42,15 +41,17 @@ export function FormRegistroPagoCliente({
           </label>
           <SelectConcepto/>
         </div>
+
         <div>
           <label
             htmlFor="pago"
             className="block text-xs uppercase"
           >
-            Cantidad a pagar 
+            Cantidad a pagar $
           </label>
           <input
-            type="text"
+            type="number"
+            step="any"
             id="pago"
             name="pago"
             className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
@@ -67,13 +68,29 @@ export function FormRegistroPagoCliente({
           
           <SelectMes/>
         </div>
+
+        <div>
+          <label
+            htmlFor="year_pago"
+            className="block text-xs uppercase"
+          >
+            Año de Pago 
+          </label>
+          <input
+            type="number"
+            step="any"
+            id="year_pago"
+            name="year_pago"
+            className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            />
+        </div>
         
         <div>
           <label
             htmlFor="correo_empleado"
             className="block text-xs uppercase"
           >
-            correo de la persona que registra el pago cliente 
+            correo de la persona que registra el pago
           </label>
           <InputCorreoUsuario/>
         </div>

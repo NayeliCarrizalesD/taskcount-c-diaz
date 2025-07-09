@@ -312,10 +312,11 @@ export async function getRegistroPago(nombre_cliente: string) {
 }
 
 
-export async function createRegistroPago( nombre_cliente: string, concepto: string, pago1: number, mes_pago: string, marca_temporal: string, correo_empleado: string) {
+export async function createRegistroPago( marca_temporal: string, nombre_cliente: string, concepto: string, pago: number, mes_pago: string,  year_pago: number, correo_empleado: string) {
   const registroPago = await ensureTableRegistroPagoExists();
-  const pago = pago1.toString();
-  return await db.insert(registroPago).values([{ nombre_cliente, concepto, pago, mes_pago, marca_temporal, correo_empleado }]);
+  const pagoStr = pago.toString();
+  const year_pagoStr = year_pago.toString();
+  return await db.insert(registroPago).values([{ marca_temporal, nombre_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado }]);
 }
 
 
@@ -329,24 +330,26 @@ async function ensureTableRegistroPagoExists() {
 
   if (!result[0].exists) {
     await client`
-      CREATE TABLE "configClienteHonorario" (
+      CREATE TABLE "registroPago" (
         id_pago SERIAL PRIMARY KEY,
+        marca_temporal TEXT,
         nombre_cliente TEXT,
         concepto TEXT,
         pago numeric,
         mes_pago TEXT,
-        marca_temporal TEXT,
+        year_pago TEXT,
         correo_empleado TEXT
       );`;
   }
 
   const registroPago = pgTable('registroPago', {
-    id_pago: serial('id_cliente_honorario').primaryKey(),
+    id_pago: serial('id_pago').primaryKey(),
+    marca_temporal: text('marca_temporal'),
     nombre_cliente: text('nombre_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago'),
     mes_pago : text('mes_pago'),
-    marca_temporal: text('marca_temporal'),
+    year_pago : text('year_pago'),
     correo_empleado: text('correo_empleado') 
   });
 
@@ -354,12 +357,13 @@ async function ensureTableRegistroPagoExists() {
 }
 
 export const registroPago = pgTable('registroPago', {
-  id_cliente_honorario: serial('id_cliente_honorario').primaryKey(),
+  id_pago: serial('id_pago').primaryKey(),
+    marca_temporal: text('marca_temporal'),
     nombre_cliente: text('nombre_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago'),
     mes_pago : text('mes_pago'),
-    marca_temporal: text('marca_temporal'),
+    year_pago : text('year_pago'),
     correo_empleado: text('correo_empleado') 
 });
 
