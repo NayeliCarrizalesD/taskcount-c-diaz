@@ -306,9 +306,9 @@ export const configClienteHonorario = pgTable('configClienteHonorario', {
 
 // Registro del pago que se le hace a los clientes 
 
-export async function getRegistroPago(nombre_cliente: string) {
+export async function getRegistroPago(marca_temporal: string) {
   const registroPago = await ensureTableRegistroPagoExists();
-  return await db.select().from(registroPago).where(eq(registroPago.nombre_cliente, nombre_cliente));
+  return await db.select().from(registroPago).where(eq(registroPago.marca_temporal, marca_temporal));
 }
 
 
