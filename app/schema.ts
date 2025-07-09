@@ -311,6 +311,10 @@ export async function getRegistroPago(marca_temporal: string) {
   return await db.select().from(registroPago).where(eq(registroPago.marca_temporal, marca_temporal));
 }
 
+export async function getPagosTodos() {
+  const registroPago = await ensureTableRegistroPagoExists();
+  return await db.select().from(registroPago);
+}
 
 export async function createRegistroPago( marca_temporal: string, nombre_cliente: string, concepto: string, pago: number, mes_pago: string,  year_pago: number, correo_empleado: string) {
   const registroPago = await ensureTableRegistroPagoExists();
