@@ -1,6 +1,6 @@
 import { pgTable, numeric, serial, text } from "drizzle-orm/pg-core";
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { eq, desc } from 'drizzle-orm';
+import { eq, desc, and, sum } from 'drizzle-orm';
 import postgres from 'postgres';
 
 
@@ -314,6 +314,11 @@ export async function getRegistroPago(marca_temporal: string) {
 export async function getPagosTodos() {
   const registroPago = await ensureTableRegistroPagoExists();
   return await db.select().from(registroPago);
+}
+
+export async function getPagosPorCliente(nombre_cliente: string) {
+  const registroPago = await ensureTableRegistroPagoExists();
+  return await db.select({value: sum(registroPago.pago)}).from(registroPago).where(eq(registroPago.nombre_cliente, nombre_cliente));
 }
 
 export async function createRegistroPago( marca_temporal: string, nombre_cliente: string, concepto: string, pago: number, mes_pago: string,  year_pago: number, correo_empleado: string) {
