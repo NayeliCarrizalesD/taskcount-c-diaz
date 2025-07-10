@@ -1,22 +1,26 @@
+"use client";
+import { useEffect, useState } from 'react';
 
-import {  getTodosClientes } from '@/app/schema';
+export const SelectClienteOnChange = () => {
+  const  [clienteNombre, setClienteNombre] = useState<any[]>([]);
 
-export const SelectClienteOnChange = async () => {
-  let clienteNombre: any[] = [];
-  let clienteSelecionado : "";
-  const selecionarCliente = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const selectedCliente = e.target.value; 
-    console.log("Cliente seleccionado:", selectedCliente);
-    // Aquí puedes manejar el cambio, por ejemplo, actualizar el estado o hacer una llamada a la API
-
-  };
-  
-    try {
-      clienteNombre = await getTodosClientes();      
-      }
-      catch (error) {
+  useEffect(() => {
+    const fetchClientes = async () => {
+      try {
+        const res = await fetch("api/clientes");
+        const data = await res.json();
+        setClienteNombre(data);
+      } catch (error) {
         console.error(error);
       }
+    };
+    fetchClientes();
+  }, []);
+
+   function selecionarCliente(e: React.ChangeEvent<HTMLSelectElement>) {
+  const selectedCliente = e.target.value;
+  console.log("Cliente seleccionado:", selectedCliente);
+}
 
 
     return ( 
