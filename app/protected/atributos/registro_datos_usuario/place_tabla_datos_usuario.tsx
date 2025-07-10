@@ -1,4 +1,4 @@
-import { SelectClienteOnChange } from "../selectClienteFuncion";
+
 import TablaDatosUsuarios from "./tabla_datos_usuario";
 
 export async function PlaceholderTablaDatosUsuario() {
@@ -14,7 +14,7 @@ export async function PlaceholderTablaDatosUsuario() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-                <SelectClienteOnChange/>
+               
              <TablaDatosUsuarios />
             </div>
         </div>
