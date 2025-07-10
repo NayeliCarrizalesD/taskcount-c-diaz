@@ -1,3 +1,4 @@
+import { SelectClienteOnChange } from "../selectClienteFuncion";
 import TablaPagosHonorarios from "./tabla_resgitro_pago";
 
 
@@ -14,6 +15,7 @@ export async function PlaceholderTablaPagosHonorarios() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
+                 <SelectClienteOnChange/>
              <TablaPagosHonorarios />
             </div>
         </div>
