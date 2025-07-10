@@ -7,7 +7,7 @@ export const SelectClienteOnChange = () => {
   useEffect(() => {
     const fetchClientes = async () => {
       try {
-        const res = await fetch("api/clientes");
+        const res = await fetch("/api/clientes");
         const data = await res.json();
         setClienteNombre(data);
       } catch (error) {
