@@ -1,8 +1,11 @@
+"use client";
 import { SelectClienteOnChange } from "../selectClienteFuncion";
-import TablaPagosHonorarios from "./tabla_resgitro_pago";
+import {TablaPagosHonorarios} from "./tabla_resgitro_pago";
 
+import { useState } from 'react';
 
-export async function PlaceholderTablaPagosHonorarios() {
+export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTabla: any[]}) {
+    const [clienteSeleccionado, setClienteSeleccionado] = useState<string>("");
 
     return (
         <div className="lg:col-span-8 sm:col-span-12 overflow-hidden rounded-3xl bg-zinc-800 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
@@ -15,8 +18,14 @@ export async function PlaceholderTablaPagosHonorarios() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-                 <SelectClienteOnChange/>
-             <TablaPagosHonorarios />
+                <SelectClienteOnChange 
+                  clienteSeleccionado={clienteSeleccionado}
+                  setClienteSeleccionado={setClienteSeleccionado}
+                />
+                <TablaPagosHonorarios
+                  clienteSeleccionado={clienteSeleccionado}
+                  datosTabla={datosTabla} 
+                />
             </div>
         </div>
     )
