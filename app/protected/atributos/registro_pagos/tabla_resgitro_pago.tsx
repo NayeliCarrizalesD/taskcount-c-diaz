@@ -1,8 +1,19 @@
-import { getPagosTodos } from "@/app/schema";
+"use client";
+//import { getPagosTodos } from "@/app/schema";
 
-export default async function TablaPagosHonorarios() {
-   
-    let pagosTotales: any[] = [];
+export const TablaPagosHonorarios = ({
+    clienteSeleccionado,
+    datosTabla,
+}: {
+    clienteSeleccionado: string;
+    datosTabla: any[];
+}
+): JSX.Element => {
+    const datosFiltrados = clienteSeleccionado
+    ? datosTabla.filter((item) => item.nombre_cliente === clienteSeleccionado)
+    : datosTabla;
+
+    /*let pagosTotales: any[] = [];
     //let checadorUsuario: string | undefined;
     
     try {  
@@ -10,7 +21,7 @@ export default async function TablaPagosHonorarios() {
         pagosTotales = pagos; 
     } catch (error) {
         console.error(error);   
-    }
+    }*/
 
     return (
         <>
@@ -27,7 +38,18 @@ export default async function TablaPagosHonorarios() {
                         </tr>
                     </thead>
                     <tbody>
-                        {pagosTotales && pagosTotales.map((check: any, index: number) => (
+                        {datosFiltrados && datosFiltrados.map((item) => (
+                            <tr className={item % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={item.id_entrada}>
+                                <td className="p-4">{item.nombre_cliente}</td>
+                                <td className="p-4">{item.concepto}</td>
+                                <td className="p-4">{item.pago}</td>
+                                <td className="p-4">{item.mes_pago}</td>
+                                <td className="p-4">{item.year_pago}</td>
+                                <td className="p-4">{item.correo_empleado}</td>
+                                
+                            </tr>
+                        ))}
+                        {/*{pagosTotales && pagosTotales.map((check: any, index: number) => (
                             <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={check.id_entrada}>
                                 <td className="p-4">{check.nombre_cliente}</td>
                                 <td className="p-4">{check.concepto}</td>
@@ -37,7 +59,7 @@ export default async function TablaPagosHonorarios() {
                                 <td className="p-4">{check.correo_empleado}</td>
                                 
                             </tr>
-                        ))}
+                        ))}*/}
                     </tbody>
                 </table>
                 <nav className="flex items-center my-3 mx-2 flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">

@@ -1,8 +1,14 @@
 "use client";
 import { useEffect, useState } from 'react';
 
-export const SelectClienteOnChange = () => {
-  const  [clienteNombre, setClienteNombre] = useState<any[]>([]);
+export const SelectClienteOnChange = ({
+  clienteSeleccionado,
+  setClienteSeleccionado,
+}: {
+  clienteSeleccionado: string;
+  setClienteSeleccionado: (cliente: string) => void;
+}) => {
+  const [clienteNombre, setClienteNombre] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchClientes = async () => {
@@ -17,16 +23,17 @@ export const SelectClienteOnChange = () => {
     fetchClientes();
   }, []);
 
-   function selecionarCliente(e: React.ChangeEvent<HTMLSelectElement>) {
-  const selectedCliente = e.target.value;
-  console.log("Cliente seleccionado:", selectedCliente);
-}
+  function selecionarCliente(e: React.ChangeEvent<HTMLSelectElement>) {
+    setClienteSeleccionado(e.target.value);
+  }
+
 
 
     return ( 
       <select
       id="nombre_cliente"
       name="nombre_cliente"
+      value={clienteSeleccionado}
       onChange={selecionarCliente}
       required
       className="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
