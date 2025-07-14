@@ -1,15 +1,15 @@
 "use client";
 //import { getPagosTodos } from "@/app/schema";
 
-export const TablaPagosHonorarios = ({
-    clienteSeleccionado,
-    datosTabla,
+export function TablaPagosHonorarios({
+  clienteSeleccionado,
+  datosTabla,
 }: {
-    clienteSeleccionado: string;
-    datosTabla: any[];
-}
-): JSX.Element => {
-    const datosFiltrados = clienteSeleccionado
+  clienteSeleccionado: string;
+  datosTabla: any[];
+}) {
+  // Filtra los datos por el cliente seleccionado
+  const datosFiltrados = clienteSeleccionado
     ? datosTabla.filter((item) => item.nombre_cliente === clienteSeleccionado)
     : datosTabla;
 
