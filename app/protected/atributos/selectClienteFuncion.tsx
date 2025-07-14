@@ -25,6 +25,7 @@ export const SelectClienteOnChange = ({
 
   function selecionarCliente(e: React.ChangeEvent<HTMLSelectElement>) {
     setClienteSeleccionado(e.target.value);
+    console.log("Cliente seleccionado:", e.target.value);
   }
 
 
