@@ -7,7 +7,7 @@ export const InputCorreoUsuario = () => {
     useEffect(() => {
         const fetchCorreo = async () => {
             try {
-                const res = await fetch("/api/correo-usuario");
+                const res = await fetch("/api/correoUsuario");
                 const data = await res.json();
                 setCorreo(data.email);
             } catch (error) {
