@@ -1,14 +1,28 @@
-import { auth } from 'app/auth';
+"use client";
+import { useEffect, useState } from "react";
 
-export const InputCorreoUsuario = async () => {
-  let session = await auth();
+export const InputCorreoUsuario = () => {
+    const [correo, setCorreo] = useState("");
+
+    useEffect(() => {
+        const fetchCorreo = async () => {
+            try {
+                const res = await fetch("/api/correo-usuario");
+                const data = await res.json();
+                setCorreo(data.email);
+            } catch (error) {
+                setCorreo("");
+            }
+        };
+        fetchCorreo();
+    }, []);
 
   return ( 
 
     <input
     id="correo_empleado"
     name="correo_empleado"
-    value={session?.user?.email ?? ''}
+    value={correo}
     required
     readOnly
     type="email"
