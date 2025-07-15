@@ -11,7 +11,7 @@ export const GridRegistroPagoHonorarios = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/clientes"); // Cambia aquí a tu API route
+                const res = await fetch("/api/pagos"); // Cambia aquí a tu API route
                 const datos = await res.json();
                 setDatosTabla(datos);
             } catch (error) {
