@@ -3,7 +3,6 @@ import { createRegistroPago, getRegistroPago } from "@/app/schema";
 
 export async function POST(request: Request) {
     const body = await request.json();
-
     let producto = await getRegistroPago(body.nombre_cliente.toString());
 
     if (producto.length > 0) {
