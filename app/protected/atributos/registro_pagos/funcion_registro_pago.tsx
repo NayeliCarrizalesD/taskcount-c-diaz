@@ -1,4 +1,15 @@
-"use server"
+export async function createRegistroPagoHonorarios(formData: FormData) {
+    const data = Object.fromEntries(formData.entries());
+    const res = await fetch("/api/registroPago", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+    return await res.json();
+}
+
+
+/*"use server"
 import { createRegistroPago, getRegistroPago } from "@/app/schema";
 import { redirect } from "next/navigation";
 
@@ -21,3 +32,5 @@ export async function createRegistroPagoHonorarios(formData: FormData) {
            redirect('/protected/config_clientes_honorarios'); // Redirigir a la página de registro de productos
        }             
        }
+      
+      */
