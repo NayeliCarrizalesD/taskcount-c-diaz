@@ -1,15 +1,22 @@
+"use client";
+import { useEffect, useState } from "react";
 
-import { getTodosProducto } from '@/app/schema';
+export const SelectConcepto = () => {
+    const [conceptos, setConceptos] = useState<any[]>([]);
 
-export const SelectConcepto = async () => {
-  let clienteNombre: any[] = [];
+    useEffect(() => {
+        const fetchConceptos = async () => {
+            try {
+                const res = await fetch("/api/conceptos");
+                const data = await res.json();
+                setConceptos(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchConceptos();
+    }, []);
 
-  try {
-    clienteNombre = await getTodosProducto();      
-    }
-    catch (error) {
-      console.error(error);
-    }
   return ( 
     <select
     id="concepto"
@@ -18,7 +25,7 @@ export const SelectConcepto = async () => {
     className="mt-1  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
     >
         <option value={""}>Seleccione una opción</option>
-        {clienteNombre.map((cliente: any) => (
+        {conceptos.map((cliente: any) => (
         <option key={cliente.nombre_producto_servicio} value={cliente.nombre_producto_servicio}>{cliente.nombre_producto_servicio}</option>   
     ))}
     </select>   
