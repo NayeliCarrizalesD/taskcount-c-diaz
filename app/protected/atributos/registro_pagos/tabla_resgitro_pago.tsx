@@ -1,4 +1,4 @@
-"use client";
+
 //import { getPagosTodos } from "@/app/schema";
 
 export function TablaPagosHonorarios({
