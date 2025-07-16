@@ -48,7 +48,8 @@ export function FormRegistroPagoCliente({
         </div>
 
         <div>
-          <SelectMes/> 
+           <label htmlFor="mes_pago">Mes a Pagar</label>
+          <SelectMes id="mes_pago" name="mes_pago"/> 
         </div>
 
         <div>
