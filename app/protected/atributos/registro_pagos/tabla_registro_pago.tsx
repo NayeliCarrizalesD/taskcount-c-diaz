@@ -1,5 +1,4 @@
 
-//import { getPagosTodos } from "@/app/schema";
 
 export default function TablaPagosHonorarios({
   clienteSeleccionado,
@@ -12,16 +11,6 @@ export default function TablaPagosHonorarios({
   const datosFiltrados = clienteSeleccionado
     ? datosTabla.filter((item) => item.nombre_cliente === clienteSeleccionado)
     : datosTabla;
-
-    /*let pagosTotales: any[] = [];
-    //let checadorUsuario: string | undefined;
-    
-    try {  
-        const pagos = await getPagosTodos();
-        pagosTotales = pagos; 
-    } catch (error) {
-        console.error(error);   
-    }*/
 
     return (
         <>

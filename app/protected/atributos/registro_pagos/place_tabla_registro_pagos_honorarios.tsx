@@ -1,6 +1,6 @@
 "use client";
 import { SelectClienteOnChange } from "../selectClienteFuncion";
-import  TablaPagosHonorarios  from "./tabla_resgitro_pago";
+import  TablaPagosHonorarios  from "./tabla_registro_pago";
 
 import { useState } from 'react';
 
