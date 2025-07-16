@@ -24,7 +24,7 @@ export default function SumaTotalPagos() {
 
 
   return (
-   <div className="p-4 bg-zinc-900 rounded-xl text-white font-bold text-lg">
+   <div className="p-4 bg-zinc-900 rounded-full text-white font-bold text-lg">
       <label htmlFor="year_pago" className="block mb-2 text-sm font-medium">Filtrar por año:</label>
       <select
         id="year_pago"
