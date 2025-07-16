@@ -38,7 +38,7 @@ export default function TablaPagosHonorarios({
           </thead>
           <tbody>
             {pagosActuales.map((item) => (
-              <tr key={item.id_entrada}>
+              <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={item.id_entrada}>
                 <td className="p-4">{item.nombre_cliente}</td>
                 <td className="p-4">{item.concepto}</td>
                 <td className="p-4">{item.pago}</td>
