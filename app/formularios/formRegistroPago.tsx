@@ -74,11 +74,11 @@ export function FormRegistroPagoCliente({
               );
             })}
           </select>
-        </div>
+        </div>*/}
         
         <div>   
           <InputCorreoUsuario/>
-        </div>*/}
+        </div>
 
         {children}
       </form>
