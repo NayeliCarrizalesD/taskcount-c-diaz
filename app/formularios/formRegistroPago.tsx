@@ -29,7 +29,7 @@ export function FormRegistroPagoCliente({
         <div>  
           <label htmlFor="concepto">Concepto</label>
           <SelectConcepto id="concepto" name="concepto" />
-        </div>
+        </div>*/}
 
         <div>
           <label
@@ -45,7 +45,7 @@ export function FormRegistroPagoCliente({
             name="pago"
             className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
             />
-        </div>*/}
+        </div>
 
         <div>
            <label htmlFor="mes_pago">Mes a Pagar</label>
