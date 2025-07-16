@@ -2,6 +2,7 @@
 
 import React from "react";
 import FormularioChecarEntrada from "../registro_entrada_salida/place_formulario";
+import SumaTotalPagos from "../suma_de_pagos/ver_suma_de_pagos";
 
 export const CheckHora = () => {
     //const hora = new Date().getHours() + ':' + new Date().getMinutes() ;
@@ -22,6 +23,8 @@ export const CheckHora = () => {
     return (
         <div>
             <h1>Estas checando La hora actual es: </h1>
+
+            <SumaTotalPagos />
 
           
 
