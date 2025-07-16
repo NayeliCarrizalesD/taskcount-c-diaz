@@ -24,12 +24,12 @@ export function FormRegistroPagoCliente({
         <div>     
           <label htmlFor="nombre_cliente">Nombre cliente</label>
           <SelectNombreClienteTodos id="nombre_cliente" name="nombre_cliente" />
-        </div>
+        </div>*/}
         
         <div>  
           <label htmlFor="concepto">Concepto</label>
           <SelectConcepto id="concepto" name="concepto" />
-        </div>*/}
+        </div>
 
         <div>
           <label
