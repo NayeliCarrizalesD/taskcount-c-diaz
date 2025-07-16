@@ -21,15 +21,7 @@ export const ActividadPagos = () => {
 
     return (
         <div>
-            <h1>Recuento de lo generado: </h1>
-            <br></br>
-
             <SumaTotalPagos />
-
-          
-
-        
-            
         </div>
     );
 }
