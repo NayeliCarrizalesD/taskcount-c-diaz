@@ -24,21 +24,26 @@ export default function SumaTotalPagos() {
 
 
   return (
-   <div className="p-4 bg-zinc-900 rounded-full text-white font-bold text-lg">
-      <label htmlFor="year_pago" className="block mb-2 text-sm font-medium">Filtrar por año:</label>
-      <select
-        id="year_pago"
-        value={year}
-        onChange={e => setYear(Number(e.target.value))}
-        className="mb-4 p-2 rounded text-black"
-      >
-        {yearsDisponibles.map(y => (
-          <option key={y} value={y}>{y}</option>
-        ))}
-      </select>
+    <>
+     <div className="p-4 text-white font-bold text-lg">
+        <label htmlFor="year_pago" className="block mb-2 text-sm font-medium">Filtrar por año:</label>
+        <select
+            id="year_pago"
+            value={year}
+            onChange={e => setYear(Number(e.target.value))}
+            className="mb-4 p-2 rounded-full text-black"
+        >
+            {yearsDisponibles.map(y => (
+            <option key={y} value={y}>{y}</option>
+            ))}
+        </select>
+      </div>
+    <div className="p-4 bg-zinc-900 rounded-xl text-white font-bold text-lg">
+      
       <div>
         Total de pagos en {year}: ${total.toLocaleString("es-MX")}
       </div>
     </div>
+    </>
   );
 }
