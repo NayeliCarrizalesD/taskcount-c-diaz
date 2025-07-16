@@ -7,8 +7,11 @@ export default function SumaTotalPagos() {
     async function fetchPagos() {
       const res = await fetch("/api/pagos");
       const datos = await res.json();
-      // Suma todos los pagos (asegúrate que el campo sea numérico)
-      const suma = datos.reduce((acc: number, item: any) => acc + Number(item.pago || 0), 0);
+      const anioActual = new Date().getFullYear();
+      // Filtra y suma solo los pagos del año actual
+      const suma = datos
+        .filter((item: any) => Number(item.year_pago) === anioActual)
+        .reduce((acc: number, item: any) => acc + Number(item.pago || 0), 0);
       setTotal(suma);
     }
     fetchPagos();
