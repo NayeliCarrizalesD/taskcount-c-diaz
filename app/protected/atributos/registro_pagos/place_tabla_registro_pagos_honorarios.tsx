@@ -1,6 +1,6 @@
 "use client";
 import { SelectClienteOnChange } from "../selectClienteFuncion";
-import TablaPagosHonorarios from "./tabla_registro_pago";
+//import TablaPagosHonorarios from "./tabla_registro_pago";
 
 import { useState } from 'react';
 
@@ -22,10 +22,10 @@ export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTa
                   clienteSeleccionado={clienteSeleccionado}
                   setClienteSeleccionado={setClienteSeleccionado}
                 />
-                <TablaPagosHonorarios
+                {/*<TablaPagosHonorarios
                   clienteSeleccionado={clienteSeleccionado}
                   datosTabla={datosTabla} 
-                />
+                />*/}
             </div>
         </div>
     )
