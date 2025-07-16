@@ -1,14 +1,13 @@
 "use client";
+import { useMemo } from "react";
 
-export const MarcaTemporal = async () => {
-  const currentDat = new Date();
-  // Fecha completa separada por / slash
-  const currentDate = currentDat.toLocaleDateString("en-US");
-  const horaok = new Date();
-  let horas = horaok.toLocaleTimeString() ;
-
-  let  marca_temporal = currentDate + " " + horas;
-  // Formato de fecha y hora: "MM/DD/YYYY HH:mm:ss AM/PM"
+export const MarcaTemporal = () => {
+  const marca_temporal = useMemo(() => {
+    const currentDat = new Date();
+    const currentDate = currentDat.toLocaleDateString("en-US");
+    const horas = currentDat.toLocaleTimeString();
+    return currentDate + " " + horas;
+  }, []);
   
   return ( 
     <div>
