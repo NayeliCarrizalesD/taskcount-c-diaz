@@ -15,12 +15,7 @@ export function FormConfigClienteHonorarios({
         className="flex flex-col space-y-4 bg-slate-800 px-2 py-5 sm:px-4"
       >
         <div>
-          <label
-            htmlFor="nombre_cliente"
-            className="block text-xs text-white uppercase"
-          >
-            nombre cliente
-          </label>
+         
           <SelectNombreClienteTodos/>
       
         </div>

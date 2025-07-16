@@ -18,6 +18,13 @@ export const SelectConcepto = () => {
     }, []);
 
   return ( 
+    <>
+    <label
+            htmlFor="concepto"
+            className="block text-xs uppercase"
+          >
+            concepto
+          </label>
     <select
     id="concepto"
     name="concepto"
@@ -28,7 +35,8 @@ export const SelectConcepto = () => {
         {conceptos.map((cliente: any) => (
         <option key={cliente.nombre_producto_servicio} value={cliente.nombre_producto_servicio}>{cliente.nombre_producto_servicio}</option>   
     ))}
-    </select>   
+    </select>
+    </>   
   );
 };
 

@@ -22,23 +22,12 @@ export function FormRegistroPagoCliente({
         </div>
 
         <div>
-          <label
-            htmlFor="nombre_cliente"
-            className="block text-xs uppercase"
-          >
-            nombre cliente
-          </label>
+          
           <SelectNombreClienteTodos/>
         </div>
-        <div> 
-        </div>
+        
         <div>
-          <label
-            htmlFor="telefono_cliente"
-            className="block text-xs uppercase"
-          >
-            concepto
-          </label>
+          
           <SelectConcepto/>
         </div>
 
@@ -59,13 +48,6 @@ export function FormRegistroPagoCliente({
         </div>
 
         <div>
-          <label
-            htmlFor="mes_pago"
-            className="block text-xs uppercase"
-          >
-            Mes a pagar 
-          </label>
-          
           <SelectMes/>
         </div>
 

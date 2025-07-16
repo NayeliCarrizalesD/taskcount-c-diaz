@@ -1,5 +1,5 @@
 
-//import { FormRegistroPagoCliente } from "@/app/formularios/formRegistroPago";
+import { FormRegistroPagoCliente } from "@/app/formularios/formRegistroPago";
 import { SubmitButton } from "@/app/submit-button";
 import { AiOutlineTag } from "react-icons/ai";
 import { createRegistroPagoHonorarios } from "./funcion_registro_pago";
@@ -20,9 +20,9 @@ export default function FormularioRegistroPagoHonorarios() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-                {/*<FormRegistroPagoCliente action={createRegistroPagoHonorarios}>
+                <FormRegistroPagoCliente action={createRegistroPagoHonorarios}>
                     <SubmitButton>Registrar</SubmitButton>
-                </FormRegistroPagoCliente>*/}
+                </FormRegistroPagoCliente>
                 
             </div>
         </div>

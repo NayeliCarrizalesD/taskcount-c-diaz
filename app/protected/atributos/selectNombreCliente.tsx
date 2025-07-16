@@ -17,6 +17,13 @@ export const SelectNombreClienteTodos = () => {
         fetchClientes();
     }, []);
     return ( 
+      <>
+      <label
+        htmlFor="nombre_cliente"
+        className="block text-xs uppercase"
+      >
+        nombre cliente
+      </label>
       <select
       id="nombre_cliente"
       name="nombre_cliente"
@@ -28,6 +35,7 @@ export const SelectNombreClienteTodos = () => {
           <option key={cliente.nombre_cliente} value={cliente.nombre_cliente}>{cliente.nombre_cliente}</option>   
       ))}
       </select>   
+      </>
     );
   };
 
