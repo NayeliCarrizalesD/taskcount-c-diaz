@@ -1,10 +1,9 @@
 'use client';
 
 import React from "react";
-import FormularioChecarEntrada from "../registro_entrada_salida/place_formulario";
 import SumaTotalPagos from "../suma_de_pagos/ver_suma_de_pagos";
 
-export const CheckHora = () => {
+export const ActividadPagos = () => {
     //const hora = new Date().getHours() + ':' + new Date().getMinutes() ;
 
    /* const horaok = new Date();
