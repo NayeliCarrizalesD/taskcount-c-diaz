@@ -15,18 +15,13 @@ export function FormConfigClienteHonorarios({
         className="flex flex-col space-y-4 bg-slate-800 px-2 py-5 sm:px-4"
       >
         <div>
-         
-          <SelectNombreClienteTodos/>
+         <label htmlFor="nombre_cliente">Nombre cliente</label>
+  <SelectNombreClienteTodos id="nombre_cliente" name="nombre_cliente" />
       
         </div>
         <div>
-          <label
-            htmlFor="concepto"
-            className="block text-xs text-white uppercase"
-          >
-            concepto
-          </label>
-          <SelectConcepto/>
+          <label htmlFor="concepto">Concepto</label>
+  <SelectConcepto id="concepto" name="concepto" />
         </div>  
         
         <div>
