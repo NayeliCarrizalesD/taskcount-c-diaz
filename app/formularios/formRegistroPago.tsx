@@ -50,7 +50,7 @@ export function FormRegistroPagoCliente({
         <div>
            <label htmlFor="mes_pago">Mes a Pagar</label>
           <SelectMes id="mes_pago" name="mes_pago"/> 
-        </div>
+        </div>*/}
 
         <div>
           <label
@@ -74,7 +74,7 @@ export function FormRegistroPagoCliente({
               );
             })}
           </select>
-        </div>*/}
+        </div>
         
         <div>   
           <InputCorreoUsuario/>
