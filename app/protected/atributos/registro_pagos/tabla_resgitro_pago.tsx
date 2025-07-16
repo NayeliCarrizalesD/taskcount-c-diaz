@@ -1,7 +1,7 @@
 
 //import { getPagosTodos } from "@/app/schema";
 
-export function TablaPagosHonorarios({
+export default function TablaPagosHonorarios({
   clienteSeleccionado,
   datosTabla,
 }: {
