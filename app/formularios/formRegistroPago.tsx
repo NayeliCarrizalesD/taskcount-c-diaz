@@ -21,13 +21,11 @@ export function FormRegistroPagoCliente({
           <MarcaTemporal/>        
         </div>
 
-        <div>
-          
+        <div>     
           <SelectNombreClienteTodos/>
         </div>
         
-        <div>
-          
+        <div>  
           <SelectConcepto/>
         </div>
 
@@ -75,8 +73,7 @@ export function FormRegistroPagoCliente({
           </select>
         </div>
         
-        <div>
-          
+        <div>   
           <InputCorreoUsuario/>
         </div>
 
