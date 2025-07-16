@@ -318,6 +318,10 @@ export async function getPagosTodos() {
 
 export async function getPagosPorCliente(nombre_cliente: string) {
   const registroPago = await ensureTableRegistroPagoExists();
+  return await db.select().from(registroPago).where(eq(registroPago.nombre_cliente, nombre_cliente));
+}
+export async function getSumaPagosPorCliente(nombre_cliente: string) {
+  const registroPago = await ensureTableRegistroPagoExists();
   return await db.select({value: sum(registroPago.pago)}).from(registroPago).where(eq(registroPago.nombre_cliente, nombre_cliente));
 }
 
