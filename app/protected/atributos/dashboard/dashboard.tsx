@@ -1,6 +1,6 @@
 
 import { TopBar } from "../topbar/topbar";
-import { Grid } from "./grid";
+import Grid from "./grid";
 
 
 export function Dashboard() {
