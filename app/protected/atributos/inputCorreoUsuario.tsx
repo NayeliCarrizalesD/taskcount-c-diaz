@@ -23,7 +23,7 @@ export const InputCorreoUsuario = () => {
         htmlFor="correo_empleado"
         className="block text-xs uppercase"
         >
-        correo de la persona que registra el pago
+        correo de la persona que registra:
     </label>
 
     <input

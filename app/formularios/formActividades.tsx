@@ -54,11 +54,7 @@ export function FormRegistroActividades({
           <InputNombreUsuario/>
         </div>
         <div>
-          <label
-            htmlFor="correo_empleado"
-            className="block text-xs uppercase"
-          >
-          </label>
+          
           <InputCorreoUsuario />
            
         </div>

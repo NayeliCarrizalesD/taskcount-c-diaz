@@ -78,12 +78,6 @@ export function FormRegistroCliente({
         </div>
         
         <div>
-          <label
-            htmlFor="correo_empleado"
-            className="block text-xs uppercase"
-          >
-            correo de la persona que registra al cliente 
-          </label>
           <InputCorreoUsuario/>
         </div>
 
