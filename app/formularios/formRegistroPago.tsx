@@ -48,7 +48,7 @@ export function FormRegistroPagoCliente({
         </div>
 
         <div>
-          <SelectMes/>
+          <SelectMes/> 
         </div>
 
         <div>
