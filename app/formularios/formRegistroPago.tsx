@@ -76,12 +76,7 @@ export function FormRegistroPagoCliente({
         </div>
         
         <div>
-          <label
-            htmlFor="correo_empleado"
-            className="block text-xs uppercase"
-          >
-            correo de la persona que registra el pago
-          </label>
+          
           <InputCorreoUsuario/>
         </div>
 
