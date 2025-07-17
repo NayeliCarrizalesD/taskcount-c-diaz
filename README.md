@@ -1,36 +1,37 @@
-# Next.js + PostgreSQL Auth Starter
+# 💼 Sistema Web de Control de Honorarios para Oficina Contable
 
-This is a [Next.js](https://nextjs.org/) starter kit that uses [NextAuth.js](https://next-auth.js.org/) for simple email + password login, [Drizzle](https://orm.drizzle.team) as the ORM, and a [Neon Postgres](https://vercel.com/postgres) database to persist the data.
+Este sistema web está diseñado para oficinas contables que necesitan llevar un control detallado de honorarios por cliente, asignar tareas internas, registrar entradas/salidas del personal y visualizar ingresos en tiempo real. La aplicación es de uso interno y centraliza la operación diaria en un solo lugar.
 
-## Deploy Your Own
+## ✨ Funcionalidades principales
 
-You can clone & deploy it to Vercel with one click:
+- 📁 Registro de honorarios por cliente y mes
+- 📌 Asignación de tareas entre usuarios del sistema
+- 👥 Gestión de roles y permisos (administrador, usuario)
+- 🕒 Módulo de **reloj checador** para registrar horarios de entrada y salida del personal
+- 📊 Dashboard dinámico con filtros por fecha, cliente y tipo de ingreso
+- 🔒 Autenticación segura y control de sesiones
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-title=Next.js%20Prisma%20PostgreSQL%20Auth%20Starter&demo-description=Simple%20Next.js%2013%20starter%20kit%20that%20uses%20Next-Auth%20for%20auth%20and%20Prisma%20PostgreSQL%20as%20a%20database.&demo-url=https%3A%2F%2Fnextjs-postgres-auth.vercel.app%2F&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F7rsVQ1ZBSiWe9JGO6FUeZZ%2F210cba91036ca912b2770e0bd5d6cc5d%2Fthumbnail.png&project-name=Next.js%%20Prisma%20PostgreSQL%20Auth%20Starter&repository-name=nextjs-postgres-auth-starter&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnextjs-postgres-auth-starter&from=templates&skippable-integrations=1&env=AUTH_SECRET&envDescription=Generate%20a%20random%20secret%3A&envLink=https://generate-secret.vercel.app/&stores=%5B%7B"type"%3A"postgres"%7D%5D)
+## 🧑‍💻 Tecnologías utilizadas
 
-## Developing Locally
+- **Frontend:** React + TailwindCSS
+- **Backend:** Node.js + Express
+- **Base de datos:** PostgreSQL (Neon)
+- **Deploy:** Vercel (frontend)
 
-You can clone & create this repo with the following command
+## 🧭 Módulos futuros (en planeación)
+- 📤 Exportación de reportes (PDF/Excel)
+- 📧 Notificaciones automáticas por correo o sistema
+- 📌 Agenda de vencimientos o tareas periódicas
+- 🧾 Módulo para carga y descarga de documentos contables
+- 📱 Versión optimizada para móviles
 
-```bash
-npx create-next-app nextjs-typescript-starter --example "https://github.com/vercel/nextjs-postgres-auth-starter"
-```
+### 🧠 Notas adicionales
+El sistema está en fase de mejora continua, con posibilidad de añadir reportes exportables y notificaciones.
 
-## Getting Started
+Se recomienda su uso en oficinas pequeñas o medianas con flujo mensual de clientes contables.
 
-First, run the development server:
+📬 Contacto
+Proyecto desarrollado por Nayeli Carrizales
 
-```bash
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- 🔗 [LinkedIn](https://www.linkedin.com/in/nayeli-carrizales-diaz/)
+- 📧 nayeli.carrizales.diaz@gmail.com
