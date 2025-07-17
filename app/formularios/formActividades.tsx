@@ -51,7 +51,7 @@ export function FormRegistroActividades({
             className="block text-xs uppercase"
           >
           </label>
-          <InputNombreUsuario/>
+          <InputNombreUsuario/> 
         </div>
         <div>
           
