@@ -1,5 +1,4 @@
 import { dbTablas, catalogo_clientes } from "@/app/schema";
-import { desc } from "drizzle-orm";
 
 export default async function TablaClientes() {
     let cliente: any[] = [];
