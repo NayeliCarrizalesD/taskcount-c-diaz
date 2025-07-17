@@ -1,6 +1,7 @@
 import './globals.css';
 
 import { GeistSans } from 'geist/font/sans';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 let title = 'Intranet MGO QOB OVERSEAS';
 let description =
