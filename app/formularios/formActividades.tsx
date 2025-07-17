@@ -55,7 +55,7 @@ export function FormRegistroActividades({
         </div>
         <div>
           
-          <InputCorreoUsuario /> 
+          <InputCorreoUsuario />
            
         </div>
         
