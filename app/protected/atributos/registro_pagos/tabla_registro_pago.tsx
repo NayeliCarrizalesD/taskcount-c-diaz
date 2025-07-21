@@ -12,6 +12,12 @@ export default function TablaPagosHonorarios({
     ? datosTabla.filter((item) => item.nombre_cliente === clienteSeleccionado)
     : datosTabla;
 
+const meses = [
+  "", // Para que el índice 1 sea "Enero"
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
+
 // PAGINACIÓN
   const [paginaActual, setPaginaActual] = useState(1);
   const pagosPorPagina = 20;
@@ -46,7 +52,7 @@ export default function TablaPagosHonorarios({
                 <td className="p-4">{item.nombre_cliente}</td>
                 <td className="p-4">{item.concepto}</td>
                 <td className="p-4">{item.pago}</td>
-                <td className="p-4">{item.mes_pago}</td>
+                <td className="p-4">{meses[Number(item.mes_pago)]}</td>
                 <td className="p-4">{item.year_pago}</td>
                 <td className="p-4">{item.correo_empleado}</td>
               </tr>
