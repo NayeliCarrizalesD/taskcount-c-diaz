@@ -1,4 +1,4 @@
-import { pgTable, numeric, serial, text } from "drizzle-orm/pg-core";
+import { pgTable, numeric, serial, text, integer } from "drizzle-orm/pg-core";
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { eq, desc, and, sum } from 'drizzle-orm';
 import postgres from 'postgres';
@@ -325,7 +325,7 @@ export async function getSumaPagosPorCliente(nombre_cliente: string) {
   return await db.select({value: sum(registroPago.pago)}).from(registroPago).where(eq(registroPago.nombre_cliente, nombre_cliente));
 }
 
-export async function createRegistroPago( marca_temporal: string, nombre_cliente: string, concepto: string, pago: number, mes_pago: string,  year_pago: number, correo_empleado: string) {
+export async function createRegistroPago( marca_temporal: string, nombre_cliente: string, concepto: string, pago: number, mes_pago: number,  year_pago: number, correo_empleado: string) {
   const registroPago = await ensureTableRegistroPagoExists();
   const pagoStr = pago.toString();
   const year_pagoStr = year_pago.toString();
@@ -349,7 +349,7 @@ async function ensureTableRegistroPagoExists() {
         nombre_cliente TEXT,
         concepto TEXT,
         pago numeric,
-        mes_pago TEXT,
+        mes_pago INTEGER,
         year_pago TEXT,
         correo_empleado TEXT
       );`;
@@ -361,7 +361,7 @@ async function ensureTableRegistroPagoExists() {
     nombre_cliente: text('nombre_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago'),
-    mes_pago : text('mes_pago'),
+    mes_pago : integer('mes_pago'),
     year_pago : text('year_pago'),
     correo_empleado: text('correo_empleado') 
   });
@@ -375,7 +375,7 @@ export const registroPago = pgTable('registroPago', {
     nombre_cliente: text('nombre_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago'),
-    mes_pago : text('mes_pago'),
+    mes_pago : integer('mes_pago'),
     year_pago : text('year_pago'),
     correo_empleado: text('correo_empleado') 
 });
