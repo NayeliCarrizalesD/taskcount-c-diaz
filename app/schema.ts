@@ -313,7 +313,7 @@ export async function getRegistroPago(marca_temporal: string) {
 
 export async function getPagosTodos() {
   const registroPago = await ensureTableRegistroPagoExists();
-  return await db.select().from(registroPago).orderBy(desc(registroPago.year_pago));
+  return await db.select().from(registroPago).orderBy(desc(registroPago.year_pago), desc(registroPago.mes_pago));
 }
 
 export async function getPagosPorCliente(nombre_cliente: string) {
