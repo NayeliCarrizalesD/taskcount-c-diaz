@@ -1,4 +1,5 @@
 import { dbTablas, catalogo_clientes } from "@/app/schema";
+import { BtnEditar } from "../BtnEditar";
 
 export default async function TablaClientes() {
     let cliente: any[] = [];
@@ -7,6 +8,12 @@ export default async function TablaClientes() {
     }
     catch (e: any) {
         console.error(e);
+    }
+
+    // Define the handler function
+    function handleEditarCliente(cliente: any) {
+        // Implement your edit logic here
+        console.log("Editar cliente:", cliente);
     }
 
     return (
@@ -29,7 +36,7 @@ export default async function TablaClientes() {
                             <td className="p-4">{cliente.nombre_cliente}</td>
                             <td className="p-4">{cliente.telefono_cliente}</td>
                             <td className="p-4">{cliente.fecha_alta}</td>
-                            <td className="p-4">{cliente.correo_empleado}</td>
+                            <td className="p-4"><BtnEditar onClick={handleEditarCliente} cliente={cliente} /></td>
                         </tr>
                     ))}
                 </tbody>

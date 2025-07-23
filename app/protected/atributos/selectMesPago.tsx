@@ -1,6 +1,4 @@
 
-
-
 import React from "react";
 
 export function SelectMes({id, name}: {id: string, name: string}) {
