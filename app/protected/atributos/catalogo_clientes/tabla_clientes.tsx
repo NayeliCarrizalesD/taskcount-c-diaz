@@ -1,14 +1,18 @@
-import { dbTablas, catalogo_clientes } from "@/app/schema";
+"use client";
+import { useEffect, useState } from "react";
 import { BtnEditar } from "../BtnEditar";
+// Importa tu función para obtener clientes desde la API o un fetch
 
-export default async function TablaClientes() {
-    let cliente: any[] = [];
-    try {
-        cliente = await dbTablas.select().from(catalogo_clientes).orderBy(catalogo_clientes.nombre_cliente);
-    }
-    catch (e: any) {
-        console.error(e);
-    }
+export default function TablaClientes() {
+  const [clientes, setClientes] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Reemplaza esto por tu fetch real, por ejemplo:
+    fetch("/api/clientes")
+      .then(res => res.json())
+      .then(data => setClientes(data))
+      .catch(e => console.error(e));
+  }, []);
 
     // Define the handler function
     function handleEditarCliente(cliente: any) {
@@ -30,7 +34,7 @@ export default async function TablaClientes() {
                     </tr>
                 </thead>
                 <tbody>
-                    {cliente && cliente.map((cliente: any, index: number) => (
+                    {clientes && clientes.map((cliente: any, index: number) => (
                         <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={cliente.id}>
                             <td className="p-4">{cliente.rfc}</td>
                             <td className="p-4">{cliente.nombre_cliente}</td>
