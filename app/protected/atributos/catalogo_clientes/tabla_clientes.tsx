@@ -26,6 +26,7 @@ export default function TablaClientes() {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800  dark:text-gray-400 table-auto min-w-max">   
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
+                        <th className='invisible w-0 h-0'></th>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>RFC</th>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre / Razon Social </th>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Telefono</th> 
@@ -36,7 +37,7 @@ export default function TablaClientes() {
                 <tbody>
                     {clientes && clientes.map((cliente: any, index: number) => (
                         <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={cliente.id}>
-                            <td className="invisible">{cliente.id_cliente}</td>
+                            <td className="invisible w-0 h-0">{cliente.id_cliente}</td>
                             <td className="p-4">{cliente.rfc}</td>
                             <td className="p-4">{cliente.nombre_cliente}</td>
                             <td className="p-4">{cliente.telefono_cliente}</td>
