@@ -36,6 +36,7 @@ export default function TablaClientes() {
                 <tbody>
                     {clientes && clientes.map((cliente: any, index: number) => (
                         <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={cliente.id}>
+                            <td className="invisible">{cliente.id_cliente}</td>
                             <td className="p-4">{cliente.rfc}</td>
                             <td className="p-4">{cliente.nombre_cliente}</td>
                             <td className="p-4">{cliente.telefono_cliente}</td>
