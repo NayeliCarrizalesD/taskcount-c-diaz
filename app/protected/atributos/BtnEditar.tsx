@@ -10,16 +10,20 @@ export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, 
     Swal.fire({
       title: "Editar cliente",
       html: `
+        <input id="swal-input3" class="swal2-input" value="${cliente.rfc}" placeholder="RFC">
         <input id="swal-input1" class="swal2-input" value="${cliente.nombre_cliente}" placeholder="Nombre">
         <input id="swal-input2" class="swal2-input" value="${cliente.telefono_cliente}" placeholder="Teléfono">
+        <input id="swal-input4" class="swal2-input" value="${cliente.correo_cliente}" placeholder="Correo">
       `,
       focusConfirm: false,
       showCancelButton: true,
       preConfirm: () => {
         return {
-          id: cliente.id, // <-- Incluye el id aquí
-          nombre_cliente: (document.getElementById('swal-input1') as HTMLInputElement).value,
-          telefono_cliente: (document.getElementById('swal-input2') as HTMLInputElement).value,
+          id_cliente: cliente.id_cliente, // <-- Incluye el id aquí
+          rfc: (document.getElementById('swal-input1') as HTMLInputElement).value,
+          nombre_cliente: (document.getElementById('swal-input2') as HTMLInputElement).value,
+          telefono_cliente: (document.getElementById('swal-input3') as HTMLInputElement).value,
+          correo_cliente: (document.getElementById('swal-input4') as HTMLInputElement).value,
         }
       }
     }).then((result) => {
