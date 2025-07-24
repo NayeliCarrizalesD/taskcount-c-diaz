@@ -63,9 +63,9 @@ export const datosUsuario = pgTable('datosUsuario', {
 
 // REgistro de clientes 
 
-export async function getClientes(nombre_cliente: string) {
+export async function getClientes(id_cliente: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.select().from(catalogoClientes).where(eq(catalogoClientes.nombre_cliente, nombre_cliente));
+  return await db.select().from(catalogoClientes).where(eq(catalogoClientes.id_cliente, Number(id_cliente)));
 }
 export async function getTodosClientes() {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
@@ -74,7 +74,7 @@ export async function getTodosClientes() {
 
 export async function updateCliente(id_cliente: number, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string, fecha_alta: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.update(catalogoClientes).set({ nombre_cliente, telefono_cliente, correo_cliente, rfc, correo_empleado, fecha_alta }).where(eq(catalogoClientes.id_producto, id_cliente));
+  return await db.update(catalogoClientes).set({ nombre_cliente, telefono_cliente, correo_cliente, rfc, correo_empleado, fecha_alta }).where(eq(catalogoClientes.id_cliente, id_cliente));
 }
 
 export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string,fecha_alta: string) {
@@ -105,7 +105,7 @@ async function ensureTableCatalogoClientesExists() {
   }
 
   const tableCatalogo_clientes = pgTable('catalogo_clientes', {
-    id_producto: serial('id_cliente').primaryKey(),
+    id_cliente: serial('id_cliente').primaryKey(),
     marca_temporal: text('marca_temporal'),
     nombre_cliente: text('nombre_cliente'),
     telefono_cliente: text('telefono_cliente'),
@@ -119,7 +119,7 @@ async function ensureTableCatalogoClientesExists() {
 }
 
 export const catalogo_clientes = pgTable('catalogo_clientes', {
-  id_producto: serial('id_cliente').primaryKey(),
+  id_cliente: serial('id_cliente').primaryKey(),
     marca_temporal: text('marca_temporal'),
     nombre_cliente: text('nombre_cliente'),
     telefono_cliente: text('telefono_cliente'),
