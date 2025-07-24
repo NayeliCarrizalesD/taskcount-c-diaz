@@ -266,6 +266,22 @@ export async function getClienteHonorariosTodos() {
   return await db.select().from(configClienteHonorario);
 }
 
+export async function getClienteHonorariosTodosConNombre() {
+  const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
+  const catalogoClientes = await ensureTableCatalogoClientesExists();
+  
+  return await db
+    .select({
+      id_cliente_honorario: configClienteHonorario.id_cliente_honorario,
+      nombre_cliente: catalogoClientes.nombre_cliente,
+      concepto: configClienteHonorario.concepto,
+      pago: configClienteHonorario.pago
+    })
+    .from(configClienteHonorario)
+    .leftJoin(catalogoClientes, eq(configClienteHonorario.nombre_cliente, catalogoClientes.nombre_cliente))
+    .orderBy(catalogoClientes.nombre_cliente);
+}
+
 
 export async function createCosto(nombre_cliente: string, concepto: string, pago1: number) {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
