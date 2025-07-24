@@ -5,9 +5,9 @@ type Cliente = {
   telefono_cliente: string;
 };
 
-export function BtnEditar({ onClick, cliente }: { onClick: (data: Cliente) => void, cliente: Cliente }) {
-    const handleEditar = () => {
-        Swal.fire({
+export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, cliente: any }) {
+  const handleEditar = () => {
+    Swal.fire({
       title: "Editar cliente",
       html: `
         <input id="swal-input1" class="swal2-input" value="${cliente.nombre_cliente}" placeholder="Nombre">
@@ -17,13 +17,13 @@ export function BtnEditar({ onClick, cliente }: { onClick: (data: Cliente) => vo
       showCancelButton: true,
       preConfirm: () => {
         return {
+          id: cliente.id, // <-- Incluye el id aquí
           nombre_cliente: (document.getElementById('swal-input1') as HTMLInputElement).value,
           telefono_cliente: (document.getElementById('swal-input2') as HTMLInputElement).value,
         }
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        // Aquí puedes llamar a tu función para actualizar el cliente
         onClick(result.value);
       }
     });

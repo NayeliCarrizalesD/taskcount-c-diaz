@@ -27,7 +27,7 @@ export function SelectNombreClienteTodos({ id, name }: { id: string, name: strin
       >
           <option value={""}>Seleccione una opción</option>
           {clientes.map((cliente: any) => (
-          <option key={cliente.nombre_cliente} value={cliente.nombre_cliente}>{cliente.nombre_cliente}</option>   
+          <option key={cliente.id} value={cliente.id}>{cliente.nombre_cliente}</option>   
       ))}
       </select>   
       </>

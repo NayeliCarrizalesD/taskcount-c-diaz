@@ -72,6 +72,11 @@ export async function getTodosClientes() {
   return await db.select().from(catalogoClientes).orderBy(catalogoClientes.nombre_cliente);
 }
 
+export async function updateCliente(id_cliente: number, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string, fecha_alta: string) {
+  const catalogoClientes = await ensureTableCatalogoClientesExists();
+  return await db.update(catalogoClientes).set({ nombre_cliente, telefono_cliente, correo_cliente, rfc, correo_empleado, fecha_alta }).where(eq(catalogoClientes.id_producto, id_cliente));
+}
+
 export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string,fecha_alta: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
   return await db.insert(catalogoClientes).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado, fecha_alta }]);
