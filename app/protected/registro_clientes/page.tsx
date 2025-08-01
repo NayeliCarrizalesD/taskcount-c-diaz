@@ -14,9 +14,8 @@ export default async function ProtectedRegistroDatosUsuarios() {
   try {
     if (correo) {
       const usuarios = await getUsuario(correo);
-
       if (usuarios.length > 0) {
-        nivelUsuario = usuarios[0].nivel; // Nivel del usuario
+        nivelUsuario = usuarios[0].nivel;
       }
     }
   } catch (error) {
@@ -29,7 +28,6 @@ export default async function ProtectedRegistroDatosUsuarios() {
       {nivelUsuario === "n1" && <SideBarN1 />}
       {nivelUsuario === "n2" && <SideBarN2 />}
       {nivelUsuario === "n3" && <SideBarN3 />}
-      
       <RegistroClientes />
     </main>
   );
