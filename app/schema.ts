@@ -402,6 +402,7 @@ export const datosUsuario1 = pgTable('datosUsuario', {
 });
 
 // Esquema y tabla para historial de actividades del staff/admin
+// Obtener historial de actividades con filtros
 export async function getActivityHistory(filters?: {
   usuario?: string;
   fecha?: string;
@@ -426,8 +427,7 @@ export async function getActivityHistory(filters?: {
   );
 }
 
-
-// Función para asegurar la existencia de la tabla
+// Asegura existencia de la tabla
 async function ensureTableActivityHistoryExists() {
   const result = await client`
     SELECT EXISTS (
@@ -440,27 +440,29 @@ async function ensureTableActivityHistoryExists() {
     await client`
       CREATE TABLE "activity_history" (
         id SERIAL PRIMARY KEY,
-        fecha TEXT,
-        hora TEXT,
-        usuario TEXT,
-        tipo_usuario TEXT,
-        accion TEXT,
+        fecha TEXT NOT NULL,
+        hora TEXT NOT NULL,
+        usuario TEXT NOT NULL,
+        tipo_usuario TEXT NOT NULL,
+        accion TEXT NOT NULL,
         detalles TEXT
       );`;
   }
 
-const tableActivityHistory = pgTable('activity_history', {
-  id: serial('id').primaryKey(),
-  fecha: text('fecha').notNull(),
-  hora: text('hora').notNull(),
-  usuario: text('usuario').notNull(),
-  tipo_usuario: text('tipo_usuario').notNull(),
-  accion: text('accion').notNull(),
-  detalles: text('detalles'),
-});
+  const tableActivityHistory = pgTable('activity_history', {
+    id: serial('id').primaryKey(),
+    fecha: text('fecha').notNull(),
+    hora: text('hora').notNull(),
+    usuario: text('usuario').notNull(),
+    tipo_usuario: text('tipo_usuario').notNull(),
+    accion: text('accion').notNull(),
+    detalles: text('detalles'),
+  });
 
+  return tableActivityHistory;
+}
 
-// Función para crear un registro en el historial de actividades
+// Crear registro de actividad
 export async function createActivityHistory(
   usuario: string,
   tipo_usuario: string,
@@ -470,12 +472,15 @@ export async function createActivityHistory(
   const activityHistory = await ensureTableActivityHistoryExists();
 
   const now = new Date();
-  const fecha = now.toISOString().split('T')[0];        // YYYY-MM-DD
-  const hora = now.toTimeString().split(' ')[0];        // HH:mm:ss
+  const fecha = now.toISOString().split('T')[0];   // YYYY-MM-DD
+  const hora = now.toTimeString().split(' ')[0];   // HH:mm:ss
 
-  return await db.insert(activityHistory).values([
-    { fecha, hora, usuario, tipo_usuario, accion, detalles }
-  ]);
+  return await db.insert(activityHistory).values({
+    fecha,
+    hora,
+    usuario,
+    tipo_usuario,
+    accion,
+    detalles,
+  });
 }
-
-
