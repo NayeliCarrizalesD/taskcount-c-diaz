@@ -420,7 +420,10 @@ export async function getActivityHistory(filters?: {
     ? db.select().from(activityHistory).where(and(...conditions))
     : db.select().from(activityHistory);
 
-  return await query.orderBy(sql`${activityHistory.fecha} DESC, ${activityHistory.hora} DESC`);
+  return await query.orderBy(
+    desc(activityHistory.fecha),
+    desc(activityHistory.hora)
+  );
 }
 
 
