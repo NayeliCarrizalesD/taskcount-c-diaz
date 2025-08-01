@@ -409,7 +409,6 @@ export async function getActivityHistory(filters?: {
   accion?: string;
 }) {
   const activityHistory = await ensureTableActivityHistoryExists();
-  let query = db.select().from(activityHistory);
 
   const conditions = [];
   if (filters?.usuario) conditions.push(eq(activityHistory.usuario, filters.usuario));
@@ -417,10 +416,13 @@ export async function getActivityHistory(filters?: {
   if (filters?.tipo_usuario) conditions.push(eq(activityHistory.tipo_usuario, filters.tipo_usuario));
   if (filters?.accion) conditions.push(eq(activityHistory.accion, filters.accion));
 
-  if (conditions.length > 0) query = query.where(and(...conditions));
+  const query = conditions.length > 0
+    ? db.select().from(activityHistory).where(and(...conditions))
+    : db.select().from(activityHistory);
 
   return await query.orderBy(sql`${activityHistory.fecha} DESC, ${activityHistory.hora} DESC`);
 }
+
 
 // Función para asegurar la existencia de la tabla
 async function ensureTableActivityHistoryExists() {
