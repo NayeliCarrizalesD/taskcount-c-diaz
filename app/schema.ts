@@ -449,18 +449,16 @@ async function ensureTableActivityHistoryExists() {
       );`;
   }
 
-  const tableActivityHistory = pgTable('activity_history', {
-    id: serial('id').primaryKey(),
-    fecha: text('fecha'),
-    hora: text('hora'),
-    usuario: text('usuario'),
-    tipo_usuario: text('tipo_usuario'),
-    accion: text('accion'),
-    detalles: text('detalles')
-  });
+const tableActivityHistory = pgTable('activity_history', {
+  id: serial('id').primaryKey(),
+  fecha: text('fecha').notNull(),
+  hora: text('hora').notNull(),
+  usuario: text('usuario').notNull(),
+  tipo_usuario: text('tipo_usuario').notNull(),
+  accion: text('accion').notNull(),
+  detalles: text('detalles'),
+});
 
-  return tableActivityHistory;
-}
 
 // Función para crear un registro en el historial de actividades
 export async function createActivityHistory(
