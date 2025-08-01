@@ -271,16 +271,26 @@ export async function getClienteHonorariosTodosConNombre() {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
   const catalogoClientes = await ensureTableCatalogoClientesExists();
   
-  return await db
-    .select({
-      id_cliente_honorario: configClienteHonorario.id_cliente_honorario,
-      nombre_cliente: catalogoClientes.nombre_cliente,
-      concepto: configClienteHonorario.concepto,
-      pago: configClienteHonorario.pago
-    })
-    .from(configClienteHonorario)
-    .leftJoin(catalogoClientes, eq(sql`CAST(${configClienteHonorario.id_cliente} AS INTEGER)`, catalogoClientes.id_cliente))
-    .orderBy(catalogoClientes.nombre_cliente);
+  // Obtener todos los datos de ambas tablas
+  const honorarios = await db.select().from(configClienteHonorario);
+  const clientes = await db.select().from(catalogoClientes);
+  
+  // Crear un mapa de clientes por ID
+  const clientesMap = clientes.reduce((acc, cliente) => {
+    acc[cliente.id_cliente.toString()] = cliente.nombre_cliente ?? '';
+    return acc;
+  }, {} as Record<string, string>);
+  
+  // Combinar los datos
+  const resultado = honorarios.map(honorario => ({
+    id_cliente_honorario: honorario.id_cliente_honorario,
+    nombre_cliente: clientesMap[(honorario.id_cliente ?? '').toString()] || `Cliente ID: ${honorario.id_cliente ?? ''}`,
+    concepto: honorario.concepto,
+    pago: honorario.pago
+  }));
+  
+  // Ordenar por nombre de cliente
+  return resultado.sort((a, b) => a.nombre_cliente.localeCompare(b.nombre_cliente));
 }
 // ...existing code...
 
