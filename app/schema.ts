@@ -1,6 +1,6 @@
 import { pgTable, numeric, serial, text, integer } from "drizzle-orm/pg-core";
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { eq, desc, and, sum } from 'drizzle-orm';
+import { eq, desc, and, sum, sql } from 'drizzle-orm';
 import postgres from 'postgres';
 
 
@@ -266,6 +266,7 @@ export async function getClienteHonorariosTodos() {
   return await db.select().from(configClienteHonorario);
 }
 
+// ...existing code...
 export async function getClienteHonorariosTodosConNombre() {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
   const catalogoClientes = await ensureTableCatalogoClientesExists();
@@ -278,9 +279,10 @@ export async function getClienteHonorariosTodosConNombre() {
       pago: configClienteHonorario.pago
     })
     .from(configClienteHonorario)
-    .leftJoin(catalogoClientes, eq(configClienteHonorario.id_cliente, catalogoClientes.id_cliente))
+    .leftJoin(catalogoClientes, eq(sql`CAST(${configClienteHonorario.id_cliente} AS INTEGER)`, catalogoClientes.id_cliente))
     .orderBy(catalogoClientes.nombre_cliente);
 }
+// ...existing code...
 
 
 export async function createCosto(id_cliente: string, concepto: string, pago1: number) {
