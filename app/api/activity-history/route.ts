@@ -16,7 +16,7 @@ export async function GET(req: Request) {
 
 // POST - crear un nuevo registro
 export async function POST(req: Request) {
-  const { fecha, hora, usuario, tipo_usuario, accion, detalles } = await req.json();
-  await createActivityHistory(fecha, hora, usuario, tipo_usuario, accion, detalles);
+  const { usuario, tipo_usuario, accion, detalles } = await req.json();
+  await createActivityHistory(usuario, tipo_usuario, accion, detalles);
   return NextResponse.json({ success: true });
 }
