@@ -19,3 +19,4 @@ export async function POST(req: Request) {
   await createActivityHistory(fecha, hora, usuario, tipo_usuario, accion, detalles);
   return NextResponse.json({ success: true });
 }
+
