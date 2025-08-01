@@ -402,15 +402,25 @@ export const datosUsuario1 = pgTable('datosUsuario', {
 });
 
 // Esquema y tabla para historial de actividades del staff/admin
-export const activity_history = pgTable('activity_history', {
-  id: serial('id').primaryKey(),
-  fecha: text('fecha'),                      // Fecha completa: YYYY-MM-DD
-  hora: text('hora'),                        // Hora: HH:mm:ss
-  usuario: text('usuario'),                  // Nombre o correo del usuario
-  tipo_usuario: text('tipo_usuario'),        // "admin" o "staff"
-  accion: text('accion'),                    // Qué hizo (ej: "creó cliente", "modificó producto")
-  detalles: text('detalles')                 // Detalles adicionales (opcional)
-});
+export async function getActivityHistory(filters?: {
+  usuario?: string;
+  fecha?: string;
+  tipo_usuario?: string;
+  accion?: string;
+}) {
+  const activityHistory = await ensureTableActivityHistoryExists();
+  let query = db.select().from(activityHistory);
+
+  const conditions = [];
+  if (filters?.usuario) conditions.push(eq(activityHistory.usuario, filters.usuario));
+  if (filters?.fecha) conditions.push(eq(activityHistory.fecha, filters.fecha));
+  if (filters?.tipo_usuario) conditions.push(eq(activityHistory.tipo_usuario, filters.tipo_usuario));
+  if (filters?.accion) conditions.push(eq(activityHistory.accion, filters.accion));
+
+  if (conditions.length > 0) query = query.where(and(...conditions));
+
+  return await query.orderBy(sql`${activityHistory.fecha} DESC, ${activityHistory.hora} DESC`);
+}
 
 // Función para asegurar la existencia de la tabla
 async function ensureTableActivityHistoryExists() {
