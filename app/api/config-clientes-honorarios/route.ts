@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getClienteHonorariosTodosConNombre } from '@/app/schema';
+import { getTodosClientes } from '@/app/schema';
 
 export async function GET() {
   try {
-    const clientesHonorarios = await getClienteHonorariosTodosConNombre();
+    const clientesHonorarios = await getTodosClientes();
     return NextResponse.json(clientesHonorarios);
   } catch (error) {
     console.error('Error fetching clientes honorarios:', error);
