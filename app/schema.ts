@@ -470,12 +470,4 @@ export async function createActivityHistory(
   return await db.insert(activityHistory).values([{ fecha, hora, usuario, tipo_usuario, accion, detalles }]);
 }
 
-// Función para consultar el historial de actividades (ordenado por más reciente)
-export async function getActivityHistory() {
-  const activityHistory = await ensureTableActivityHistoryExists();
-  return await db.select().from(activityHistory).orderBy(desc(activityHistory.id));
-}
-
-
-
 
