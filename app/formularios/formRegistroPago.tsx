@@ -22,8 +22,8 @@ export function FormRegistroPagoCliente({
         </div>
 
         <div>     
-          <label htmlFor="nombre_cliente">Nombre cliente</label>
-          <SelectNombreClienteTodos id="nombre_cliente" name="nombre_cliente" />
+          <label htmlFor="id_cliente">Nombre cliente</label>
+          <SelectNombreClienteTodos id="id_cliente" name="id_cliente" />
         </div>
         
         <div>  

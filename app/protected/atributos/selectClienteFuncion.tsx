@@ -32,8 +32,8 @@ export const SelectClienteOnChange = ({
 
     return ( 
       <select
-      id="nombre_cliente"
-      name="nombre_cliente"
+      id="id_cliente"
+      name="id_cliente"
       value={clienteSeleccionado}
       onChange={selecionarCliente}
       required
@@ -41,7 +41,7 @@ export const SelectClienteOnChange = ({
       >
           <option value={""}>Seleccione una opción</option>
           {clienteNombre.map((cliente: any) => (
-          <option key={cliente.nombre_cliente} value={cliente.nombre_cliente}>{cliente.nombre_cliente}</option>   
+          <option key={cliente.id_cliente} value={cliente.id_cliente}>{cliente.nombre_cliente}</option>   
       ))}
       </select>   
     );

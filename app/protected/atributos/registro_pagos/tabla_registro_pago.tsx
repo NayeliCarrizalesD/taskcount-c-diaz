@@ -9,7 +9,7 @@ export default function TablaPagosHonorarios({
 }) {
   // Filtra los datos por el cliente seleccionado
   const datosFiltrados = clienteSeleccionado
-    ? datosTabla.filter((item) => item.nombre_cliente === clienteSeleccionado)
+    ? datosTabla.filter((item) => item.id_cliente === clienteSeleccionado)
     : datosTabla;
 
 const meses = [
@@ -49,7 +49,7 @@ const meses = [
           ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500"
           : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"
         } key={item.id_entrada}>
-                <td className="p-4">{item.nombre_cliente}</td>
+                <td className="p-4">{item.id_cliente}</td>
                 <td className="p-4">{item.concepto}</td>
                 <td className="p-4">{item.pago}</td>
                 <td className="p-4">{meses[Number(item.mes_pago)]}</td>

@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 type Cliente = {
   nombre_cliente: string;
   telefono_cliente: string;
+  correo_cliente: string;
+  rfc: string;
 };
 
 export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, cliente: any }) {

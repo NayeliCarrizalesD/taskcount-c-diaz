@@ -10,17 +10,17 @@ export default function FormularioClientesHonorarios() {
     async function CreateCosto(formData: FormData) {
         'use server';
         
-        let nombre_cliente = formData.get('nombre_cliente') as string;
+        let id_cliente = formData.get('id_cliente') as string;
         let concepto = formData.get('concepto') as string;
-    let pagoStr = formData.get('pago') as string;
-    let pago = Number(pagoStr);
+        let pagoStr = formData.get('pago') as string;
+        let pago = Number(pagoStr);
 
-    let producto = await getClienteHonorarios(nombre_cliente.toString());
+    let producto = await getClienteHonorarios(id_cliente.toString());
 
     if (producto.length > 0) {
         return console.log('La configuracion ya existe');              
     } else {
-        await createCosto(nombre_cliente, concepto, pago);
+        await createCosto(id_cliente, concepto, pago);
         redirect('/protected/config_clientes_honorarios'); // Redirigir a la página de registro de productos
     }             
     }

@@ -337,20 +337,20 @@ export async function getPagosTodos() {
   return await db.select().from(registroPago).orderBy(desc(registroPago.year_pago), desc(registroPago.mes_pago));
 }
 
-export async function getPagosPorCliente(nombre_cliente: string) {
+export async function getPagosPorCliente(id_cliente: string) {
   const registroPago = await ensureTableRegistroPagoExists();
-  return await db.select().from(registroPago).where(eq(registroPago.nombre_cliente, nombre_cliente));
+  return await db.select().from(registroPago).where(eq(registroPago.id_cliente, id_cliente));
 }
-export async function getSumaPagosPorCliente(nombre_cliente: string) {
+export async function getSumaPagosPorCliente(id_cliente: string) {
   const registroPago = await ensureTableRegistroPagoExists();
-  return await db.select({value: sum(registroPago.pago)}).from(registroPago).where(eq(registroPago.nombre_cliente, nombre_cliente));
+  return await db.select({value: sum(registroPago.pago)}).from(registroPago).where(eq(registroPago.id_cliente, id_cliente));
 }
 
-export async function createRegistroPago( marca_temporal: string, nombre_cliente: string, concepto: string, pago: number, mes_pago: number,  year_pago: number, correo_empleado: string) {
+export async function createRegistroPago( marca_temporal: string, id_cliente: string, concepto: string, pago: number, mes_pago: number,  year_pago: number, correo_empleado: string) {
   const registroPago = await ensureTableRegistroPagoExists();
   const pagoStr = pago.toString();
   const year_pagoStr = year_pago.toString();
-  return await db.insert(registroPago).values([{ marca_temporal, nombre_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado }]);
+  return await db.insert(registroPago).values([{ marca_temporal, id_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado }]);
 }
 
 
@@ -367,7 +367,7 @@ async function ensureTableRegistroPagoExists() {
       CREATE TABLE "registroPago" (
         id_pago SERIAL PRIMARY KEY,
         marca_temporal TEXT,
-        nombre_cliente TEXT,
+        id_cliente TEXT,
         concepto TEXT,
         pago numeric,
         mes_pago INTEGER,
@@ -379,7 +379,7 @@ async function ensureTableRegistroPagoExists() {
   const registroPago = pgTable('registroPago', {
     id_pago: serial('id_pago').primaryKey(),
     marca_temporal: text('marca_temporal'),
-    nombre_cliente: text('nombre_cliente'),
+    id_cliente: text('id_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago'),
     mes_pago : integer('mes_pago'),
@@ -393,7 +393,7 @@ async function ensureTableRegistroPagoExists() {
 export const registroPago = pgTable('registroPago', {
   id_pago: serial('id_pago').primaryKey(),
     marca_temporal: text('marca_temporal'),
-    nombre_cliente: text('nombre_cliente'),
+    id_cliente: text('id_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago'),
     mes_pago : integer('mes_pago'),
