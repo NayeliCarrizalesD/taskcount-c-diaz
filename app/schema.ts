@@ -278,7 +278,7 @@ export async function getClienteHonorariosTodosConNombre() {
       pago: configClienteHonorario.pago
     })
     .from(configClienteHonorario)
-    .leftJoin(catalogoClientes, eq(configClienteHonorario.nombre_cliente, catalogoClientes.nombre_cliente))
+    .leftJoin(catalogoClientes, eq(configClienteHonorario.nombre_cliente, catalogoClientes.id_cliente))
     .orderBy(catalogoClientes.nombre_cliente);
 }
 
