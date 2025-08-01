@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { createActivityHistory, getActivityHistory } from "@/app/schemas";
+import { createActivityHistory, getActivityHistory } from "@/app/schema";
+
 
 // GET - consultar historial con filtros
 export async function GET(req: Request) {
@@ -19,4 +20,5 @@ export async function POST(req: Request) {
   await createActivityHistory(fecha, hora, usuario, tipo_usuario, accion, detalles);
   return NextResponse.json({ success: true });
 }
+
 
