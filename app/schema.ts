@@ -464,15 +464,20 @@ async function ensureTableActivityHistoryExists() {
 
 // Función para crear un registro en el historial de actividades
 export async function createActivityHistory(
-  fecha: string,
-  hora: string,
   usuario: string,
   tipo_usuario: string,
   accion: string,
   detalles?: string
 ) {
   const activityHistory = await ensureTableActivityHistoryExists();
-  return await db.insert(activityHistory).values([{ fecha, hora, usuario, tipo_usuario, accion, detalles }]);
+
+  const now = new Date();
+  const fecha = now.toISOString().split('T')[0];        // YYYY-MM-DD
+  const hora = now.toTimeString().split(' ')[0];        // HH:mm:ss
+
+  return await db.insert(activityHistory).values([
+    { fecha, hora, usuario, tipo_usuario, accion, detalles }
+  ]);
 }
 
 
