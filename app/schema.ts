@@ -255,9 +255,9 @@ export const catalogo_productos = pgTable('catalogo_productos', {
 
 // Registro del costo de configuracion de clientes honorarios
 
-export async function getClienteHonorarios(nombre_cliente: string) {
+export async function getClienteHonorarios(id_cliente: string) {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
-  return await db.select().from(configClienteHonorario).where(eq(configClienteHonorario.nombre_cliente, nombre_cliente));
+  return await db.select().from(configClienteHonorario).where(eq(configClienteHonorario.id_cliente, id_cliente));
 }
 
 
@@ -278,15 +278,15 @@ export async function getClienteHonorariosTodosConNombre() {
       pago: configClienteHonorario.pago
     })
     .from(configClienteHonorario)
-    .leftJoin(catalogoClientes, eq(configClienteHonorario.nombre_cliente, catalogoClientes.id_cliente))
+    .leftJoin(catalogoClientes, eq(configClienteHonorario.id_cliente, catalogoClientes.id_cliente))
     .orderBy(catalogoClientes.nombre_cliente);
 }
 
 
-export async function createCosto(nombre_cliente: string, concepto: string, pago1: number) {
+export async function createCosto(id_cliente: string, concepto: string, pago1: number) {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
   const pago = pago1.toString();
-  return await db.insert(configClienteHonorario).values([{ nombre_cliente, concepto, pago}]);
+  return await db.insert(configClienteHonorario).values([{ id_cliente: id_cliente, concepto, pago}]);
 }
 
 
@@ -302,7 +302,7 @@ async function ensureTableConfigClienteHonorarioExists() {
     await client`
       CREATE TABLE "configClienteHonorario" (
         id_cliente_honorario SERIAL PRIMARY KEY,
-        nombre_cliente TEXT,
+        id_cliente TEXT,
         concepto TEXT,
         pago numeric
       );`;
@@ -310,7 +310,7 @@ async function ensureTableConfigClienteHonorarioExists() {
 
   const configClienteHonorario = pgTable('configClienteHonorario', {
     id_cliente_honorario: serial('id_cliente_honorario').primaryKey(),
-    nombre_cliente: text('nombre_cliente'),
+    id_cliente: text('id_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago')
   });
@@ -320,7 +320,7 @@ async function ensureTableConfigClienteHonorarioExists() {
 
 export const configClienteHonorario = pgTable('configClienteHonorario', {
   id_cliente_honorario: serial('id_cliente_honorario').primaryKey(),
-    nombre_cliente: text('nombre_cliente'),
+    id_cliente: text('id_cliente'),
     concepto: text('concepto'),
     pago: numeric('pago')
 });
