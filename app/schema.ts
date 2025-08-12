@@ -366,27 +366,28 @@ export async function createRegistroPago( marca_temporal: string, id_cliente: st
 }
 
 export async function getPagosTodosConNombres() {
-  const registroPago = await ensureTableRegistroPagoExists();
-  const catalogoClientes = await ensureTableCatalogoClientesExists();
+  try {
+    const result = await dbTablas
+      .select({
+        id_pago: registroPago.id_pago,
+        marca_temporal: registroPago.marca_temporal,
+        id_cliente: registroPago.id_cliente,
+        nombre_cliente: catalogo_clientes.nombre_cliente,
+        concepto: registroPago.concepto,
+        pago: registroPago.pago,
+        mes_pago: registroPago.mes_pago,
+        year_pago: registroPago.year_pago,
+        correo_empleado: registroPago.correo_empleado
+      })
+      .from(registroPago)
+      .leftJoin(catalogo_clientes, eq(registroPago.id_cliente, catalogo_clientes.id_cliente.toString()))
+      .orderBy(desc(registroPago.year_pago), desc(registroPago.mes_pago));
 
-  // Hacer JOIN entre pagos y clientes
-  const pagosConNombres = await db
-    .select({
-      id_pago: registroPago.id_pago,
-      marca_temporal: registroPago.marca_temporal,
-      id_cliente: registroPago.id_cliente,
-      nombre_cliente: catalogoClientes.nombre_cliente,
-      concepto: registroPago.concepto,
-      pago: registroPago.pago,
-      mes_pago: registroPago.mes_pago,
-      year_pago: registroPago.year_pago,
-      correo_empleado: registroPago.correo_empleado
-    })
-    .from(registroPago)
-    .leftJoin(catalogoClientes, eq(registroPago.id_cliente, catalogoClientes.id_cliente))
-    .orderBy(desc(registroPago.year_pago), desc(registroPago.mes_pago));
-
-  return pagosConNombres;
+    return result;
+  } catch (error) {
+    console.error('Error en getPagosTodosConNombres:', error);
+    throw error;
+  }
 }
 
 

@@ -10,11 +10,15 @@ export const GridRegistroPagoHonorarios = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/pagos-con-nombres"); // Cambiar aquí
+                const res = await fetch("/api/clientes-nombres");
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
                 const datos = await res.json();
                 setDatosTabla(datos);
             } catch (error) {
-                console.error(error);
+                console.error('Error fetching data:', error);
+                setDatosTabla([]); // Set empty array as fallback
             }
         };
         fetchData();

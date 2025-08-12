@@ -5,7 +5,7 @@ export async function GET() {
         const pagos = await getPagosTodosConNombres();
         return Response.json(pagos);
     } catch (error) {
-        console.error('Error al obtener pagos con nombres:', error);
+        console.error('Error al obtener pagos:', error);
         return Response.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 }
