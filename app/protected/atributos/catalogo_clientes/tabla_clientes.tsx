@@ -17,7 +17,7 @@ export default function TablaClientes() {
     // Define the handler function
     const handleUpdateCliente = async (clienteData: any) => {
         try {
-            const response = await fetch(`/api/clientes/${clienteData.id_cliente}`, {
+            const response = await fetch(`/api/updateClientes/${clienteData.id_cliente}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -26,14 +26,27 @@ export default function TablaClientes() {
             });
 
             if (response.ok) {
-                // Actualizar la tabla o mostrar mensaje de éxito
                 console.log('Cliente actualizado exitosamente');
-                // Recargar datos de la tabla
+
+                // Actualizar el estado local para reflejar los cambios
+                setClientes(prevClientes =>
+                    prevClientes.map(cliente =>
+                        cliente.id_cliente === clienteData.id_cliente
+                            ? { ...cliente, ...clienteData }
+                            : cliente
+                    )
+                );
+
+                // Opcional: Mostrar mensaje de éxito
+                alert('Cliente actualizado exitosamente');
             } else {
-                console.error('Error al actualizar cliente');
+                const errorData = await response.json();
+                console.error('Error al actualizar cliente:', errorData);
+                alert('Error al actualizar el cliente');
             }
         } catch (error) {
             console.error('Error:', error);
+            alert('Error de conexión');
         }
     };
 
@@ -53,7 +66,7 @@ export default function TablaClientes() {
                 </thead>
                 <tbody>
                     {clientes && clientes.map((cliente: any, index: number) => (
-                        <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={cliente.id}>
+                        <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={cliente.id_cliente}>
                             <td className="invisible w-0 h-0">{cliente.id_cliente}</td>
                             <td className="p-4">{cliente.rfc}</td>
                             <td className="p-4">{cliente.nombre_cliente}</td>
