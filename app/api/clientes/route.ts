@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
+    console.log('GET /api/clientes called');
     const clientes = await getTodosClientes();
+    console.log('Clientes found:', clientes.length);
     return NextResponse.json(clientes);
   } catch (error) {
     console.error('Error al obtener clientes:', error);

@@ -40,53 +40,68 @@ export default function TablaClientes() {
   }, []);
 
   const handleUpdateCliente = async (clienteData: any) => {
-    try {
-      const response = await fetch(`/api/updateCliente/${clienteData.id_cliente}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nombre_cliente: clienteData.nombre_cliente,
-          telefono_cliente: clienteData.telefono_cliente,
-          correo_cliente: clienteData.correo_cliente,
-          rfc: clienteData.rfc
-        }),
-      });
+  try {
+    console.log('Sending update request for client:', clienteData);
+    
+    const response = await fetch(`/api/updateCliente/${clienteData.id_cliente}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nombre_cliente: clienteData.nombre_cliente,
+        telefono_cliente: clienteData.telefono_cliente,
+        correo_cliente: clienteData.correo_cliente,
+        rfc: clienteData.rfc
+      }),
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Error de servidor' }));
-        throw new Error(errorData.error || `HTTP ${response.status}`);
+    console.log('Response status:', response.status);
+    console.log('Response headers:', response.headers);
+
+    if (!response.ok) {
+      let errorMessage = `HTTP ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorData.details || errorMessage;
+        console.error('Error response:', errorData);
+      } catch (parseError) {
+        console.error('Could not parse error response:', parseError);
+        const textResponse = await response.text();
+        console.error('Raw error response:', textResponse);
       }
-
-      const result = await response.json();
-      
-      // Actualizar el estado local
-      setClientes(prevClientes =>
-        prevClientes.map(cliente =>
-          cliente.id_cliente === clienteData.id_cliente
-            ? { ...cliente, ...clienteData }
-            : cliente
-        )
-      );
-
-      Swal.fire({
-        icon: 'success',
-        title: '¡Éxito!',
-        text: 'Cliente actualizado correctamente',
-        timer: 2000,
-        showConfirmButton: false
-      });
-
-    } catch (error) {
-      console.error('Error al actualizar cliente:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error instanceof Error ? error.message : 'Error de conexión'
-      });
+      throw new Error(errorMessage);
     }
-  };
+
+    const result = await response.json();
+    console.log('Update successful:', result);
+    
+    // Actualizar el estado local
+    setClientes(prevClientes =>
+      prevClientes.map(cliente =>
+        cliente.id_cliente === clienteData.id_cliente
+          ? { ...cliente, ...clienteData }
+          : cliente
+      )
+    );
+
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Cliente actualizado correctamente',
+      timer: 2000,
+      showConfirmButton: false
+    });
+
+  } catch (error) {
+    console.error('Error al actualizar cliente:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error instanceof Error ? error.message : 'Error de conexión'
+    });
+  }
+};
 
   if (loading) {
     return (

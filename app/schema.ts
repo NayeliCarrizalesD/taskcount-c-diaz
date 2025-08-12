@@ -71,7 +71,7 @@ export async function getTodosClientes() {
   return await db.select().from(catalogoClientes).orderBy(catalogoClientes.nombre_cliente);
 }
 
-
+// ...existing code...
 export async function updateCliente(
   id_cliente: number, 
   nombre_cliente: string, 
@@ -81,6 +81,8 @@ export async function updateCliente(
   correo_empleado?: string, 
   fecha_alta?: string
 ) {
+  console.log('updateCliente called with:', { id_cliente, nombre_cliente, telefono_cliente, correo_cliente, rfc });
+  
   const catalogoClientes = await ensureTableCatalogoClientesExists();
 
   try {
@@ -94,6 +96,8 @@ export async function updateCliente(
     if (correo_empleado?.trim()) updateData.correo_empleado = correo_empleado.trim();
     if (fecha_alta?.trim()) updateData.fecha_alta = fecha_alta.trim();
 
+    console.log('Update data:', updateData);
+
     // Verificar que hay datos para actualizar
     if (Object.keys(updateData).length === 0) {
       throw new Error('No hay datos válidos para actualizar');
@@ -103,6 +107,8 @@ export async function updateCliente(
       .set(updateData)
       .where(eq(catalogoClientes.id_cliente, id_cliente))
       .returning();
+
+    console.log('Database update result:', result);
 
     if (result.length === 0) {
       throw new Error('Cliente no encontrado');
@@ -114,6 +120,7 @@ export async function updateCliente(
     throw error;
   }
 }
+// ...existing code...
 
 export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string,fecha_alta: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
