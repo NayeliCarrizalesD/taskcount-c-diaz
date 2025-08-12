@@ -58,7 +58,7 @@ export default function TablaClienteHonorarios() {
                 <tbody>
                     {productos && productos.map((producto: any, index: number) => (
                         <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={producto.id_cliente_honorario}>
-                            <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{producto.id_cliente}</td>
+                            <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{producto.nombre_cliente}</td>
                             <td className="p-4">{producto.concepto}</td>
                             <td className="p-4">$ {producto.pago}</td>
                         </tr>

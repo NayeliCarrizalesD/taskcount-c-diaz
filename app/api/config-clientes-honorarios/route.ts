@@ -1,16 +1,11 @@
-import { NextResponse } from 'next/server';
 import { getClienteHonorariosTodosConNombre } from '@/app/schema';
 
 export async function GET() {
   try {
-    const clientesHonorarios = await getClienteHonorariosTodosConNombre();
-
-    return NextResponse.json(clientesHonorarios);
+    const configHonorarios = await getClienteHonorariosTodosConNombre();
+    return Response.json(configHonorarios);
   } catch (error) {
-    console.error('Error fetching clientes honorarios:', error);
-    return NextResponse.json(
-      { error: 'Error al obtener los datos de configuración de clientes honorarios' },
-      { status: 500 }
-    );
+    console.error('Error al obtener configuración de honorarios:', error);
+    return Response.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }
