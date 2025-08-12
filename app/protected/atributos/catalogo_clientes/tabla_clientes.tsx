@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { BtnEditar } from "../BtnEditar";
 import Swal from "sweetalert2";
-// Importa tu función para obtener clientes desde la API o un fetch
 
 export default function TablaClientes() {
   const [clientes, setClientes] = useState<any[]>([]);
@@ -13,15 +12,25 @@ export default function TablaClientes() {
     const fetchClientes = async () => {
       try {
         setLoading(true);
+        setError(null);
+        
         const response = await fetch("/api/clientes");
+        
         if (!response.ok) {
-          throw new Error('Error al cargar clientes');
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
+        
+        const contentType = response.headers.get('content-type');
+        if (!contentType?.includes('application/json')) {
+          throw new Error('La respuesta no es JSON válido');
+        }
+        
         const data = await response.json();
-        setClientes(data);
+        setClientes(Array.isArray(data) ? data : []);
+        
       } catch (error) {
-        console.error('Error:', error);
-        setError('Error al cargar los datos');
+        console.error('Error al cargar clientes:', error);
+        setError(error instanceof Error ? error.message : 'Error desconocido');
       } finally {
         setLoading(false);
       }
@@ -37,36 +46,40 @@ export default function TablaClientes() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(clienteData),
+        body: JSON.stringify({
+          nombre_cliente: clienteData.nombre_cliente,
+          telefono_cliente: clienteData.telefono_cliente,
+          correo_cliente: clienteData.correo_cliente,
+          rfc: clienteData.rfc
+        }),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        
-        // Actualizar el estado local
-        setClientes(prevClientes =>
-          prevClientes.map(cliente =>
-            cliente.id_cliente === clienteData.id_cliente
-              ? { ...cliente, ...clienteData }
-              : cliente
-          )
-        );
-
-        // Mostrar mensaje de éxito con SweetAlert2
-        Swal.fire({
-          icon: 'success',
-          title: '¡Éxito!',
-          text: 'Cliente actualizado correctamente',
-          timer: 2000,
-          showConfirmButton: false
-        });
-
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al actualizar cliente');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Error de servidor' }));
+        throw new Error(errorData.error || `HTTP ${response.status}`);
       }
+
+      const result = await response.json();
+      
+      // Actualizar el estado local
+      setClientes(prevClientes =>
+        prevClientes.map(cliente =>
+          cliente.id_cliente === clienteData.id_cliente
+            ? { ...cliente, ...clienteData }
+            : cliente
+        )
+      );
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: 'Cliente actualizado correctamente',
+        timer: 2000,
+        showConfirmButton: false
+      });
+
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error al actualizar cliente:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -86,7 +99,7 @@ export default function TablaClientes() {
   if (error) {
     return (
       <div className="flex justify-center items-center p-8">
-        <div className="text-red-500">{error}</div>
+        <div className="text-red-500">Error: {error}</div>
       </div>
     );
   }
@@ -94,26 +107,28 @@ export default function TablaClientes() {
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full overflow-scroll rounded-lg bg-clip-border bg-zinc-900 my-5">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800  dark:text-gray-400 table-auto min-w-max">   
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-neutral-800 table-auto min-w-max">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th className='invisible w-0 h-0'></th>
-              <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>RFC</th>
-              <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre / Razon Social </th>
-              <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Telefono</th> 
-              <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Fecha Alta</th> 
-              <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Registrado por:</th>
+              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>ID</th>
+              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Nombre</th>
+              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Teléfono</th>
+              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Correo</th>
+              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>RFC</th>
+              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {clientes && clientes.map((cliente: any, index: number) => (
-              <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={cliente.id_cliente}>
-                <td className="invisible w-0 h-0">{cliente.id_cliente}</td>
-                <td className="p-4">{cliente.rfc}</td>
+            {clientes.map((cliente, index) => (
+              <tr key={cliente.id_cliente} className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"}>
+                <td className="p-4">{cliente.id_cliente}</td>
                 <td className="p-4">{cliente.nombre_cliente}</td>
                 <td className="p-4">{cliente.telefono_cliente}</td>
-                <td className="p-4">{cliente.fecha_alta}</td>
-                <td className="p-4"><BtnEditar onClick={handleUpdateCliente} cliente={cliente} /></td>
+                <td className="p-4">{cliente.correo_cliente}</td>
+                <td className="p-4">{cliente.rfc}</td>
+                <td className="p-4">
+                  <BtnEditar onClick={handleUpdateCliente} cliente={cliente} />
+                </td>
               </tr>
             ))}
           </tbody>
