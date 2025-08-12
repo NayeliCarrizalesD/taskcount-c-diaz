@@ -72,10 +72,24 @@ export async function getTodosClientes() {
   return await db.select().from(catalogoClientes).orderBy(catalogoClientes.nombre_cliente);
 }
 
-export async function updateCliente(id_cliente: number, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string, fecha_alta: string) {
+
+export async function updateCliente(id_cliente: number, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado?: string, fecha_alta?: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.update(catalogoClientes).set({ nombre_cliente, telefono_cliente, correo_cliente, rfc, correo_empleado, fecha_alta }).where(eq(catalogoClientes.id_cliente, id_cliente));
+
+  // Preparar objeto de actualización solo con campos definidos
+  const updateData: any = { nombre_cliente, telefono_cliente, correo_cliente, rfc };
+
+  if (correo_empleado) updateData.correo_empleado = correo_empleado;
+  if (fecha_alta) updateData.fecha_alta = fecha_alta;
+
+  const result = await db.update(catalogoClientes)
+    .set(updateData)
+    .where(eq(catalogoClientes.id_cliente, id_cliente))
+    .returning(); // Esto devuelve el registro actualizado
+
+  return result;
 }
+
 
 export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string,fecha_alta: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
@@ -266,7 +280,7 @@ export async function getClienteHonorariosTodos() {
   return await db.select().from(configClienteHonorario);
 }
 
-// ...existing code...
+
 export async function getClienteHonorariosTodosConNombre() {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
   const catalogoClientes = await ensureTableCatalogoClientesExists();
@@ -292,7 +306,7 @@ export async function getClienteHonorariosTodosConNombre() {
   // Ordenar por nombre de cliente
   return resultado.sort((a, b) => a.nombre_cliente.localeCompare(b.nombre_cliente));
 }
-// ...existing code...
+
 
 
 export async function createCosto(id_cliente: string, concepto: string, pago1: number) {

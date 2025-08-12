@@ -15,10 +15,27 @@ export default function TablaClientes() {
   }, []);
 
     // Define the handler function
-    function handleEditarCliente(cliente: any) {
-        // Implement your edit logic here
-        console.log("Editar cliente:", cliente);
-    }
+    const handleUpdateCliente = async (clienteData: any) => {
+        try {
+            const response = await fetch(`/api/clientes/${clienteData.id_cliente}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(clienteData),
+            });
+
+            if (response.ok) {
+                // Actualizar la tabla o mostrar mensaje de éxito
+                console.log('Cliente actualizado exitosamente');
+                // Recargar datos de la tabla
+            } else {
+                console.error('Error al actualizar cliente');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     return (
         <>
@@ -42,7 +59,7 @@ export default function TablaClientes() {
                             <td className="p-4">{cliente.nombre_cliente}</td>
                             <td className="p-4">{cliente.telefono_cliente}</td>
                             <td className="p-4">{cliente.fecha_alta}</td>
-                            <td className="p-4"><BtnEditar onClick={handleEditarCliente} cliente={cliente} /></td>
+                            <td className="p-4"><BtnEditar onClick={handleUpdateCliente} cliente={cliente} /></td>
                         </tr>
                     ))}
                 </tbody>

@@ -12,24 +12,39 @@ export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, 
     Swal.fire({
       title: "Editar cliente",
       html: `
-        <input id="swal-input3" class="swal2-input" value="${cliente.rfc}" placeholder="RFC">
         <input id="swal-input1" class="swal2-input" value="${cliente.nombre_cliente}" placeholder="Nombre">
         <input id="swal-input2" class="swal2-input" value="${cliente.telefono_cliente}" placeholder="Teléfono">
-        <input id="swal-input4" class="swal2-input" value="${cliente.correo_cliente}" placeholder="Correo">
+        <input id="swal-input3" class="swal2-input" value="${cliente.correo_cliente}" placeholder="Correo">
+        <input id="swal-input4" class="swal2-input" value="${cliente.rfc}" placeholder="RFC">
       `,
       focusConfirm: false,
       showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
       preConfirm: () => {
+        const nombre = (document.getElementById('swal-input1') as HTMLInputElement).value;
+        const telefono = (document.getElementById('swal-input2') as HTMLInputElement).value;
+        const correo = (document.getElementById('swal-input3') as HTMLInputElement).value;
+        const rfc = (document.getElementById('swal-input4') as HTMLInputElement).value;
+
+        if (!nombre || !telefono || !correo || !rfc) {
+          Swal.showValidationMessage('Todos los campos son obligatorios');
+          return false;
+        }
+
         return {
-          id_cliente: cliente.id_cliente, // <-- Incluye el id aquí
-          rfc: (document.getElementById('swal-input1') as HTMLInputElement).value,
-          nombre_cliente: (document.getElementById('swal-input2') as HTMLInputElement).value,
-          telefono_cliente: (document.getElementById('swal-input3') as HTMLInputElement).value,
-          correo_cliente: (document.getElementById('swal-input4') as HTMLInputElement).value,
+          id_cliente: cliente.id_cliente,
+          nombre_cliente: nombre,
+          telefono_cliente: telefono,
+          correo_cliente: correo,
+          rfc: rfc,
+          correo_empleado: cliente.correo_empleado, // Mantener el original
+          fecha_alta: cliente.fecha_alta // Mantener el original
         }
       }
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed && result.value) {
+        console.log('Datos a enviar:', result.value); // Para debug
         onClick(result.value);
       }
     });
@@ -40,13 +55,9 @@ export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, 
       onClick={handleEditar}
       className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
     >
-        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-transparent group-hover:dark:bg-transparent">
-Editar
-</span>
-
-      
+      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-transparent group-hover:dark:bg-transparent">
+        Editar
+      </span>
     </button>
   );
 }
-
-
