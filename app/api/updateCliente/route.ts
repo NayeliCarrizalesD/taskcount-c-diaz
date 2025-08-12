@@ -1,6 +1,7 @@
 import { updateCliente } from '@/app/schema';
+import { NextRequest } from 'next/server';
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const body = await request.json();
     const { nombre_cliente, telefono_cliente, correo_cliente, rfc, correo_empleado, fecha_alta } = body;

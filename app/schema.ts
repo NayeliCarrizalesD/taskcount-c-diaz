@@ -73,21 +73,33 @@ export async function getTodosClientes() {
 }
 
 
-export async function updateCliente(id_cliente: number, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado?: string, fecha_alta?: string) {
+export async function updateCliente(
+  id_cliente: number, 
+  nombre_cliente: string, 
+  telefono_cliente: string, 
+  correo_cliente: string, 
+  rfc: string, 
+  correo_empleado?: string, 
+  fecha_alta?: string
+) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
 
-  // Preparar objeto de actualización solo con campos definidos
-  const updateData: any = { nombre_cliente, telefono_cliente, correo_cliente, rfc };
-
+  // Solo actualizar campos no vacíos
+  const updateData: any = {};
+  
+  if (nombre_cliente) updateData.nombre_cliente = nombre_cliente;
+  if (telefono_cliente) updateData.telefono_cliente = telefono_cliente;
+  if (correo_cliente) updateData.correo_cliente = correo_cliente;
+  if (rfc) updateData.rfc = rfc;
   if (correo_empleado) updateData.correo_empleado = correo_empleado;
   if (fecha_alta) updateData.fecha_alta = fecha_alta;
 
   const result = await db.update(catalogoClientes)
     .set(updateData)
     .where(eq(catalogoClientes.id_cliente, id_cliente))
-    .returning(); // Esto devuelve el registro actualizado
+    .returning();
 
-  return result;
+  return result[0]; // Devolver solo el primer registro
 }
 
 
