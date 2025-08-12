@@ -17,7 +17,7 @@ export default function TablaClientes() {
     // Define the handler function
     const handleUpdateCliente = async (clienteData: any) => {
         try {
-            const response = await fetch(`/api/updateClientes/${clienteData.id_cliente}`, {
+            const response = await fetch(`/api/updateCliente/${clienteData.id_cliente}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -26,7 +26,8 @@ export default function TablaClientes() {
             });
 
             if (response.ok) {
-                console.log('Cliente actualizado exitosamente');
+                const result = await response.json();
+                console.log('Cliente actualizado exitosamente:', result);
 
                 // Actualizar el estado local para reflejar los cambios
                 setClientes(prevClientes =>
@@ -37,12 +38,17 @@ export default function TablaClientes() {
                     )
                 );
 
-                // Opcional: Mostrar mensaje de éxito
                 alert('Cliente actualizado exitosamente');
             } else {
-                const errorData = await response.json();
-                console.error('Error al actualizar cliente:', errorData);
-                alert('Error al actualizar el cliente');
+                let errorMessage = 'Error al actualizar el cliente';
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.error || errorMessage;
+                } catch (jsonError) {
+                    console.error('Error parsing response:', jsonError);
+                }
+                console.error('Error al actualizar cliente:', errorMessage);
+                alert(errorMessage);
             }
         } catch (error) {
             console.error('Error:', error);

@@ -5,8 +5,14 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const body = await request.json();
     const { nombre_cliente, telefono_cliente, correo_cliente, rfc, correo_empleado, fecha_alta } = body;
 
+    const id_cliente = parseInt(params.id);
+
+    if (isNaN(id_cliente)) {
+      return Response.json({ error: 'ID de cliente inválido' }, { status: 400 });
+    }
+
     const result = await updateCliente(
-      parseInt(params.id),
+      id_cliente,
       nombre_cliente,
       telefono_cliente,
       correo_cliente,
@@ -15,13 +21,17 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       fecha_alta
     );
 
-    if (result.length > 0) {
-      return Response.json({ success: true, data: result[0] });
-    } else {
-      return Response.json({ error: 'Cliente no encontrado' }, { status: 404 });
-    }
+    return Response.json({
+      success: true,
+      message: 'Cliente actualizado exitosamente',
+      data: result
+    });
+
   } catch (error) {
     console.error('Error al actualizar cliente:', error);
-    return Response.json({ error: 'Error interno del servidor' }, { status: 500 });
+    return Response.json({
+      error: 'Error interno del servidor',
+      details: error instanceof Error ? error.message : 'Error desconocido'
+    }, { status: 500 });
   }
 }
