@@ -42,21 +42,21 @@ const meses = [
               <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Registrado por:</th>
             </tr>
           </thead>
-          <tbody>
-            {pagosActuales.map((item, index) => (
-              <tr className={
-                index % 2
-          ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500"
-          : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"
-        } key={item.id_entrada}>
-                <td className="p-4">{item.id_cliente}</td>
-                <td className="p-4">{item.concepto}</td>
-                <td className="p-4">{item.pago}</td>
-                <td className="p-4">{meses[Number(item.mes_pago)]}</td>
-                <td className="p-4">{item.year_pago}</td>
-                <td className="p-4">{item.correo_empleado}</td>
-              </tr>
-            ))}
+            <tbody>
+              {pagosActuales.map((item, index) => (
+                <tr className={
+                  index % 2
+                    ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500"
+                    : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"
+                } key={item.id_pago}>
+                  <td className="p-4">{item.nombre_cliente || `Cliente ID: ${item.id_cliente}`}</td>
+                  <td className="p-4">{item.concepto}</td>
+                  <td className="p-4">{item.pago}</td>
+                  <td className="p-4">{meses[Number(item.mes_pago)]}</td>
+                  <td className="p-4">{item.year_pago}</td>
+                  <td className="p-4">{item.correo_empleado}</td>
+                </tr>
+              ))}
                         {/*{pagosTotales && pagosTotales.map((check: any, index: number) => (
                             <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={check.id_entrada}>
                                 <td className="p-4">{check.nombre_cliente}</td>

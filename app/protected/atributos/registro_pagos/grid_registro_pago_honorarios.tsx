@@ -10,7 +10,7 @@ export const GridRegistroPagoHonorarios = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/pagos"); 
+                const res = await fetch("/api/pagos-con-nombres"); // Cambiar aquí
                 const datos = await res.json();
                 setDatosTabla(datos);
             } catch (error) {

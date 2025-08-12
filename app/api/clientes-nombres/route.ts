@@ -1,0 +1,11 @@
+import { getPagosTodosConNombres } from '@/app/schema';
+
+export async function GET() {
+    try {
+        const pagos = await getPagosTodosConNombres();
+        return Response.json(pagos);
+    } catch (error) {
+        console.error('Error al obtener pagos con nombres:', error);
+        return Response.json({ error: 'Error interno del servidor' }, { status: 500 });
+    }
+}

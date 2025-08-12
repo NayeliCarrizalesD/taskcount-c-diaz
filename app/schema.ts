@@ -365,6 +365,31 @@ export async function createRegistroPago( marca_temporal: string, id_cliente: st
   return await db.insert(registroPago).values([{ marca_temporal, id_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado }]);
 }
 
+export async function getPagosTodosConNombres() {
+  const registroPago = await ensureTableRegistroPagoExists();
+  const catalogoClientes = await ensureTableCatalogoClientesExists();
+
+  // Hacer JOIN entre pagos y clientes
+  const pagosConNombres = await db
+    .select({
+      id_pago: registroPago.id_pago,
+      marca_temporal: registroPago.marca_temporal,
+      id_cliente: registroPago.id_cliente,
+      nombre_cliente: catalogoClientes.nombre_cliente,
+      concepto: registroPago.concepto,
+      pago: registroPago.pago,
+      mes_pago: registroPago.mes_pago,
+      year_pago: registroPago.year_pago,
+      correo_empleado: registroPago.correo_empleado
+    })
+    .from(registroPago)
+    .leftJoin(catalogoClientes, eq(registroPago.id_cliente, catalogoClientes.id_cliente))
+    .orderBy(desc(registroPago.year_pago), desc(registroPago.mes_pago));
+
+  return pagosConNombres;
+}
+
+
 
 async function ensureTableRegistroPagoExists() {
   const result = await client`
