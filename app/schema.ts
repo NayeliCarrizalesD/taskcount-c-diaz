@@ -380,7 +380,7 @@ export async function getPagosTodosConNombres() {
         correo_empleado: registroPago.correo_empleado
       })
       .from(registroPago)
-      .leftJoin(catalogo_clientes, eq(registroPago.id_cliente, catalogo_clientes.id_cliente.toString()))
+      .leftJoin(catalogo_clientes, eq(registroPago.id_cliente, sql`${catalogo_clientes.id_cliente}::text`))
       .orderBy(desc(registroPago.year_pago), desc(registroPago.mes_pago));
 
     return result;
