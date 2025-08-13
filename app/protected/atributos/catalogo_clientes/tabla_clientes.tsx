@@ -4,19 +4,35 @@ import { BtnEditar } from "../BtnEditar";
 // Importa tu función para obtener clientes desde la API o un fetch
 
 export default function TablaClientes() {
-  const [clientes, setClientes] = useState<any[]>([]);
+    const [clientes, setClientes] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Reemplaza esto por tu fetch real, por ejemplo:
-    fetch("/api/clientes")
-      .then(res => res.json())
-      .then(data => setClientes(data))
-      .catch(e => console.error(e));
-  }, []);
+    const fetchClientes = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch("/api/clientes", {
+                cache: 'no-store', // Evita cache
+                headers: {
+                    'Cache-Control': 'no-cache',
+                }
+            });
+            const data = await response.json();
+            setClientes(data);
+        } catch (error) {
+            console.error('Error fetching clientes:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    // Define the handler function
+    useEffect(() => {
+        fetchClientes();
+    }, []);
+
     const handleUpdateCliente = async (clienteData: any) => {
         try {
+            console.log('Enviando datos de cliente:', clienteData);
+
             const response = await fetch(`/api/updateCliente/${clienteData.id_cliente}`, {
                 method: 'PUT',
                 headers: {
@@ -25,11 +41,12 @@ export default function TablaClientes() {
                 body: JSON.stringify(clienteData),
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Cliente actualizado exitosamente:', result);
+            const result = await response.json();
+            console.log('Respuesta del servidor:', result);
 
-                // Actualizar el estado local para reflejar los cambios
+            if (response.ok) {
+                // Opción 1: Actualizar el estado local
+               
                 setClientes(prevClientes =>
                     prevClientes.map(cliente =>
                         cliente.id_cliente === clienteData.id_cliente
@@ -38,17 +55,14 @@ export default function TablaClientes() {
                     )
                 );
 
+                // Opción 2: O refetch todos los datos (más seguro)
+                // await fetchClientes();
+
                 alert('Cliente actualizado exitosamente');
+                await fetchClientes();
             } else {
-                let errorMessage = 'Error al actualizar el cliente';
-                try {
-                    const errorData = await response.json();
-                    errorMessage = errorData.error || errorMessage;
-                } catch (jsonError) {
-                    console.error('Error parsing response:', jsonError);
-                }
-                console.error('Error al actualizar cliente:', errorMessage);
-                alert(errorMessage);
+                console.error('Error del servidor:', result);
+                alert(result.error || 'Error al actualizar el cliente');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -56,18 +70,23 @@ export default function TablaClientes() {
         }
     };
 
+    if (loading) {
+        return <div>Cargando...</div>;
+    }
+
     return (
         <>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll  rounded-lg bg-clip-border bg-zinc-900 my-5">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800  dark:text-gray-400 table-auto min-w-max">   
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full overflow-scroll rounded-lg bg-clip-border bg-zinc-900 my-5">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800 dark:text-gray-400 table-auto min-w-max">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th className='invisible w-0 h-0'></th>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>RFC</th>
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre / Razon Social </th>
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Telefono</th> 
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Fecha Alta</th> 
+                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre / Razon Social</th>
+                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Telefono</th>
+                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Fecha Alta</th>
                         <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Registrado por:</th>
+                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,7 +97,10 @@ export default function TablaClientes() {
                             <td className="p-4">{cliente.nombre_cliente}</td>
                             <td className="p-4">{cliente.telefono_cliente}</td>
                             <td className="p-4">{cliente.fecha_alta}</td>
-                            <td className="p-4"><BtnEditar onClick={handleUpdateCliente} cliente={cliente} /></td>
+                            <td className="p-4">{cliente.correo_empleado}</td>
+                            <td className="p-4">
+                                <BtnEditar onClick={handleUpdateCliente} cliente={cliente} />
+                            </td>
                         </tr>
                     ))}
                 </tbody>
