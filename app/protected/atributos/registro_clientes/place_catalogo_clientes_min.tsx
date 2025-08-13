@@ -1,4 +1,4 @@
-import TablaClientes from "../catalogo_clientes/tabla_clientes";
+import TablaClientesCatalogo from "./tabla_clientes";
 
 
 export async function PlaceholderTablaClientesPequenio() {
@@ -14,7 +14,7 @@ export async function PlaceholderTablaClientesPequenio() {
                 </h3>
             </div>
             <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
-             <TablaClientes/>
+             <TablaClientesCatalogo/>
             </div>
         </div>
     )
