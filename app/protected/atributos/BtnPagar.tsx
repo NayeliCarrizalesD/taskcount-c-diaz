@@ -103,18 +103,18 @@ useEffect(() => {
               </div>
               <div>
                 <label class="block text-sm font-medium mb-2">Año:</label>
-                <input id="year-pago" type="number" class="swal2-input" value="${yearActual}" min="2020" max="2030">
+                <input id="year-pago" type="number" class="swal2-input rounded-xl" value="${yearActual}" min="2020" max="2030">
               </div>
             </div>
             
             <div>
               <label class="block text-sm font-medium mb-2">Monto:</label>
-              <input id="monto-pago" type="number" class="swal2-input" value="${configData.pago}" step="0.01">
+              <input id="monto-pago" type="number" class="swal2-input rounded-xl" value="${configData.pago}" step="0.01">
             </div>
             
             <div>
               <label class="block text-sm font-medium mb-2" for="correo-empleado">Correo empleado:</label>
-              <input id="correo-empleado" type="email" class="swal2-input" value="${correoEmpleado}" />
+              <input id="correo-empleado" type="email" class="swal2-input rounded-xl" value="${correoEmpleado}" />
             </div>
           </div>
         `,
