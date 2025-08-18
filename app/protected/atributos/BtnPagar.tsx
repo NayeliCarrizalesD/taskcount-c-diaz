@@ -78,7 +78,11 @@ useEffect(() => {
       // Calcular próximo mes
       const fechaActual = new Date();
       const mesActual = fechaActual.getMonth() + 1;
-      const yearActual = fechaActual.getFullYear();
+      const currentYear = new Date().getFullYear();
+      const yearOptions = Array.from({ length: 9 }, (_, i) => {
+      const year = currentYear + i;
+      return `<option value="${year}">${year}</option>`;
+        }).join('');
       // Mostrar modal con información
       const result = await MySwal.fire({
         title: 'Registrar Pago de Honorarios',
@@ -104,21 +108,10 @@ useEffect(() => {
               <br />
               <div>
                 <label class="block text-sm font-medium mb-2">Año:</label>
-                <select
-            id="year_pago"
-            name="year_pago"
-            class="swal2-input bg-black rounded-xl border-white"
-            required>
-            <option value={""}>Seleccione una opción</option>
-            ${Array.from({ length: 9 }, (_, i) => { 
-              const year = new Date().getFullYear() - i;
-              return (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              );
-            })}
-          </select>                
+                <select id="year_pago" class="swal2-input bg-black rounded-xl border-white">
+                  <option value="">Seleccione una opción</option>
+                  ${yearOptions}
+                </select>        
               </div>
             </div>
             
