@@ -125,7 +125,9 @@ useEffect(() => {
           popup: 'border-radius-0'
         },
         confirmButtonText: 'Registrar Pago',
+        confirmButtonColor: '#3085d6',
         cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#d33',
         preConfirm: () => {
           const mes = (document.getElementById('mes-pago') as HTMLSelectElement).value;
           const year = (document.getElementById('year-pago') as HTMLInputElement).value;
