@@ -11,21 +11,33 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
     try {
       setLoading(true);
 
-      // Obtener configuración de honorarios del cliente
+      // Verificar si existe configuración de honorarios
       const configResponse = await fetch(`/api/config-cliente-honorarios/${cliente.id_cliente}`);
 
       if (!configResponse.ok) {
-        throw new Error('No se encontró configuración de honorarios para este cliente');
+        if (configResponse.status === 404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Configuración faltante',
+            text: 'Este cliente no tiene configuración de honorarios. Por favor, configúrala primero en "Config Honorarios".',
+            confirmButtonText: 'Entendido'
+          });
+          return;
+        }
+        throw new Error('Error al obtener configuración de honorarios');
       }
 
       const configData = await configResponse.json();
 
-      // Obtener último pago del cliente
-      const ultimoPagoResponse = await fetch(`/api/ultimo-pago/${cliente.id_cliente}`);
+      // Obtener último pago (opcional)
       let ultimoPago = null;
-
-      if (ultimoPagoResponse.ok) {
-        ultimoPago = await ultimoPagoResponse.json();
+      try {
+        const ultimoPagoResponse = await fetch(`/api/ultimo-pago/${cliente.id_cliente}`);
+        if (ultimoPagoResponse.ok) {
+          ultimoPago = await ultimoPagoResponse.json();
+        }
+      } catch (error) {
+        console.log('No hay pagos anteriores para este cliente');
       }
 
       // Preparar datos para el modal
@@ -49,9 +61,9 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
         html: `
           <div class="text-left space-y-4">
             <div class="bg-gray-100 p-3 rounded">
-              <strong>Cliente:</strong> ${cliente.nombre_cliente}<br>
+              <strong>Cliente:</strong> ${cliente.nombre_cliente || 'Sin nombre'}<br>
               <strong>Concepto:</strong> ${configData.concepto}<br>
-              <strong>Monto:</strong> $${configData.pago}<br>
+              <strong>Monto configurado:</strong> $${configData.pago}<br>
               <strong>Último mes pagado:</strong> ${ultimoMesPagado}
             </div>
             
@@ -179,7 +191,7 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
       className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
     >
       <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-transparent">
-        {loading ? 'Cargando...' : 'Pagar Honorarios'}
+        {loading ? 'Cargando...' : 'Pagar'}
       </span>
     </button>
   );
