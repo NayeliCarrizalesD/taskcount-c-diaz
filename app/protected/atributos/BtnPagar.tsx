@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { InputCorreoUsuario } from './inputCorreoUsuario';
 
 export function BtnPagar({ cliente, onPagoRealizado }: {
   cliente: any;
@@ -89,7 +90,7 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
             
             <div>
               <label class="block text-sm font-medium mb-2">Correo empleado:</label>
-              <input id="correo-empleado" type="email" class="swal2-input" placeholder="correo@empresa.com">
+              <InputCorreoUsuario />
             </div>
           </div>
         `,
