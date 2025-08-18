@@ -124,7 +124,7 @@ useEffect(() => {
           cancelButton: 'border-radius-0'
         },
         confirmButtonText: 'Registrar Pago',
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#2c7aa2',
         cancelButtonText: 'Cancelar',
         cancelButtonColor: '#d33',
         preConfirm: () => {
