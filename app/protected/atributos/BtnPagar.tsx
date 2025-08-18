@@ -92,15 +92,19 @@ useEffect(() => {
             </div>
             
             <div class="columns-2">
-              <label class="block text-sm font-medium mb-2">Mes a pagar:</label>
-              <select id="mes-pago" class="swal2-input bg-black">
-                <option value="">Seleccionar mes</option>
-                ${meses.slice(1).map((mes, index) =>
-          `<option value="${index + 1}" ${index + 1 === mesActual ? 'selected' : ''}>${mes}</option>`
-        ).join('')}
-              </select>
-              <label class="block text-sm font-medium mb-2">Año:</label>
-              <input id="year-pago" type="number" class="swal2-input" value="${yearActual}" min="2020" max="2030">
+              <div>
+                <label class="block text-sm font-medium mb-2">Mes a pagar:</label>
+                <select id="mes-pago" class="swal2-input bg-black">
+                  <option value="">Seleccionar mes</option>
+                  ${meses.slice(1).map((mes, index) =>
+            `<option value="${index + 1}" ${index + 1 === mesActual ? 'selected' : ''}>${mes}</option>`
+          ).join('')}
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Año:</label>
+                <input id="year-pago" type="number" class="swal2-input" value="${yearActual}" min="2020" max="2030">
+              </div>
             </div>
             
             <div>
