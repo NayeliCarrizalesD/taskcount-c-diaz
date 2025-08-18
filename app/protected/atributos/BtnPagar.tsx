@@ -101,6 +101,7 @@ useEffect(() => {
           ).join('')}
                 </select>
               </div>
+              <br />
               <div>
                 <label class="block text-sm font-medium mb-2">Año:</label>
                 <input id="year-pago" type="number" class="swal2-input rounded-xl" value="${yearActual}" min="2020" max="2030">
