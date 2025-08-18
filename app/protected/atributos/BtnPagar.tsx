@@ -64,7 +64,7 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
         title: 'Registrar Pago de Honorarios',
         html: `
           <div class="text-left space-y-4">
-            <div class="bg-gray-100 p-3 rounded">
+            <div class="bg-cyan-800 p-3 rounded-xl">
               <strong>Cliente:</strong> ${cliente.nombre_cliente || 'Sin nombre'}<br>
               <strong>Concepto:</strong> ${configData.concepto}<br>
               <strong>Monto configurado:</strong> $${configData.pago}<br>
@@ -73,7 +73,7 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
             
             <div>
               <label class="block text-sm font-medium mb-2">Mes a pagar:</label>
-              <select id="mes-pago" class="swal2-input">
+              <select id="mes-pago" class="swal2-input bg-black">
                 <option value="">Seleccionar mes</option>
                 ${meses.slice(1).map((mes, index) =>
           `<option value="${index + 1}" ${index + 1 === mesActual ? 'selected' : ''}>${mes}</option>`
