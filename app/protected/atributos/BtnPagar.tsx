@@ -80,7 +80,7 @@ useEffect(() => {
       const mesActual = fechaActual.getMonth() + 1;
       const currentYear = new Date().getFullYear();
       const yearOptions = Array.from({ length: 9 }, (_, i) => {
-      const year = currentYear + i;
+      const year = currentYear - i;
       return `<option value="${year}">${year}</option>`;
         }).join('');
       // Mostrar modal con información
@@ -109,7 +109,7 @@ useEffect(() => {
               <div>
                 <label class="block text-sm font-medium mb-2">Año:</label>
                 <select id="year_pago" class="swal2-input bg-black rounded-xl border-white">
-                  <option value="">Seleccione una opción</option>
+                  <option value="">Año</option>
                   ${yearOptions}
                 </select>        
               </div>
