@@ -64,7 +64,7 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
         title: 'Registrar Pago de Honorarios',
         html: `
           <div class="text-left space-y-4">
-            <div class="bg-cyan-800 p-3 rounded-xl">
+            <div class="bg-cyan-900 p-3 rounded-xl">
               <strong>Cliente:</strong> ${cliente.nombre_cliente || 'Sin nombre'}<br>
               <strong>Concepto:</strong> ${configData.concepto}<br>
               <strong>Monto configurado:</strong> $${configData.pago}<br>
@@ -146,6 +146,11 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
       Swal.fire({
         icon: 'error',
         title: 'Error',
+        color: "white",
+        background: "black",
+        customClass: {
+          popup: 'border-radius-0'
+        },
         text: error instanceof Error ? error.message : 'Error al cargar datos del cliente'
       });
     } finally {
