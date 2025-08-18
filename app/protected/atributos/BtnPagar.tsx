@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { InputCorreoUsuario } from './inputCorreoUsuario';
+import withReactContent from 'sweetalert2-react-content';
+import { InputCorreoUsuarioModal } from './InputCorreoUsuarioModal';
+
+const MySwal = withReactContent(Swal);
 
 export function BtnPagar({ cliente, onPagoRealizado }: {
   cliente: any;
   onPagoRealizado?: () => void;
 }) {
   const [loading, setLoading] = useState(false);
+  const [correoEmpleado, setCorreoEmpleado] = useState("");
 
   const handlePagar = async () => {
     try {
@@ -55,9 +59,8 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
       const fechaActual = new Date();
       const mesActual = fechaActual.getMonth() + 1;
       const yearActual = fechaActual.getFullYear();
-
       // Mostrar modal con información
-      const result = await Swal.fire({
+      const result = await MySwal.fire({
         title: 'Registrar Pago de Honorarios',
         html: `
           <div class="text-left space-y-4">
@@ -89,13 +92,18 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
             </div>
             
             <div>
-              <label class="block text-sm font-medium mb-2">Correo empleado:</label>
-              <InputCorreoUsuario />
+              <label class="block text-sm font-medium mb-2" for="correo-empleado">Correo empleado:</label>
+              <input id="correo-empleado" type="email" class="swal2-input" value="${correoEmpleado}" />
             </div>
           </div>
         `,
         width: '500px',
         showCancelButton: true,
+        color: "white",
+        background: "black",
+        customClass: {
+          popup: 'border-radius-0'
+        },
         confirmButtonText: 'Registrar Pago',
         cancelButtonText: 'Cancelar',
         preConfirm: () => {
@@ -111,6 +119,10 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
 
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoEmpleado)) {
             Swal.showValidationMessage('El formato del correo no es válido');
+            return false;
+          }
+          if (!correoEmpleado) {
+            Swal.showValidationMessage('El correo del empleado es obligatorio');
             return false;
           }
 
