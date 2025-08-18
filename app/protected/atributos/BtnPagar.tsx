@@ -122,7 +122,9 @@ useEffect(() => {
         color: "white",
         background: "black",
         customClass: {
-          popup: 'border-radius-0'
+          popup: 'border-radius-0',
+          confirmButton: 'border-radius-0',
+          cancelButton: 'border-radius-0'
         },
         confirmButtonText: 'Registrar Pago',
         confirmButtonColor: '#3085d6',
