@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useEffect } from 'react';
 import withReactContent from 'sweetalert2-react-content';
 import { InputCorreoUsuarioModal } from './InputCorreoUsuarioModal';
 
@@ -9,8 +10,27 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
   cliente: any;
   onPagoRealizado?: () => void;
 }) {
-  const [loading, setLoading] = useState(false);
-  const [correoEmpleado, setCorreoEmpleado] = useState("");
+const [loading, setLoading] = useState(false);
+const [correoEmpleado, setCorreoEmpleado] = useState("");
+
+// Fetch correoUsuario on mount
+
+useEffect(() => {
+  const fetchCorreoUsuario = async () => {
+    try {
+      const usuarioRes = await fetch('/api/usuario-actual');
+      if (usuarioRes.ok) {
+        const usuario = await usuarioRes.json();
+        setCorreoEmpleado(usuario.correo || "");
+      } else {
+        setCorreoEmpleado("");
+      }
+    } catch (e) {
+      setCorreoEmpleado("");
+    }
+  };
+  fetchCorreoUsuario();
+}, []);
 
   const handlePagar = async () => {
     try {

@@ -16,6 +16,17 @@ export async function getUsuario(correo: string) {
   return await db.select().from(datosUsuario).where(eq(datosUsuario.correo, correo));
 }
 
+export async function getUsuarioPorCorreo(correo: string) {
+  const datosUsuarioTable = await ensureTableDatosUsuarioExists(); // Si usas una función para asegurar la tabla
+  const result = await db
+    .select()
+    .from(datosUsuarioTable)
+    .where(eq(datosUsuarioTable.correo, correo));
+
+  // Devuelve el primer usuario encontrado o null
+  return result[0] || null;
+}
+
 export async function createDatosUsuario(fecha_alta: string, telefono_usuario: string, correo: string, nivel: string) {
   const datosUsuario = await ensureTableDatosUsuarioExists();
   return await db.insert(datosUsuario).values([{ fecha_alta, telefono_usuario, correo, nivel }]);
