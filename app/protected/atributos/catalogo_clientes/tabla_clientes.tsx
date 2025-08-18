@@ -140,7 +140,7 @@ export default function TablaClientes() {
                 <td className="p-4">{cliente.correo_cliente}</td>
                 <td className="p-4">
                   <BtnEditar onClick={handleUpdateCliente} cliente={cliente} />
-                  <BtnPagar />
+                  <BtnPagar cliente={cliente} />
                 </td>
               </tr>
             ))}

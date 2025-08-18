@@ -1,15 +1,185 @@
+import { useState } from 'react';
+import Swal from 'sweetalert2';
 
+export function BtnPagar({ cliente, onPagoRealizado }: {
+  cliente: any;
+  onPagoRealizado?: () => void;
+}) {
+  const [loading, setLoading] = useState(false);
 
+  const handlePagar = async () => {
+    try {
+      setLoading(true);
 
-export function BtnPagar() {
-  
+      // Obtener configuración de honorarios del cliente
+      const configResponse = await fetch(`/api/config-cliente-honorarios/${cliente.id_cliente}`);
+
+      if (!configResponse.ok) {
+        throw new Error('No se encontró configuración de honorarios para este cliente');
+      }
+
+      const configData = await configResponse.json();
+
+      // Obtener último pago del cliente
+      const ultimoPagoResponse = await fetch(`/api/ultimo-pago/${cliente.id_cliente}`);
+      let ultimoPago = null;
+
+      if (ultimoPagoResponse.ok) {
+        ultimoPago = await ultimoPagoResponse.json();
+      }
+
+      // Preparar datos para el modal
+      const meses = [
+        "", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      ];
+
+      const ultimoMesPagado = ultimoPago
+        ? `${meses[parseInt(ultimoPago.mes_pago)]} ${ultimoPago.year_pago}`
+        : 'No hay pagos registrados';
+
+      // Calcular próximo mes
+      const fechaActual = new Date();
+      const mesActual = fechaActual.getMonth() + 1;
+      const yearActual = fechaActual.getFullYear();
+
+      // Mostrar modal con información
+      const result = await Swal.fire({
+        title: 'Registrar Pago de Honorarios',
+        html: `
+          <div class="text-left space-y-4">
+            <div class="bg-gray-100 p-3 rounded">
+              <strong>Cliente:</strong> ${cliente.nombre_cliente}<br>
+              <strong>Concepto:</strong> ${configData.concepto}<br>
+              <strong>Monto:</strong> $${configData.pago}<br>
+              <strong>Último mes pagado:</strong> ${ultimoMesPagado}
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium mb-2">Mes a pagar:</label>
+              <select id="mes-pago" class="swal2-input">
+                <option value="">Seleccionar mes</option>
+                ${meses.slice(1).map((mes, index) =>
+          `<option value="${index + 1}" ${index + 1 === mesActual ? 'selected' : ''}>${mes}</option>`
+        ).join('')}
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium mb-2">Año:</label>
+              <input id="year-pago" type="number" class="swal2-input" value="${yearActual}" min="2020" max="2030">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium mb-2">Monto:</label>
+              <input id="monto-pago" type="number" class="swal2-input" value="${configData.pago}" step="0.01">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium mb-2">Correo empleado:</label>
+              <input id="correo-empleado" type="email" class="swal2-input" placeholder="correo@empresa.com">
+            </div>
+          </div>
+        `,
+        width: '500px',
+        showCancelButton: true,
+        confirmButtonText: 'Registrar Pago',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+          const mes = (document.getElementById('mes-pago') as HTMLSelectElement).value;
+          const year = (document.getElementById('year-pago') as HTMLInputElement).value;
+          const monto = (document.getElementById('monto-pago') as HTMLInputElement).value;
+          const correoEmpleado = (document.getElementById('correo-empleado') as HTMLInputElement).value;
+
+          if (!mes || !year || !monto || !correoEmpleado) {
+            Swal.showValidationMessage('Todos los campos son obligatorios');
+            return false;
+          }
+
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoEmpleado)) {
+            Swal.showValidationMessage('El formato del correo no es válido');
+            return false;
+          }
+
+          return {
+            id_cliente: cliente.id_cliente,
+            concepto: configData.concepto,
+            mes_pago: parseInt(mes),
+            year_pago: parseInt(year),
+            pago: parseFloat(monto),
+            correo_empleado: correoEmpleado
+          };
+        }
+      });
+
+      if (result.isConfirmed && result.value) {
+        await registrarPago(result.value);
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error instanceof Error ? error.message : 'Error al cargar datos del cliente'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const registrarPago = async (datosPago: any) => {
+    try {
+      const response = await fetch('/api/registroPago', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          marca_temporal: new Date().toISOString(),
+          id_cliente: datosPago.id_cliente.toString(),
+          concepto: datosPago.concepto,
+          pago: datosPago.pago,
+          mes_pago: datosPago.mes_pago,
+          year_pago: datosPago.year_pago,
+          correo_empleado: datosPago.correo_empleado
+        }),
+      });
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: 'Pago registrado correctamente',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        if (onPagoRealizado) {
+          onPagoRealizado();
+        }
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al registrar el pago');
+      }
+    } catch (error) {
+      console.error('Error al registrar pago:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error instanceof Error ? error.message : 'Error al registrar el pago'
+      });
+    }
+  };
 
   return (
     <button
-      className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-cyan-800 to-purple-400 group-hover:from-pink-500 group-hover:to-pink-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-purple-800"
+      onClick={handlePagar}
+      disabled={loading}
+      className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
     >
-      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-transparent group-hover:dark:bg-transparent">
-        Pagar
+      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-transparent">
+        {loading ? 'Cargando...' : 'Pagar Honorarios'}
       </span>
     </button>
   );

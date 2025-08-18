@@ -305,6 +305,22 @@ export async function getClienteHonorarios(id_cliente: string) {
   return await db.select().from(configClienteHonorario).where(eq(configClienteHonorario.id_cliente, id_cliente));
 }
 
+export async function getClienteHonorariosPorId(id_cliente: string) {
+  const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
+  const catalogoClientes = await ensureTableCatalogoClientesExists();
+
+  return await dbTablas
+    .select({
+      id_cliente_honorario: configClienteHonorario.id_cliente_honorario,
+      id_cliente: configClienteHonorario.id_cliente,
+      concepto: configClienteHonorario.concepto,
+      pago: configClienteHonorario.pago,
+      nombre_cliente: catalogoClientes.nombre_cliente
+    })
+    .from(configClienteHonorario)
+    .leftJoin(catalogoClientes, eq(configClienteHonorario.id_cliente, sql`${catalogoClientes.id_cliente}::text`))
+    .where(eq(configClienteHonorario.id_cliente, id_cliente));
+}
 
 export async function getClienteHonorariosTodos() {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
@@ -387,6 +403,17 @@ export const configClienteHonorario = pgTable('configClienteHonorario', {
 export async function getRegistroPago(marca_temporal: string) {
   const registroPago = await ensureTableRegistroPagoExists();
   return await db.select().from(registroPago).where(eq(registroPago.marca_temporal, marca_temporal));
+}
+
+export async function getUltimoPagoCliente(id_cliente: string) {
+  const registroPago = await ensureTableRegistroPagoExists();
+
+  return await dbTablas
+    .select()
+    .from(registroPago)
+    .where(eq(registroPago.id_cliente, id_cliente))
+    .orderBy(desc(registroPago.year_pago), desc(registroPago.mes_pago))
+    .limit(1);
 }
 
 export async function getPagosTodos() {
