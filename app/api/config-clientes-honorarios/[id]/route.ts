@@ -1,11 +1,13 @@
-import { getClienteHonorariosTodosConNombre } from '@/app/schema';
+import { getClienteHonorarios } from '@/app/schema';
 
-export async function GET() {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
-    const configHonorarios = await getClienteHonorariosTodosConNombre();
-    return Response.json(configHonorarios);
+    const config = await getClienteHonorarios(params.id);
+    if (!config || config.length === 0) {
+      return Response.json({ error: 'No existe configuración' }, { status: 404 });
+    }
+    return Response.json(config[0]);
   } catch (error) {
-    console.error('Error al obtener configuración de honorarios:', error);
     return Response.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }

@@ -12,7 +12,7 @@ export default function TablaClienteHonorarios() {
         async function fetchClientesHonorarios() {
             try {
                 setLoading(true);
-                const response = await fetch('/api/config-clientes-honorarios');
+                const response = await fetch('/api/todas-config-honorarios');
                 
                 if (!response.ok) {
                     throw new Error('Error al cargar los datos');
