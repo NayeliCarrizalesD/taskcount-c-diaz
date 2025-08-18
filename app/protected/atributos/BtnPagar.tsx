@@ -142,7 +142,7 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
 
   const registrarPago = async (datosPago: any) => {
     try {
-      const response = await fetch('/api/registroPago', {
+      const response = await fetch('/api/pago-honorarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
