@@ -19,6 +19,11 @@ export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, 
         <input id="swal-input4" class="swal2-input" value="${cliente.rfc || ''}" placeholder="RFC">
       `,
       focusConfirm: false,
+      color: "white",
+      background: "black",
+      customClass: {
+        popup: 'border-radius-0'
+      },
       showCancelButton: true,
       confirmButtonText: 'Guardar',
       cancelButtonText: 'Cancelar',

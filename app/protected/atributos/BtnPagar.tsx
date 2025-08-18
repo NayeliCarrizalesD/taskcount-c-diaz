@@ -165,7 +165,12 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
           title: '¡Éxito!',
           text: 'Pago registrado correctamente',
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
+          color: "white",
+          background: "black",
+          customClass: {
+            popup: 'border-radius-0'
+          }
         });
 
         if (onPagoRealizado) {
@@ -180,7 +185,12 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error instanceof Error ? error.message : 'Error al registrar el pago'
+        text: error instanceof Error ? error.message : 'Error al registrar el pago',
+        color: "white",
+        background: "black",
+        customClass: {
+          popup: 'border-radius-0'
+        }
       });
     }
   };
