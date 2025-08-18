@@ -94,7 +94,7 @@ useEffect(() => {
             <div class="columns-2">
               <div>
                 <label class="block text-sm font-medium mb-2">Mes a pagar:</label>
-                <select id="mes-pago" class="swal2-input bg-black">
+                <select id="mes-pago" class="swal2-input bg-black rounded-xl border-white">
                   <option value="">Seleccionar mes</option>
                   ${meses.slice(1).map((mes, index) =>
             `<option value="${index + 1}" ${index + 1 === mesActual ? 'selected' : ''}>${mes}</option>`
@@ -104,7 +104,21 @@ useEffect(() => {
               <br />
               <div>
                 <label class="block text-sm font-medium mb-2">Año:</label>
-                <input id="year-pago" type="number" class="swal2-input rounded-xl" value="${yearActual}" min="2020" max="2030">
+                <select
+            id="year_pago"
+            name="year_pago"
+            class="swal2-input bg-black rounded-xl border-white"
+            required>
+            <option value={""}>Seleccione una opción</option>
+            ${Array.from({ length: 9 }, (_, i) => { 
+              const year = new Date().getFullYear() - i;
+              return (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              );
+            })}
+          </select>                
               </div>
             </div>
             

@@ -11,10 +11,11 @@ export default function FormularioRegistroPagoHonorarios() {
     async function handleRegistro(formData: FormData) {
         const result = await createRegistroPagoHonorarios(formData);
         if (result.message === "Registro exitoso") {
-            router.push("/"); // Cambia por la ruta a la que quieres redirigir
+            router.push("/"); // Cambia por la ruta a la que quieres redirigir  
         } else {
             alert(result.message);
         }
+        
     } 
    
 
