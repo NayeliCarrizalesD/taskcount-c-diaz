@@ -311,6 +311,7 @@ export const catalogo_productos = pgTable('catalogo_productos', {
 
 // Registro del costo de configuracion de clientes honorarios
 
+
 export async function getClienteHonorarios(id_cliente: string) {
   const configClienteHonorario = await ensureTableConfigClienteHonorarioExists();
   return await db.select().from(configClienteHonorario).where(eq(configClienteHonorario.id_cliente, id_cliente));
