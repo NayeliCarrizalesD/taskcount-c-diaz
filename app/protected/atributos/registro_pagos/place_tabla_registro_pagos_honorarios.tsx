@@ -2,11 +2,21 @@
 import { SelectClienteOnChange } from "../selectClienteFuncion";
 import TablaPagosHonorarios from "./tabla_registro_pago";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTabla: any[]}) {
     const [clienteSeleccionado, setClienteSeleccionado] = useState<string>("");
- 
+    const [tablaDatos, setTablaDatos] = useState<any[]>([]);
+
+    const fetchDatos = async () => {
+    const res = await fetch("/api/pagos-honorarios");
+    const data = await res.json();
+    setTablaDatos(data);
+    };
+
+    useEffect(() => {
+    fetchDatos();
+    }, []);
 
     return (
         <div className="lg:col-span-8 sm:col-span-12 overflow-hidden rounded-3xl bg-zinc-800 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
@@ -25,7 +35,7 @@ export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTa
                 />
                 <TablaPagosHonorarios
                   clienteSeleccionado={clienteSeleccionado}
-                   datosTabla={datosTabla} 
+                  datosTabla={tablaDatos} 
                 />
             </div>
         </div>
