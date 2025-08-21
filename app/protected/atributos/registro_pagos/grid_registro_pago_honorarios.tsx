@@ -2,7 +2,7 @@
 import Footer from "../footer";
 import FormularioRegistroPagoHonorarios from "./place_formulario_pagos";
 import PlaceholderTablaPagosHonorarios  from "./place_tabla_registro_pagos_honorarios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const GridRegistroPagoHonorarios = () => {
     const [datosTabla, setDatosTabla] = useState<any[]>([]);
@@ -21,20 +21,14 @@ export const GridRegistroPagoHonorarios = () => {
         }
     };
 
- /*   const fetchDatos = async () => {
-  const res = await fetch("/api/pagos-honorarios");
-  const data = await res.json();
-  setDatosTabla(data);
-};
-
     useEffect(() => {
-        fetchDatos();
-    }, []);*/
+        fetchData();
+    }, []);
 
     return (
         <>
             <div className="px-4 grid gap-3 grid-cols-12">
-                <FormularioRegistroPagoHonorarios onPagoRegistrado={fetchData} />
+                <FormularioRegistroPagoHonorarios />
                 <PlaceholderTablaPagosHonorarios datosTabla={datosTabla} />
             </div>
             <Footer />

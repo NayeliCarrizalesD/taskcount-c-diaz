@@ -5,30 +5,19 @@ import { AiOutlineTag } from "react-icons/ai";
 import { createRegistroPagoHonorarios } from "./funcion_registro_pago";
 import { useRouter } from "next/navigation";
 
-    interface FormularioRegistroPagoHonorariosProps {
-  onPagoRegistrado?: () => Promise<void>;
-}
-   
-
-export default function FormularioRegistroPagoHonorarios({ onPagoRegistrado }: FormularioRegistroPagoHonorariosProps) { 
+export default function FormularioRegistroPagoHonorarios() { 
     const router = useRouter();
 
     async function handleRegistro(formData: FormData) {
         const result = await createRegistroPagoHonorarios(formData);
-
         if (result.message === "Registro exitoso") {
-           // router.push("/"); // Cambia por la ruta a la que quieres redirigir 
-            if (onPagoRegistrado) {
-                await onPagoRegistrado(); // Tu función que hace el POST
-            }
-           // onPagoRegistrado();         // Esto vuelve a hacer fetch y actualiza la tabla 
+            router.push("/"); // Cambia por la ruta a la que quieres redirigir  
         } else {
             alert(result.message);
         }
         
     } 
-
-
+   
 
     return (
         <div className="lg:col-span-4 sm:col-span-12 overflow-hidden rounded-3xl bg-slate-800 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
@@ -49,8 +38,4 @@ export default function FormularioRegistroPagoHonorarios({ onPagoRegistrado }: F
             </div>
         </div>
     );
-}
-
-function onPagoRegistrado() {
-    throw new Error("Function not implemented.");
 }
