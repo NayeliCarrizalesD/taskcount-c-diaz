@@ -9,7 +9,7 @@ export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTa
     const [tablaDatos, setTablaDatos] = useState<any[]>([]);
 
     const fetchDatos = async () => {
-    const res = await fetch("/api/pagos-honorarios");
+    const res = await fetch("/api/clientes-nombres");
     const data = await res.json();
     setTablaDatos(data);
     };
@@ -35,7 +35,7 @@ export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTa
                 />
                 <TablaPagosHonorarios
                   clienteSeleccionado={clienteSeleccionado}
-                  datosTabla={tablaDatos} 
+                  datosTabla={datosTabla} 
                 />
             </div>
         </div>
