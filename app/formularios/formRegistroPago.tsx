@@ -4,9 +4,10 @@ import { SelectConcepto } from "../protected/atributos/selectConcepto";
 import { SelectMes } from "../protected/atributos/selectMesPago";
 import { SelectNombreClienteTodos } from "../protected/atributos/selectNombreCliente";
 
-export function FormRegistroPagoCliente({
+export default function FormRegistroPagoCliente({
     action,
     children,
+   
   }: {
     action: any;
     children: React.ReactNode;

@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTabla: any[]}) {
     const [clienteSeleccionado, setClienteSeleccionado] = useState<string>("");
+ 
 
     return (
         <div className="lg:col-span-8 sm:col-span-12 overflow-hidden rounded-3xl bg-zinc-800 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
@@ -24,7 +25,7 @@ export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTa
                 />
                 <TablaPagosHonorarios
                   clienteSeleccionado={clienteSeleccionado}
-                  datosTabla={datosTabla} 
+                   datosTabla={datosTabla} 
                 />
             </div>
         </div>

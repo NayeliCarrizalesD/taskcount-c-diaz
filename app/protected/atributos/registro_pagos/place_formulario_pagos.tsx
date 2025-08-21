@@ -1,23 +1,34 @@
 
-import { FormRegistroPagoCliente } from "@/app/formularios/formRegistroPago";
+import FormRegistroPagoCliente from "@/app/formularios/formRegistroPago";
 import { SubmitButton } from "@/app/submit-button";
 import { AiOutlineTag } from "react-icons/ai";
 import { createRegistroPagoHonorarios } from "./funcion_registro_pago";
 import { useRouter } from "next/navigation";
 
-export default function FormularioRegistroPagoHonorarios() { 
+    interface FormularioRegistroPagoHonorariosProps {
+  onPagoRegistrado?: () => Promise<void>;
+}
+   
+
+export default function FormularioRegistroPagoHonorarios({ onPagoRegistrado }: FormularioRegistroPagoHonorariosProps) { 
     const router = useRouter();
 
     async function handleRegistro(formData: FormData) {
         const result = await createRegistroPagoHonorarios(formData);
+
         if (result.message === "Registro exitoso") {
-            router.push("/"); // Cambia por la ruta a la que quieres redirigir  
+           // router.push("/"); // Cambia por la ruta a la que quieres redirigir 
+            if (onPagoRegistrado) {
+                await onPagoRegistrado(); // Tu función que hace el POST
+            }
+           // onPagoRegistrado();         // Esto vuelve a hacer fetch y actualiza la tabla 
         } else {
             alert(result.message);
         }
         
     } 
-   
+
+
 
     return (
         <div className="lg:col-span-4 sm:col-span-12 overflow-hidden rounded-3xl bg-slate-800 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
@@ -38,4 +49,8 @@ export default function FormularioRegistroPagoHonorarios() {
             </div>
         </div>
     );
+}
+
+function onPagoRegistrado() {
+    throw new Error("Function not implemented.");
 }
