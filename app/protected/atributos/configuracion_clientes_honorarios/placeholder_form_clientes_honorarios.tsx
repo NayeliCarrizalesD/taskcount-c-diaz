@@ -21,7 +21,7 @@ export default function FormularioClientesHonorarios() {
         return console.log('La configuracion ya existe');              
     } else {
         await createCosto(id_cliente, concepto, pago);
-        redirect('/protected/config_clientes_honorarios'); // Redirigir a la página de registro de productos
+        redirect('/'); // Redirigir a la página de inicio
     }             
     }
 
