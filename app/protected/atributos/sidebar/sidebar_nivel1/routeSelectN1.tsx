@@ -1,20 +1,21 @@
 
 import { IconType } from "react-icons";
-import { FiDollarSign, FiHome } from "react-icons/fi";
 import { MdOutlineInventory } from "react-icons/md";
 import Link from "next/link";
-import { LuPackage } from "react-icons/lu"
-import { GrDeliver } from "react-icons/gr";
-import { LuNotebookText } from "react-icons/lu";
+import { usePathname } from "next/navigation";
+import { FiHome } from "react-icons/fi";
+import { TbClockCheck } from "react-icons/tb";
+import { FaUserEdit } from "react-icons/fa";
+import { RiContactsBook3Line } from "react-icons/ri";
 
 export const RouteSelectNivel1 = () => {
   return (
     <div className="space-y-1">
-      <TransitionLink Icon={FiHome} title="Inicio" href="/"/>
-      <TransitionLink Icon={LuPackage} title="Registrar Flete" href="/protected/registro_flete"/>
-      <TransitionLink Icon={MdOutlineInventory} title="Inventario" href="/protected/inventario" />
-      <TransitionLink Icon={GrDeliver} title="Consultar Fletes" href="/protected/consultar_flete" />
-      <TransitionLink Icon={LuNotebookText } title="Catalogo de Productos" href="/protected/catalogo_productos" />
+      <TransitionLink Icon={FiHome} title="Inicio" href="/" />
+      <TransitionLink Icon={TbClockCheck} title="Reloj checador" href="/protected/registro_checador" />
+      <TransitionLink Icon={FaUserEdit} title="Registro Clientes" href="/protected/registro_clientes" />
+      <TransitionLink Icon={RiContactsBook3Line} title="Catalogo de Clientes" href="/protected/catalogo_clientes" />
+      <TransitionLink Icon={MdOutlineInventory} title="Config Honorarios" href="/protected/config_clientes_honorarios" />
     </div>
   );
 };
@@ -28,13 +29,22 @@ const TransitionLink = ({
   title: string;
   href: string;
 }) => {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
   return (
-    <Link href={href}
-      className={`flex items-center justify-start gap-2 w-full rounded-full px-2 py-1.5 text-sm text-stone-50 transition-[box-shadow,_background-color,_color]  hover:bg-slate-200 bg-transparent hover:text-stone-900 shadow-none `}
-    >
-      <Icon />
-      <span>{title}</span>
-    </Link>
+    <li>
+      <Link
+        href={href}
+        className={`flex items-center p-2 rounded-full group transition-colors duration-200 ${isActive
+            ? "bg-blue-600 text-white dark:bg-blue-500"
+            : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+          }`}
+      >
+        <Icon className={`transition-colors duration-200 ${isActive ? "text-white" : ""}`} />
+        <span className="ms-3">{title}</span>
+      </Link>
+    </li>
   );
 };
 
