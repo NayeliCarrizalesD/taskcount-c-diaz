@@ -1,6 +1,6 @@
 'use client';
 import { IconType } from "react-icons";
-import { FiDollarSign, FiHome } from "react-icons/fi";
+import { FiHome } from "react-icons/fi";
 import { MdOutlineInventory } from "react-icons/md";
 import Link from "next/link";
 import { FaPen, FaUserEdit, FaUserClock } from "react-icons/fa";
