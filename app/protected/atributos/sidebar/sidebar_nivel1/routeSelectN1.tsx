@@ -1,3 +1,4 @@
+'use client';
 import { IconType } from "react-icons";
 import { MdOutlineInventory } from "react-icons/md";
 import Link from "next/link";
