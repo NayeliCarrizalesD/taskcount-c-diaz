@@ -83,6 +83,7 @@ useEffect(() => {
       const year = currentYear - i;
       return `<option value="${year}">${year}</option>`;
         }).join('');
+        
       // Mostrar modal con información
       const result = await MySwal.fire({
         title: 'Registrar Pago de Honorarios',
@@ -121,8 +122,8 @@ useEffect(() => {
             </div>
             
             <div>
-              <label class="block text-sm font-medium mb-2" for="correo-empleado">Correo empleado:</label>
-              <input id="correo-empleado" type="email" class="swal2-input rounded-xl" value="${correoEmpleado}" />
+              <label class="block text-sm font-medium mb-2" for="correo_empleado">Correo empleado:</label>
+              <input id="correo_empleado" name="correo_empleado" type="email" class="swal2-input rounded-xl" value="${correoEmpleado}" />
             </div>
           </div>
         `,
@@ -143,7 +144,8 @@ useEffect(() => {
           const mes = (document.getElementById('mes-pago') as HTMLSelectElement).value;
           const year = (document.getElementById('year-pago') as HTMLInputElement).value;
           const monto = (document.getElementById('monto-pago') as HTMLInputElement).value;
-          const correoEmpleado = (document.getElementById('correo-empleado') as HTMLInputElement).value;
+          const input = document.getElementById('correo_empleado') as HTMLInputElement;
+          const correoEmpleado = input ? input.value : "";
 
           if (!mes || !year || !monto || !correoEmpleado) {
             Swal.showValidationMessage('Todos los campos son obligatorios');
