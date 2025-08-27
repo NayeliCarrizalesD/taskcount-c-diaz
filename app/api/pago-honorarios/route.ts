@@ -1,4 +1,4 @@
-import { getClienteHonorariosPorId, getRegistroPago } from '@/app/schema';
+import { getClienteHonorariosPorId, createRegistroPago } from '@/app/schema';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
@@ -20,22 +20,31 @@ export async function GET(request: Request, { params }: { params: { id: string }
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { id_cliente } = body;
+        const { marca_temporal, id_cliente, concepto,  pago, mes_pago, year_pago, correo_empleado } = body;
 
-        if (!id_cliente) {
-            return Response.json({ error: 'ID de cliente requerido' }, { status: 400 });
+        if (!marca_temporal || !id_cliente || !concepto || !pago || !mes_pago || !year_pago || !correo_empleado) {
+            return Response.json({ error: 'Datos requeridos' }, { status: 400 });
         }
 
-        const config = await getRegistroPago(id_cliente.toString());
-        console.log(config);
+        // Aquí sí se inserta el pago
+        const resultado = await createRegistroPago(
+            marca_temporal,
+            id_cliente,
+            concepto,
+            pago,
+            mes_pago,
+            year_pago,
+            correo_empleado
+        );
+        console.log(resultado);
 
-        if (!config || config.length === 0) {
-            return Response.json({ error: 'No se hizo el registro' }, { status: 404 });
+        if (!resultado) {
+            return Response.json({ error: 'No se pudo registrar el pago' }, { status: 500 });
         }
 
-        return Response.json(config[0]);
+        return Response.json({ success: true, data: resultado });
     } catch (error) {
-        console.error('Error al obtener configuración:', error);
+        console.error('Error al registrar pago:', error);
         return Response.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 }
