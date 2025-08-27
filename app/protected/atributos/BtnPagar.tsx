@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useEffect } from 'react';
 import withReactContent from 'sweetalert2-react-content';
@@ -197,13 +197,17 @@ useEffect(() => {
 
   const registrarPago = async (datosPago: any) => {
     try {
+      const currentDat = new Date();
+      const currentDate = currentDat.toLocaleDateString("en-US");
+      const horas = currentDat.toLocaleTimeString();
+      const marca_temporal1 = currentDate + " " + horas;
       const response = await fetch('/api/pago-honorarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          marca_temporal: new Date().toISOString(),
+          marca_temporal: marca_temporal1.toString(),
           id_cliente: datosPago.id_cliente.toString(),
           concepto: datosPago.concepto,
           pago: datosPago.pago,
