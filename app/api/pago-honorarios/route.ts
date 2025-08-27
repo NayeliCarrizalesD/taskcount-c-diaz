@@ -27,9 +27,10 @@ export async function POST(request: Request) {
         }
 
         const config = await getRegistroPago(id_cliente.toString());
+        console.log(config);
 
         if (!config || config.length === 0) {
-            return Response.json({ error: 'No se encontró configuración de honorarios para este cliente' }, { status: 404 });
+            return Response.json({ error: 'No se hizo el registro' }, { status: 404 });
         }
 
         return Response.json(config[0]);
