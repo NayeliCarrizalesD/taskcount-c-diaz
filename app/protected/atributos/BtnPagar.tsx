@@ -18,7 +18,9 @@ const [correoEmpleado, setCorreoEmpleado] = useState("");
 useEffect(() => {
   const fetchCorreoUsuario = async () => {
     try {
-      const usuarioRes = await fetch('/api/usuario-actual');
+      const usuarioRes = await fetch('/api/usuario-actual', {
+      credentials: 'include'
+      });
       if (usuarioRes.ok) {
         const usuario = await usuarioRes.json();
         setCorreoEmpleado(usuario.correo || "");
