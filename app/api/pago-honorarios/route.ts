@@ -1,4 +1,4 @@
-import { getClienteHonorariosPorId } from '@/app/schema';
+import { getClienteHonorariosPorId, getRegistroPago } from '@/app/schema';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
             return Response.json({ error: 'ID de cliente requerido' }, { status: 400 });
         }
 
-        const config = await getClienteHonorariosPorId(id_cliente.toString());
+        const config = await getRegistroPago(id_cliente.toString());
 
         if (!config || config.length === 0) {
             return Response.json({ error: 'No se encontró configuración de honorarios para este cliente' }, { status: 404 });
