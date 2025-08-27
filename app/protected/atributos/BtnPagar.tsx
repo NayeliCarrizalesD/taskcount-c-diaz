@@ -142,7 +142,7 @@ useEffect(() => {
         cancelButtonColor: '#d33',
         preConfirm: () => {
           const mes = (document.getElementById('mes-pago') as HTMLSelectElement).value;
-          const year = (document.getElementById('year-pago') as HTMLInputElement).value;
+          const year = (document.getElementById('year_pago') as HTMLInputElement).value;
           const monto = (document.getElementById('monto-pago') as HTMLInputElement).value;
           const input = document.getElementById('correo_empleado') as HTMLInputElement;
           const correoEmpleado = input ? input.value : "";
