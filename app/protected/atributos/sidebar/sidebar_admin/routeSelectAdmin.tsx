@@ -42,9 +42,9 @@ const TransitionLink = ({
     <li>
       <Link
         href={href}
-        className={`flex items-center p-2 rounded-2xl group transition-colors duration-200 ${isActive
-          ? "bg-zinc-700 text-white rounded-l-2xl shadow-lg border-r-4 dark:bg-zinc-700"
-          : "text-white dark:text-gray-900 hover:bg-sky-200 dark:hover:bg-sky-200"
+        className={`flex items-center p-3 group transition-all duration-300 relative ${isActive
+            ? "bg-white text-gray-900 rounded-l-3xl shadow-xl ml-2"
+            : "text-white hover:bg-zinc-700 rounded-xl hover:ml-1"
           }`}
       >
         <Icon className={`transition-colors duration-200 ${isActive ? "text-white" : ""}`} />
