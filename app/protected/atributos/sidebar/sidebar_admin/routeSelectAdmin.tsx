@@ -44,7 +44,7 @@ const TransitionLink = ({
         href={href}
         className={`flex items-center p-3 group transition-all duration-300 relative ${isActive
           ? "bg-zinc-700 text-white rounded-l-3xl shadow-xl ml-2"
-            : "text-gray-900 hover:bg-white rounded-xl hover:ml-1"
+            : "text-white hover:bg-white hover:text-black rounded-xl hover:ml-1"
           }`}
       >
         <Icon className={`transition-colors duration-200 ${isActive ? "text-white" : ""}`} />
