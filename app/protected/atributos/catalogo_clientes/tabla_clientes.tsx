@@ -124,7 +124,7 @@ export default function TablaClientes() {
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full overflow-scroll rounded-lg bg-clip-border bg-zinc-900 my-5">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-neutral-800 table-auto min-w-max">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200 bg-neutral-900 table-auto min-w-max">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>ID</th>
@@ -135,7 +135,7 @@ export default function TablaClientes() {
           </thead>
           <tbody>
             {clientes.map((cliente, index) => (
-              <tr key={cliente.id_cliente} className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"}>
+              <tr key={cliente.id_cliente} className={index % 2 ? "bg-zinc-900 text-sm hover:bg-black hover:text-white border-b border-neutral-400" : "text-sm hover:bg-black hover:text-white border-b border-neutral-400"}>
                 <td className="p-4">{cliente.id_cliente}</td>
                 <td className="p-4">{cliente.nombre_cliente}</td>
                 <td className="p-4">{cliente.correo_cliente}</td>
