@@ -7,7 +7,7 @@ type Cliente = {
   rfc: string;
 };
 
-// ...existing code...
+
 export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, cliente: any }) {
   const handleEditar = () => {
     Swal.fire({
@@ -60,7 +60,7 @@ export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, 
       }
     });
   };
-// ...existing code...
+
   return (
     <button
       onClick={handleEditar}

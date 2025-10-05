@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { BtnEditar } from "../BtnEditar";
 import Swal from "sweetalert2";
 import { BtnPagar } from "../BtnPagar";
+import { BtnVerHistorialDePago } from "../BtnVerHistorialDePago";
 
 export default function TablaClientes() {
   const [clientes, setClientes] = useState<any[]>([]);
@@ -141,6 +142,7 @@ export default function TablaClientes() {
                 <td className="p-4">
                   <BtnEditar onClick={handleUpdateCliente} cliente={cliente} />
                   <BtnPagar cliente={cliente} />
+                  <BtnVerHistorialDePago cliente={cliente} />
                 </td>
               </tr>
             ))}
