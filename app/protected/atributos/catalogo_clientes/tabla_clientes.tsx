@@ -135,7 +135,7 @@ export default function TablaClientes() {
           </thead>
           <tbody>
             {clientes.map((cliente, index) => (
-              <tr key={cliente.id_cliente} className={index % 2 ? "bg-zinc-900 text-sm hover:bg-black hover:text-white border-b border-neutral-400" : "text-sm hover:bg-black hover:text-white border-b border-neutral-400"}>
+              <tr key={cliente.id_cliente} className={index % 2 ? "bg-zinc-900 text-sm hover:bg-zinc-700 hover:text-white border-b border-neutral-400" : "text-sm hover:bg-black hover:text-white border-b border-neutral-400"}>
                 <td className="p-4">{cliente.id_cliente}</td>
                 <td className="p-4">{cliente.nombre_cliente}</td>
                 <td className="p-4">{cliente.correo_cliente}</td>
