@@ -545,17 +545,32 @@ export const datosUsuario1 = pgTable('datosUsuario', {
 });
 
 // Esquema y tabla para historial de actividades del staff/admin
-export const activity_history = pgTable('activity_history', {
-  id: serial('id').primaryKey(),
-  fecha: text('fecha'),                      // Fecha completa: YYYY-MM-DD
-  hora: text('hora'),                        // Hora: HH:mm:ss
-  usuario: text('usuario'),                  // Nombre o correo del usuario
-  tipo_usuario: text('tipo_usuario'),        // "admin" o "staff"
-  accion: text('accion'),                    // Qué hizo (ej: "creó cliente", "modificó producto")
-  detalles: text('detalles')                 // Detalles adicionales (opcional)
-});
+// Obtener historial de actividades con filtros
+export async function getActivityHistory(filters?: {
+  usuario?: string;
+  fecha?: string;
+  tipo_usuario?: string;
+  accion?: string;
+}) {
+  const activityHistory = await ensureTableActivityHistoryExists();
 
-// Función para asegurar la existencia de la tabla
+  const conditions = [];
+  if (filters?.usuario) conditions.push(eq(activityHistory.usuario, filters.usuario));
+  if (filters?.fecha) conditions.push(eq(activityHistory.fecha, filters.fecha));
+  if (filters?.tipo_usuario) conditions.push(eq(activityHistory.tipo_usuario, filters.tipo_usuario));
+  if (filters?.accion) conditions.push(eq(activityHistory.accion, filters.accion));
+
+  const query = conditions.length > 0
+    ? db.select().from(activityHistory).where(and(...conditions))
+    : db.select().from(activityHistory);
+
+  return await query.orderBy(
+    desc(activityHistory.fecha),
+    desc(activityHistory.hora)
+  );
+}
+
+// Asegura existencia de la tabla
 async function ensureTableActivityHistoryExists() {
   const result = await client`
     SELECT EXISTS (
@@ -568,47 +583,47 @@ async function ensureTableActivityHistoryExists() {
     await client`
       CREATE TABLE "activity_history" (
         id SERIAL PRIMARY KEY,
-        fecha TEXT,
-        hora TEXT,
-        usuario TEXT,
-        tipo_usuario TEXT,
-        accion TEXT,
+        fecha TEXT NOT NULL,
+        hora TEXT NOT NULL,
+        usuario TEXT NOT NULL,
+        tipo_usuario TEXT NOT NULL,
+        accion TEXT NOT NULL,
         detalles TEXT
       );`;
   }
 
   const tableActivityHistory = pgTable('activity_history', {
     id: serial('id').primaryKey(),
-    fecha: text('fecha'),
-    hora: text('hora'),
-    usuario: text('usuario'),
-    tipo_usuario: text('tipo_usuario'),
-    accion: text('accion'),
-    detalles: text('detalles')
+    fecha: text('fecha').notNull(),
+    hora: text('hora').notNull(),
+    usuario: text('usuario').notNull(),
+    tipo_usuario: text('tipo_usuario').notNull(),
+    accion: text('accion').notNull(),
+    detalles: text('detalles'),
   });
 
   return tableActivityHistory;
 }
 
-// Función para crear un registro en el historial de actividades
+// Crear registro de actividad
 export async function createActivityHistory(
-  fecha: string,
-  hora: string,
   usuario: string,
   tipo_usuario: string,
   accion: string,
   detalles?: string
 ) {
   const activityHistory = await ensureTableActivityHistoryExists();
-  return await db.insert(activityHistory).values([{ fecha, hora, usuario, tipo_usuario, accion, detalles }]);
+
+  const now = new Date();
+  const fecha = now.toISOString().split('T')[0];   // YYYY-MM-DD
+  const hora = now.toTimeString().split(' ')[0];   // HH:mm:ss
+
+  return await db.insert(activityHistory).values({
+    fecha,
+    hora,
+    usuario,
+    tipo_usuario,
+    accion,
+    detalles,
+  });
 }
-
-// Función para consultar el historial de actividades (ordenado por más reciente)
-export async function getActivityHistory() {
-  const activityHistory = await ensureTableActivityHistoryExists();
-  return await db.select().from(activityHistory).orderBy(desc(activityHistory.id));
-}
-
-
-
-
