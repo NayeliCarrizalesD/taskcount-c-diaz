@@ -1,17 +1,50 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { dbTablas, catalogo_clientes, registroPago } from "../../schema";
-import { eq, or } from "drizzle-orm";
+import { eq, sql, desc } from "drizzle-orm";
 
 export async function GET(req: NextRequest) {
   try {
-    const clients = await dbTablas.select().from(catalogo_clientes).orderBy(catalogo_clientes.nombre_cliente);
+    // Left Join Clients with Payments to get all history
+    // We need all clients, even those without payments (LEFT JOIN from Clients to Payments)
+    const data = await dbTablas
+      .select({
+        // Client info
+        id_cliente: catalogo_clientes.id_cliente,
+        nombre_cliente: catalogo_clientes.nombre_cliente,
+        rfc: catalogo_clientes.rfc,
+        telefono_cliente: catalogo_clientes.telefono_cliente,
+        correo_cliente: catalogo_clientes.correo_cliente,
+        fecha_alta: catalogo_clientes.fecha_alta,
+        correo_empleado_cliente: catalogo_clientes.correo_empleado,
+        // Payment info
+        id_pago: registroPago.id_pago,
+        concepto: registroPago.concepto,
+        pago: registroPago.pago,
+        mes_pago: registroPago.mes_pago,
+        year_pago: registroPago.year_pago,
+        correo_empleado_pago: registroPago.correo_empleado
+      })
+      .from(catalogo_clientes)
+      .leftJoin(registroPago, eq(sql`${catalogo_clientes.id_cliente}::text`, registroPago.id_cliente))
+      .orderBy(catalogo_clientes.nombre_cliente, desc(registroPago.year_pago), desc(registroPago.mes_pago));
 
-    const headers = ["nombre_cliente", "rfc", "telefono_cliente", "correo_cliente", "fecha_alta", "concepto", "pago", "mes_pago", "year_pago", "correo_empleado"];
+    const headers = [
+      "id_pago", // Hidden/System ID for updates
+      "nombre_cliente",
+      "rfc",
+      "telefono_cliente",
+      "correo_cliente",
+      "fecha_alta",
+      "concepto",
+      "pago",
+      "mes_pago",
+      "year_pago",
+      "correo_empleado"
+    ];
 
-    // Create CSV rows from clients
-    const csvRows = clients.map(client => {
-      // Escape fields if necessary (simple CSV escaping)
+    // Create CSV rows
+    const csvRows = data.map(row => {
       const escape = (val: string | number | null) => {
         if (val === null || val === undefined) return '';
         const str = String(val);
@@ -22,16 +55,17 @@ export async function GET(req: NextRequest) {
       };
 
       return [
-        escape(client.nombre_cliente),
-        escape(client.rfc),
-        escape(client.telefono_cliente),
-        escape(client.correo_cliente),
-        escape(client.fecha_alta),
-        "", // concepto (empty for template)
-        "", // pago (empty for template)
-        "", // mes_pago (empty for template)
-        "", // year_pago (empty for template)
-        escape(client.correo_empleado)
+        escape(row.id_pago), // ID used for round-tripping
+        escape(row.nombre_cliente),
+        escape(row.rfc),
+        escape(row.telefono_cliente),
+        escape(row.correo_cliente),
+        escape(row.fecha_alta),
+        escape(row.concepto), // Now populated
+        escape(row.pago),     // Now populated
+        escape(row.mes_pago), // Now populated
+        escape(row.year_pago),// Now populated
+        escape(row.correo_empleado_pago || row.correo_empleado_cliente)
       ].join(",");
     });
 
@@ -41,7 +75,7 @@ export async function GET(req: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': 'attachment; filename="plantilla_clientes_pagos.csv"',
+        'Content-Disposition': 'attachment; filename="historial_clientes_pagos.csv"',
       },
     });
 
@@ -60,9 +94,10 @@ export async function POST(req: NextRequest) {
     }
 
     const results = {
-      created: 0,
-      updated: 0,
-      payments_added: 0,
+      clients_created: 0,
+      clients_updated: 0,
+      payments_created: 0,
+      payments_updated: 0,
       failed: 0,
       errors: [] as string[],
     };
@@ -70,6 +105,7 @@ export async function POST(req: NextRequest) {
     for (const record of records) {
       try {
         const {
+          id_pago,
           nombre_cliente,
           rfc,
           telefono_cliente,
@@ -82,18 +118,16 @@ export async function POST(req: NextRequest) {
           correo_empleado
         } = record;
 
-        // Basic validation: Name is required
-        if (!nombre_cliente) {
-          continue; // Skip empty rows
-        }
+        // Basic validation
+        if (!nombre_cliente) continue;
 
         const cleanName = nombre_cliente.trim();
         const cleanRfc = rfc ? rfc.trim() : null;
 
+        // 1. Manage Client (Find -> Update OR Create)
         let clientId = null;
         let existingClient = null;
 
-        // 1. Find Client
         if (cleanRfc) {
           const byRfc = await dbTablas.select().from(catalogo_clientes).where(eq(catalogo_clientes.rfc, cleanRfc)).limit(1);
           if (byRfc.length > 0) existingClient = byRfc[0];
@@ -104,10 +138,8 @@ export async function POST(req: NextRequest) {
           if (byName.length > 0) existingClient = byName[0];
         }
 
-        // 2. Create or Update Client
         if (existingClient) {
           clientId = existingClient.id_cliente;
-
           // Update client details
           const updateData: any = {};
           if (telefono_cliente) updateData.telefono_cliente = telefono_cliente.trim();
@@ -115,15 +147,13 @@ export async function POST(req: NextRequest) {
           if (cleanRfc) updateData.rfc = cleanRfc;
           if (fecha_alta) updateData.fecha_alta = fecha_alta.trim();
           if (correo_empleado) updateData.correo_empleado = correo_empleado.trim();
-          // Don't update name as it matches or is key
 
           if (Object.keys(updateData).length > 0) {
             await dbTablas.update(catalogo_clientes)
               .set(updateData)
               .where(eq(catalogo_clientes.id_cliente, clientId));
-            results.updated++;
+            results.clients_updated++;
           }
-
         } else {
           // Create new client
           const newClient = await dbTablas.insert(catalogo_clientes).values({
@@ -138,25 +168,41 @@ export async function POST(req: NextRequest) {
 
           if (newClient.length > 0) {
             clientId = newClient[0].id_cliente;
-            results.created++;
-          } else {
-            throw new Error("Failed to create client");
+            results.clients_created++;
           }
         }
 
-        // 3. Register Payment (Optional)
-        // Check if payment fields are present and valid
+        // 2. Manage Payment
         if (clientId && pago && mes_pago && year_pago) {
-          await dbTablas.insert(registroPago).values({
-            marca_temporal: new Date().toISOString(),
-            id_cliente: String(clientId),
-            concepto: concepto || 'Pago Honorarios',
-            pago: String(pago),
-            mes_pago: Number(mes_pago),
-            year_pago: String(year_pago),
-            correo_empleado: correo_empleado || ''
-          });
-          results.payments_added++;
+
+          if (id_pago && id_pago.trim() !== "") {
+            // UPDATE existing payment
+            const cleanIdPago = Number(id_pago);
+            if (!isNaN(cleanIdPago)) {
+              await dbTablas.update(registroPago).set({
+                concepto: concepto || 'Pago Honorarios',
+                pago: String(pago),
+                mes_pago: Number(mes_pago),
+                year_pago: String(year_pago),
+                correo_empleado: correo_empleado || ''
+              }).where(eq(registroPago.id_pago, cleanIdPago));
+              results.payments_updated++;
+            }
+          } else {
+            // INSERT new payment
+            // Optional: Prevent duplicates if not using ID but same data? 
+            // For now, trusting the empty ID means new.
+            await dbTablas.insert(registroPago).values({
+              marca_temporal: new Date().toISOString(),
+              id_cliente: String(clientId),
+              concepto: concepto || 'Pago Honorarios',
+              pago: String(pago),
+              mes_pago: Number(mes_pago),
+              year_pago: String(year_pago),
+              correo_empleado: correo_empleado || ''
+            });
+            results.payments_created++;
+          }
         }
 
       } catch (err: any) {
