@@ -8,18 +8,20 @@ import { SideBarN3 } from "../atributos/sidebar/sidebar_nivel3/sidebar_n3";
 
 import { RegistroPagoHOnorarios } from "../atributos/registro_pagos/registro_pago_honorarios";
 
+import { BulkUpload } from "../components/BulkUpload";
+
 export default async function ProtectedRegistroPagoHonorarios() {
   let session = await auth();
   let correo = session?.user?.email;
   let usuarios: any[] = [];
   let nivelUsuario: string | undefined;
-    
+
   try {
     correo?.toString();
     if (correo) {
       const usuarioResponse = await getUsuario(correo);
       usuarios = usuarioResponse;
-  
+
       if (usuarios.length > 0) {
         nivelUsuario = usuarios[0].nivel; // Asignar el nivel del primer usuario a la variable
       }
@@ -28,15 +30,18 @@ export default async function ProtectedRegistroPagoHonorarios() {
   catch (error) {
     console.error(error);
   }
-  return (   
+  return (
     <main >
-      {nivelUsuario ==='na1' ?<SideBarAdmin/>: "" }
-      {nivelUsuario ==='n1' ?<SideBarN1/>: "" }
-      {nivelUsuario ==='n2' ?<SideBarN2/>: "" }
-      {nivelUsuario ==='n3' ?<SideBarN3/>: "" }
+      {nivelUsuario === 'na1' ? <SideBarAdmin /> : ""}
+      {nivelUsuario === 'n1' ? <SideBarN1 /> : ""}
+      {nivelUsuario === 'n2' ? <SideBarN2 /> : ""}
+      {nivelUsuario === 'n3' ? <SideBarN3 /> : ""}
 
-        <RegistroPagoHOnorarios />
-   
-    </main>   
-    );
-  }
+      <div className="container mx-auto px-4">
+        <BulkUpload />
+      </div>
+      <RegistroPagoHOnorarios />
+
+    </main>
+  );
+}
