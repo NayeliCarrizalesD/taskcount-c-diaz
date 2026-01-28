@@ -1,7 +1,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { dbTablas, catalogo_clientes, registroPago } from "../../schema";
-import { eq, sql, desc } from "drizzle-orm";
+import { eq, sql, desc, inArray, or } from "drizzle-orm";
 
 export async function GET(req: NextRequest) {
   try {
@@ -102,118 +102,228 @@ export async function POST(req: NextRequest) {
       errors: [] as string[],
     };
 
+    // 1. Collect all unique identifiers (RFCs and Names) to optimized searching
+    const rfcs = new Set<string>();
+    const names = new Set<string>();
+
+    records.forEach((r: any) => {
+      if (r.rfc && r.rfc.trim()) rfcs.add(r.rfc.trim());
+      if (r.nombre_cliente && r.nombre_cliente.trim()) names.add(r.nombre_cliente.trim());
+    });
+
+    // 2. Fetch existing clients in one batch
+    let existingClients: any[] = [];
+
+    // Chunk queries if identifiers are too many (Postgres limit)
+    const MAX_PARAMS = 1000;
+    const rfcArray = Array.from(rfcs);
+    const nameArray = Array.from(names);
+
+    // Simplification: Fetch by RFC OR Name. 
+    // Drizzle doesn't support "OR" easily across large IN clauses without query builder composition, 
+    // but for typical CSV sizes (hundreds/thousands), splitting is good practice.
+
+    if (rfcArray.length > 0 || nameArray.length > 0) {
+      // We'll fetch all matches. 
+      // Note: To avoid complex OR logic with huge arrays, we can run two parallel queries and merge.
+
+      const promises = [];
+      if (rfcArray.length > 0) {
+        promises.push(dbTablas.select().from(catalogo_clientes).where(inArray(catalogo_clientes.rfc, rfcArray)));
+      }
+      if (nameArray.length > 0) {
+        promises.push(dbTablas.select().from(catalogo_clientes).where(inArray(catalogo_clientes.nombre_cliente, nameArray)));
+      }
+
+      const fetchedGroups = await Promise.all(promises);
+      existingClients = fetchedGroups.flat();
+    }
+
+    // Map for fast lookup:  Key -> Client Object
+    const clientMap = new Map<string, any>();
+    existingClients.forEach(c => {
+      if (c.rfc) clientMap.set(c.rfc.trim(), c);
+      if (c.nombre_cliente) clientMap.set(c.nombre_cliente.trim(), c);
+    });
+
+    // 3. Separate Records into New vs Existing Clients needed
+    // We need to deduplicate *new* clients within the CSV itself.
+    const newClientsMap = new Map<string, any>(); // Key (Name/RFC) -> Client Data
+
+    // Helper to generate a unique key for deduplication (prefer RFC, fallback to Name)
+    const getClientKey = (r: any) => {
+      if (r.rfc && r.rfc.trim()) return `RFC:${r.rfc.trim()}`;
+      if (r.nombre_cliente && r.nombre_cliente.trim()) return `NAME:${r.nombre_cliente.trim()}`;
+      return null;
+    };
+
+    for (const record of records) {
+      if (!record.nombre_cliente) continue;
+
+      const rfc = record.rfc ? record.rfc.trim() : null;
+      const name = record.nombre_cliente.trim();
+
+      // Check if exists in DB
+      let exists = false;
+      if (rfc && clientMap.has(rfc)) exists = true;
+      if (name && clientMap.has(name)) exists = true;
+
+      if (!exists) {
+        const key = getClientKey(record);
+        if (key && !newClientsMap.has(key)) {
+          newClientsMap.set(key, record);
+        }
+      }
+    }
+
+    // 3.1 Bulk Insert New Clients
+    if (newClientsMap.size > 0) {
+      const clientsToInsert = Array.from(newClientsMap.values()).map(r => ({
+        marca_temporal: new Date().toISOString(),
+        nombre_cliente: r.nombre_cliente.trim(),
+        telefono_cliente: r.telefono_cliente || '',
+        correo_cliente: r.correo_cliente || '',
+        rfc: r.rfc ? r.rfc.trim() : '',
+        fecha_alta: r.fecha_alta || new Date().toISOString().split('T')[0],
+        correo_empleado: r.correo_empleado || ''
+      }));
+
+      // Insert in batches of 50 to avoid parameter limits errors
+      const BATCH_SIZE = 50;
+      for (let i = 0; i < clientsToInsert.length; i += BATCH_SIZE) {
+        const batch = clientsToInsert.slice(i, i + BATCH_SIZE);
+        const inserted = await dbTablas.insert(catalogo_clientes).values(batch).returning();
+
+        // Add inserted clients to the map so we can find them for payments
+        inserted.forEach(c => {
+          if (c.rfc) clientMap.set(c.rfc.trim(), c);
+          if (c.nombre_cliente) clientMap.set(c.nombre_cliente.trim(), c);
+          results.clients_created++;
+        });
+      }
+    }
+
+    // 4. Processing Payments (Now all clients should be in clientMap)
+    const paymentsToInsert: any[] = [];
+    const paymentsToUpdate: any[] = [];
+    const clientUpdates = new Map<number, any>(); // Deduplicate client updates
+
     for (const record of records) {
       try {
-        const {
-          id_pago,
-          nombre_cliente,
-          rfc,
-          telefono_cliente,
-          correo_cliente,
-          fecha_alta,
-          concepto,
-          pago,
-          mes_pago,
-          year_pago,
-          correo_empleado
-        } = record;
+        const name = record.nombre_cliente?.trim();
+        const rfc = record.rfc?.trim();
 
-        // Basic validation
-        if (!nombre_cliente) continue;
+        // Resolve Client ID
+        let client = null;
+        if (rfc && clientMap.has(rfc)) client = clientMap.get(rfc);
+        else if (name && clientMap.has(name)) client = clientMap.get(name);
 
-        const cleanName = nombre_cliente.trim();
-        const cleanRfc = rfc ? rfc.trim() : null;
-
-        // 1. Manage Client (Find -> Update OR Create)
-        let clientId = null;
-        let existingClient = null;
-
-        if (cleanRfc) {
-          const byRfc = await dbTablas.select().from(catalogo_clientes).where(eq(catalogo_clientes.rfc, cleanRfc)).limit(1);
-          if (byRfc.length > 0) existingClient = byRfc[0];
+        if (!client) {
+          // Should not happen if logic above worked, but strict check
+          results.failed++;
+          results.errors.push(`Cliente no encontrado ni pudo ser creado: ${name}`);
+          continue;
         }
 
-        if (!existingClient) {
-          const byName = await dbTablas.select().from(catalogo_clientes).where(eq(catalogo_clientes.nombre_cliente, cleanName)).limit(1);
-          if (byName.length > 0) existingClient = byName[0];
-        }
+        // Queue Client Update (Only if necessary fields match logic)
+        // Simplified: We assume if data is present in CSV, we update local object representation
+        // In a bulk scenario, constantly updating the same client for every payment row is wasteful.
+        // We just store the "latest" revision from the CSV for each client ID.
 
-        if (existingClient) {
-          clientId = existingClient.id_cliente;
-          // Update client details
-          const updateData: any = {};
-          if (telefono_cliente) updateData.telefono_cliente = telefono_cliente.trim();
-          if (correo_cliente) updateData.correo_cliente = correo_cliente.trim();
-          if (cleanRfc) updateData.rfc = cleanRfc;
-          if (fecha_alta) updateData.fecha_alta = fecha_alta.trim();
-          if (correo_empleado) updateData.correo_empleado = correo_empleado.trim();
+        // (Optional: Compare fields to see if update is actually needed)
+        clientUpdates.set(client.id_cliente, {
+          telefono_cliente: record.telefono_cliente?.trim(),
+          correo_cliente: record.correo_cliente?.trim(),
+          rfc: rfc,
+          fecha_alta: record.fecha_alta?.trim(),
+          correo_empleado: record.correo_empleado?.trim()
+        });
 
-          if (Object.keys(updateData).length > 0) {
-            await dbTablas.update(catalogo_clientes)
-              .set(updateData)
-              .where(eq(catalogo_clientes.id_cliente, clientId));
-            results.clients_updated++;
-          }
-        } else {
-          // Create new client
-          const newClient = await dbTablas.insert(catalogo_clientes).values({
-            marca_temporal: new Date().toISOString(),
-            nombre_cliente: cleanName,
-            telefono_cliente: telefono_cliente || '',
-            correo_cliente: correo_cliente || '',
-            rfc: cleanRfc || '',
-            fecha_alta: fecha_alta || new Date().toISOString().split('T')[0],
-            correo_empleado: correo_empleado || ''
-          }).returning({ id_cliente: catalogo_clientes.id_cliente });
-
-          if (newClient.length > 0) {
-            clientId = newClient[0].id_cliente;
-            results.clients_created++;
-          }
-        }
-
-        // 2. Manage Payment
-        if (clientId && pago && mes_pago && year_pago) {
-
-          if (id_pago && id_pago.trim() !== "") {
-            // UPDATE existing payment
-            const cleanIdPago = Number(id_pago);
-            if (!isNaN(cleanIdPago)) {
-              await dbTablas.update(registroPago).set({
-                concepto: concepto || 'Pago Honorarios',
-                pago: String(pago),
-                mes_pago: Number(mes_pago),
-                year_pago: String(year_pago),
-                correo_empleado: correo_empleado || ''
-              }).where(eq(registroPago.id_pago, cleanIdPago));
-              results.payments_updated++;
-            }
-          } else {
-            // INSERT new payment
-            // Optional: Prevent duplicates if not using ID but same data? 
-            // For now, trusting the empty ID means new.
-            await dbTablas.insert(registroPago).values({
-              marca_temporal: new Date().toISOString(),
-              id_cliente: String(clientId),
-              concepto: concepto || 'Pago Honorarios',
-              pago: String(pago),
-              mes_pago: Number(mes_pago),
-              year_pago: String(year_pago),
-              correo_empleado: correo_empleado || ''
+        // Prepare Payment
+        if (record.pago && record.mes_pago && record.year_pago) {
+          if (record.id_pago && String(record.id_pago).trim() !== "") {
+            // Update Payment
+            paymentsToUpdate.push({
+              id_pago: Number(record.id_pago),
+              concepto: record.concepto || 'Pago Honorarios',
+              pago: String(record.pago),
+              mes_pago: Number(record.mes_pago),
+              year_pago: String(record.year_pago),
+              correo_empleado: record.correo_empleado || ''
             });
-            results.payments_created++;
+          } else {
+            // Insert Payment
+            paymentsToInsert.push({
+              marca_temporal: new Date().toISOString(),
+              id_cliente: String(client.id_cliente),
+              concepto: record.concepto || 'Pago Honorarios',
+              pago: String(record.pago),
+              mes_pago: Number(record.mes_pago),
+              year_pago: String(record.year_pago),
+              correo_empleado: record.correo_empleado || ''
+            });
           }
         }
 
       } catch (err: any) {
-        console.error("Error processing record:", record, err);
         results.failed++;
         results.errors.push(`Row error (${record.nombre_cliente}): ${err.message}`);
       }
     }
 
+    // 5. Execute Batch Updates/Inserts
+
+    // 5.1 Update Clients (Parallelize execution)
+    // We only update fields that are truthy/present in the CSV
+    const clientUpdatePromises = Array.from(clientUpdates.entries()).map(async ([id, data]) => {
+      const updateData: any = {};
+      if (data.telefono_cliente) updateData.telefono_cliente = data.telefono_cliente;
+      if (data.correo_cliente) updateData.correo_cliente = data.correo_cliente;
+      if (data.rfc) updateData.rfc = data.rfc;
+      if (data.fecha_alta) updateData.fecha_alta = data.fecha_alta;
+      if (data.correo_empleado) updateData.correo_empleado = data.correo_empleado;
+
+      if (Object.keys(updateData).length > 0) {
+        await dbTablas.update(catalogo_clientes)
+          .set(updateData)
+          .where(eq(catalogo_clientes.id_cliente, id));
+        results.clients_updated++;
+      }
+    });
+
+    // Limit concurrency for client updates
+    await Promise.all(clientUpdatePromises); // Or use a chunked runner if thousands
+
+    // 5.2 Insert Payments
+    if (paymentsToInsert.length > 0) {
+      const BATCH_SIZE = 50;
+      for (let i = 0; i < paymentsToInsert.length; i += BATCH_SIZE) {
+        const batch = paymentsToInsert.slice(i, i + BATCH_SIZE);
+        await dbTablas.insert(registroPago).values(batch);
+        results.payments_created += batch.length;
+      }
+    }
+
+    // 5.3 Update Payments (Must be individual queries unfortunately, unless we use advanced SQL)
+    // We use Promise.all with concurrency control ideally, but for now simple batching of promises
+    const paymentUpdatePromises = paymentsToUpdate.map(p =>
+      dbTablas.update(registroPago)
+        .set({
+          concepto: p.concepto,
+          pago: p.pago,
+          mes_pago: p.mes_pago,
+          year_pago: p.year_pago,
+          correo_empleado: p.correo_empleado
+        })
+        .where(eq(registroPago.id_pago, p.id_pago))
+        .then(() => { results.payments_updated++; })
+    );
+
+    // Wait for all payment updates
+    await Promise.all(paymentUpdatePromises);
+
     return NextResponse.json({
-      message: "Proceso completado",
+      message: "Proceso masivo completado",
       results
     });
 
