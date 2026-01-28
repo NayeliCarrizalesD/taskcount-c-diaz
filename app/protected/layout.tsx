@@ -29,19 +29,22 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
     // Select Sidebar Component based on Level
     let SidebarComponent;
+    const userName = session?.user?.name;
+    const userEmail = session?.user?.email;
+
     switch (nivelUsuario) {
         case 'na1':
-            SidebarComponent = <SideBarAdmin />;
+            SidebarComponent = <SideBarAdmin name={userName} email={userEmail} />;
             break;
         case 'n1':
-            SidebarComponent = <SideBarN1 />;
+            SidebarComponent = <SideBarN1 name={userName} email={userEmail} />;
             break;
         case 'n2':
-            SidebarComponent = <SideBarN2 />;
+            SidebarComponent = <SideBarN2 name={userName} email={userEmail} />;
             break;
         case 'n3':
         default:
-            SidebarComponent = <SideBarN3 />;
+            SidebarComponent = <SideBarN3 name={userName} email={userEmail} />;
             break;
     }
 

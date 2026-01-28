@@ -5,7 +5,7 @@ import { AccountAdminToggle } from "../account_Admin_Toggle";
 import { RouteSelectNivel2 } from "./routeSelectN2";
 import { useSidebar } from "../../../context/SidebarContext";
 
-export function SideBarN2() {
+export function SideBarN2({ name, email }: { name?: string | null, email?: string | null }) {
   const { isCollapsed } = useSidebar();
 
   return (
@@ -17,7 +17,7 @@ export function SideBarN2() {
     >
       <div className="h-full px-3 py-4 overflow-y-auto text-white overflow-x-hidden">
         <div className={`${isCollapsed ? "justify-center flex" : ""}`}>
-          <AccountAdminToggle />
+          <AccountAdminToggle name={name} email={email} />
         </div>
 
         <div className="mt-4">

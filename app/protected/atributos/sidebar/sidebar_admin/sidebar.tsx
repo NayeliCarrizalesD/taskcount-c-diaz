@@ -5,7 +5,7 @@ import { AccountAdminToggle } from "../account_Admin_Toggle";
 import { RouteSelectAdmin } from "./routeSelectAdmin";
 import { useSidebar } from "../../../context/SidebarContext";
 
-export function SideBarAdmin() {
+export function SideBarAdmin({ name, email }: { name?: string | null, email?: string | null }) {
   const { isCollapsed } = useSidebar();
 
   return (
@@ -18,7 +18,7 @@ export function SideBarAdmin() {
       <div className="h-full px-3 py-4 overflow-y-auto text-white overflow-x-hidden">
         {/* Account Toggle could also be adjusted or hidden */}
         <div className={`${isCollapsed ? "justify-center flex" : ""}`}>
-          <AccountAdminToggle />
+          <AccountAdminToggle name={name} email={email} />
         </div>
 
         <div className="mt-4">
