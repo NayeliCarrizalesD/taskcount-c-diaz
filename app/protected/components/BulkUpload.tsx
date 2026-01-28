@@ -81,9 +81,10 @@ export function BulkUpload() {
 
                 if (response.ok) {
                     setMessage(`Carga completa: 
-                ${result.results.created} clientes nuevos, 
-                ${result.results.updated} actualizados, 
-                ${result.results.payments_added} pagos registrados.`);
+                ${result.results.clients_created} clientes nuevos, 
+                ${result.results.clients_updated} clientes actualizados, 
+                ${result.results.payments_created} pagos nuevos,
+                ${result.results.payments_updated} pagos actualizados.`);
                 } else {
                     setMessage(`Error al cargar: ${result.error || result.message}`);
                 }
