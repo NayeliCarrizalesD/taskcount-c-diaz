@@ -1,20 +1,21 @@
 
+
 import { IconType } from "react-icons";
 import { FiHome } from "react-icons/fi";
 import Link from "next/link";
 import { LuNotebookText } from "react-icons/lu";
 import { FaRegPenToSquare } from "react-icons/fa6";
-
+import { useSidebar } from "../../../context/SidebarContext";
 
 
 export const RouteSelectN3 = () => {
   return (
     <div className="space-y-1">
-      <TransitionLink Icon={FiHome} title="Inicio" href="/"/>
+      <TransitionLink Icon={FiHome} title="Inicio" href="/" />
       <TransitionLink Icon={FaRegPenToSquare} title="Registro Productos" href="/protected/registro_productos" />
-      <TransitionLink Icon={LuNotebookText } title="Catalogo de Productos" href="/protected/catalogo_productos" />
-      
-      
+      <TransitionLink Icon={LuNotebookText} title="Catalogo de Productos" href="/protected/catalogo_productos" />
+
+
     </div>
   );
 };
@@ -28,14 +29,19 @@ const TransitionLink = ({
   title: string;
   href: string;
 }) => {
+  const { isCollapsed } = useSidebar();
+
   return (
     <Link href={href}
       className={`flex items-center justify-start gap-2 w-full rounded-full px-2 py-1.5 text-sm text-stone-50 transition-[box-shadow,_background-color,_color] hover:bg-slate-200 bg-transparent hover:text-stone-900 shadow-none `}
+      title={isCollapsed ? title : ""}
     >
-      <Icon />
-      <span>{title}</span>
+      <Icon className="min-w-[20px]" />
+      <span className={`transition-opacity duration-300 ${isCollapsed ? "opacity-0 w-0 hidden" : "opacity-100"}`}>
+        {title}
+      </span>
     </Link>
   );
 };
 
-      //<TransitionLink Icon={FiLink} selected={false} title="Registro de Usuario" href="/register"/>
+//<TransitionLink Icon={FiLink} selected={false} title="Registro de Usuario" href="/register"/>

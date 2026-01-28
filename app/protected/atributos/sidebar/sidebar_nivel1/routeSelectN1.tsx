@@ -1,4 +1,5 @@
 'use client';
+
 import { IconType } from "react-icons";
 import { MdOutlineInventory } from "react-icons/md";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import { TbClockCheck } from "react-icons/tb";
 import { FaUserEdit } from "react-icons/fa";
 import { RiContactsBook3Line } from "react-icons/ri";
 import { LuNotebookText } from "react-icons/lu";
+import { useSidebar } from "../../../context/SidebarContext";
 
 export const RouteSelectNivel1 = () => {
   return (
@@ -32,22 +34,26 @@ const TransitionLink = ({
   href: string;
 }) => {
   const pathname = usePathname();
+  const { isCollapsed } = useSidebar();
   const isActive = pathname === href;
 
   return (
     <li>
       <Link
         href={href}
-        className={`flex items-center p-2 rounded-full group transition-colors duration-200 ${isActive
-            ? "bg-blue-600 text-white dark:bg-blue-500"
-            : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+        className={`flex items-center p-2 rounded-full group transition-all duration-200 ${isActive
+          ? "bg-blue-600 text-white dark:bg-blue-500"
+          : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           }`}
+        title={isCollapsed ? title : ""}
       >
-        <Icon className={`transition-colors duration-200 ${isActive ? "text-white" : ""}`} />
-        <span className="ms-3">{title}</span>
+        <Icon className={`transition-colors duration-200 min-w-[20px] ${isActive ? "text-white" : ""}`} />
+        <span className={`ms-3 transition-opacity duration-300 ${isCollapsed ? "opacity-0 w-0 hidden" : "opacity-100"}`}>
+          {title}
+        </span>
       </Link>
     </li>
   );
 };
 
-      //<TransitionLink Icon={FiLink} selected={false} title="Registro de Usuario" href="/register"/>
+//<TransitionLink Icon={FiLink} selected={false} title="Registro de Usuario" href="/register"/>

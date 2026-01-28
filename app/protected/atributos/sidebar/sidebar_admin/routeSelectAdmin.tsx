@@ -1,4 +1,5 @@
 'use client';
+
 import { IconType } from "react-icons";
 import { FiHome } from "react-icons/fi";
 import { MdOutlineInventory } from "react-icons/md";
@@ -9,6 +10,7 @@ import { FaRegPenToSquare } from "react-icons/fa6";
 import { RiContactsBook3Line } from "react-icons/ri";
 import { TbClockCheck } from "react-icons/tb";
 import { usePathname } from "next/navigation";
+import { useSidebar } from "../../../context/SidebarContext";
 
 export const RouteSelectAdmin = () => {
   return (
@@ -36,6 +38,7 @@ const TransitionLink = ({
   href: string;
 }) => {
   const pathname = usePathname();
+  const { isCollapsed } = useSidebar();
   const isActive = pathname === href;
 
   return (
@@ -46,9 +49,12 @@ const TransitionLink = ({
           ? "bg-zinc-700 text-white rounded-l-3xl shadow-xl ml-2 -mr-4"
           : "text-white hover:bg-white hover:text-black hover:translate-x-1 rounded-full hover:ml-1"
           }`}
+        title={isCollapsed ? title : ""}
       >
-        <Icon className={`transition-colors duration-200 ${isActive ? "text-white" : ""}`} />
-        <span className="ms-3">{title}</span>
+        <Icon className={`transition-colors duration-200 min-w-[20px] ${isActive ? "text-white" : ""}`} />
+        <span className={`ms-3 transition-opacity duration-300 ${isCollapsed ? "opacity-0 w-0 hidden" : "opacity-100"}`}>
+          {title}
+        </span>
       </Link>
     </li>
   );
