@@ -41,9 +41,9 @@ const TransitionLink = ({
     <li>
       <Link
         href={href}
-        className={`flex items-center p-2 rounded-full group transition-all duration-200 ${isActive
-          ? "bg-blue-600 text-white dark:bg-blue-500"
-          : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+        className={`flex items-center p-2 group transition-all duration-300 relative ${isActive
+          ? "bg-zinc-700 text-white rounded-l-3xl shadow-xl ml-2 -mr-4"
+          : "text-white hover:bg-white hover:text-black hover:translate-x-1 rounded-full hover:ml-1"
           }`}
         title={isCollapsed ? title : ""}
       >

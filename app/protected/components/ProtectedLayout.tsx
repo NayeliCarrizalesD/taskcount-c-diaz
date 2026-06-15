@@ -27,7 +27,7 @@ export function ProtectedLayout({ children, sidebar }: ProtectedLayoutProps) {
             <TopBar />
 
             <div
-                className={`p-4 mt-16 transition-all duration-300 ease-in-out ${isCollapsed ? "ml-20" : "ml-64"
+                className={`py-3 pr-3 pl-0 mt-16 transition-all duration-300 ease-in-out ${isCollapsed ? "ml-20" : "ml-64"
                     }`}
             >
                 {children}
