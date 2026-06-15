@@ -39,6 +39,7 @@ const meses = [
               <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Cantidad</th>
               <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Mes de Pago</th>
               <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Año de Pago</th>
+              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Fecha Realización</th>
               <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Registrado por:</th>
             </tr>
           </thead>
@@ -54,6 +55,7 @@ const meses = [
                   <td className="p-4">{item.pago}</td>
                   <td className="p-4">{meses[Number(item.mes_pago)]}</td>
                   <td className="p-4">{item.year_pago}</td>
+                  <td className="p-4">{item.fecha_realizacion_pago ? item.fecha_realizacion_pago.split('-').reverse().join('/') : "No registrada"}</td>
                   <td className="p-4">{item.correo_empleado}</td>
                 </tr>
               ))}

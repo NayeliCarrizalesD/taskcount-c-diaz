@@ -122,6 +122,11 @@ useEffect(() => {
               <label class="block text-sm font-medium mb-2">Monto:</label>
               <input id="monto-pago" type="number" class="swal2-input rounded-xl" value="${configData.pago}" step="0.01">
             </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2" for="fecha_realizacion_pago">Fecha de pago en oficina:</label>
+              <input id="fecha_realizacion_pago" type="date" class="swal2-input rounded-xl bg-black border-white" value="${new Date().toISOString().split('T')[0]}">
+            </div>
             
             <div>
               <label class="block text-sm font-medium mb-2" for="correo_empleado">Correo empleado:</label>
@@ -148,8 +153,10 @@ useEffect(() => {
           const monto = (document.getElementById('monto-pago') as HTMLInputElement).value;
           const input = document.getElementById('correo_empleado') as HTMLInputElement;
           const correoEmpleado = input ? input.value : "";
+          const fechaRealizacionInput = document.getElementById('fecha_realizacion_pago') as HTMLInputElement;
+          const fechaRealizacion = fechaRealizacionInput ? fechaRealizacionInput.value : "";
 
-          if (!mes || !year || !monto || !correoEmpleado) {
+          if (!mes || !year || !monto || !correoEmpleado || !fechaRealizacion) {
             Swal.showValidationMessage('Todos los campos son obligatorios');
             return false;
           }
@@ -169,7 +176,8 @@ useEffect(() => {
             mes_pago: parseInt(mes),
             year_pago: parseInt(year),
             pago: parseFloat(monto),
-            correo_empleado: correoEmpleado
+            correo_empleado: correoEmpleado,
+            fecha_realizacion_pago: fechaRealizacion
           };
         }
       });
@@ -213,7 +221,8 @@ useEffect(() => {
           pago: datosPago.pago,
           mes_pago: datosPago.mes_pago,
           year_pago: datosPago.year_pago,
-          correo_empleado: datosPago.correo_empleado
+          correo_empleado: datosPago.correo_empleado,
+          fecha_realizacion_pago: datosPago.fecha_realizacion_pago
         }),
       });
 

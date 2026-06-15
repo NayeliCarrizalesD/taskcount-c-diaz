@@ -20,7 +20,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { marca_temporal, id_cliente, concepto,  pago, mes_pago, year_pago, correo_empleado } = body;
+        const { marca_temporal, id_cliente, concepto,  pago, mes_pago, year_pago, correo_empleado, fecha_realizacion_pago } = body;
 
         if (!marca_temporal || !id_cliente || !concepto || !pago || !mes_pago || !year_pago || !correo_empleado) {
             return Response.json({ error: 'Datos requeridos' }, { status: 400 });
@@ -34,7 +34,8 @@ export async function POST(request: Request) {
             pago,
             mes_pago,
             year_pago,
-            correo_empleado
+            correo_empleado,
+            fecha_realizacion_pago
         );
         console.log(resultado);
 

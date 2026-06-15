@@ -10,9 +10,7 @@ export function TopBar() {
 
     return (
         <div
-            className={`fixed top-0 right-0 z-30 flex items-center bg-white shadow-sm border-b dark:bg-gray-800 dark:border-gray-700 h-16 transition-all duration-300 ease-in-out
-        ${isCollapsed ? "left-20" : "left-64"}
-        `}
+            className="fixed top-0 left-0 right-0 z-50 flex items-center bg-white shadow-sm border-b dark:bg-gray-800 dark:border-gray-700 h-16 transition-all duration-300 ease-in-out"
         >
             <div className="px-4">
                 <button

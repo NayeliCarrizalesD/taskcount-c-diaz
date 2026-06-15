@@ -442,11 +442,11 @@ export async function getSumaPagosPorCliente(id_cliente: string) {
   return await db.select({value: sum(registroPago.pago)}).from(registroPago).where(eq(registroPago.id_cliente, id_cliente));
 }
 
-export async function createRegistroPago( marca_temporal: string, id_cliente: string, concepto: string, pago: number, mes_pago: number,  year_pago: number, correo_empleado: string) {
+export async function createRegistroPago( marca_temporal: string, id_cliente: string, concepto: string, pago: number, mes_pago: number,  year_pago: number, correo_empleado: string, fecha_realizacion_pago?: string) {
   const registroPago = await ensureTableRegistroPagoExists();
   const pagoStr = pago.toString();
   const year_pagoStr = year_pago.toString();
-  return await db.insert(registroPago).values([{ marca_temporal, id_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado }]);
+  return await db.insert(registroPago).values([{ marca_temporal, id_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado, fecha_realizacion_pago }]);
 }
 
 export async function getPagosTodosConNombres() {
@@ -461,7 +461,8 @@ export async function getPagosTodosConNombres() {
         pago: registroPago.pago,
         mes_pago: registroPago.mes_pago,
         year_pago: registroPago.year_pago,
-        correo_empleado: registroPago.correo_empleado
+        correo_empleado: registroPago.correo_empleado,
+        fecha_realizacion_pago: registroPago.fecha_realizacion_pago
       })
       .from(registroPago)
       .leftJoin(catalogo_clientes, eq(registroPago.id_cliente, sql`${catalogo_clientes.id_cliente}::text`))
@@ -494,7 +495,8 @@ async function ensureTableRegistroPagoExists() {
         pago numeric,
         mes_pago INTEGER,
         year_pago TEXT,
-        correo_empleado TEXT
+        correo_empleado TEXT,
+        fecha_realizacion_pago TEXT
       );`;
   }
 
@@ -506,7 +508,8 @@ async function ensureTableRegistroPagoExists() {
     pago: numeric('pago'),
     mes_pago : integer('mes_pago'),
     year_pago : text('year_pago'),
-    correo_empleado: text('correo_empleado') 
+    correo_empleado: text('correo_empleado'),
+    fecha_realizacion_pago: text('fecha_realizacion_pago')
   });
 
   return registroPago;
@@ -520,7 +523,8 @@ export const registroPago = pgTable('registroPago', {
     pago: numeric('pago'),
     mes_pago : integer('mes_pago'),
     year_pago : text('year_pago'),
-    correo_empleado: text('correo_empleado') 
+    correo_empleado: text('correo_empleado'),
+    fecha_realizacion_pago: text('fecha_realizacion_pago')
 });
 
 

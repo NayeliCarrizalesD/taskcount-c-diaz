@@ -12,6 +12,7 @@ interface Pago {
   mes_pago: number | null;
   year_pago: string | null;
   correo_empleado: string | null;
+  fecha_realizacion_pago?: string | null;
 }
 
 interface PaymentTableProps {
@@ -19,6 +20,20 @@ interface PaymentTableProps {
 }
 
 export default function PaymentTable({ pagos }: PaymentTableProps) {
+  // Función auxiliar para formatear la fecha de realización de YYYY-MM-DD a DD/MM/YYYY
+  const formatFechaRealizacion = (fecha: string | null | undefined) => {
+    if (!fecha) return "No registrada";
+    try {
+      const parts = fecha.split("-");
+      if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      return fecha;
+    } catch {
+      return fecha;
+    }
+  };
+
   // Función auxiliar para extraer fecha y hora legibles de la marca temporal
   const formatMarcaTemporal = (marca: string | null) => {
     if (!marca) return { fecha: "N/A", hora: "--:--:--" };
@@ -72,8 +87,9 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
           <tr>
             <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">ID Pago</th>
             <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Concepto</th>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Fecha</th>
+            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Fecha Sistema</th>
             <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Hora</th>
+            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">F. Realización</th>
             <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Cobrado</th>
             <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Importe</th>
             <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Registrado Por</th>
@@ -95,6 +111,7 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
               <td className="p-4 font-medium text-stone-200">{pago.concepto || "Pago Honorarios"}</td>
               <td className="p-4 text-stone-300">{pago.fecha}</td>
               <td className="p-4 text-stone-400 font-mono text-xs">{pago.hora}</td>
+              <td className="p-4 text-sky-300 font-medium">{formatFechaRealizacion(pago.fecha_realizacion_pago)}</td>
               <td className="p-4">
                 <span className="inline-flex items-center gap-1 text-emerald-400 font-semibold text-xs bg-emerald-950/50 border border-emerald-800 px-2 py-0.5 rounded-full">
                   <FaCheckCircle className="text-xs" /> Sí

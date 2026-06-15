@@ -10,7 +10,7 @@ export function SideBarN3({ name, email }: { name?: string | null, email?: strin
 
   return (
     <aside
-      className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 bg-black dark:bg-black
+      className={`fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] transition-all duration-300 bg-black dark:bg-black
         ${isCollapsed ? "w-20" : "w-64"}
         `}
       aria-label="Sidebar"

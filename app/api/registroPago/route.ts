@@ -15,7 +15,8 @@ export async function POST(request: Request) {
             body.pago,
             body.mes_pago,
             body.year_pago,
-            body.correo_empleado
+            body.correo_empleado,
+            body.fecha_realizacion_pago
         );
         return NextResponse.json({ message: "Registro exitoso" });
     }

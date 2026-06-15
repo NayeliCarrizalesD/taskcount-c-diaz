@@ -26,6 +26,7 @@ interface Pago {
   mes_pago: number | null;
   year_pago: string | null;
   correo_empleado: string | null;
+  fecha_realizacion_pago?: string | null;
 }
 
 interface HistorialClienteDashboardProps {

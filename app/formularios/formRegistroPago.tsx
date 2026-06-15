@@ -77,6 +77,23 @@ export default function FormRegistroPagoCliente({
           </select>
         </div>
         
+        <div>
+          <label
+            htmlFor="fecha_realizacion_pago"
+            className="block text-xs uppercase"
+          >
+            Fecha de realización de pago
+          </label>
+          <input
+            type="date"
+            id="fecha_realizacion_pago"
+            name="fecha_realizacion_pago"
+            defaultValue={new Date().toISOString().split('T')[0]}
+            className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            required
+          />
+        </div>
+
         <div>   
           <InputCorreoUsuario/>
         </div>
