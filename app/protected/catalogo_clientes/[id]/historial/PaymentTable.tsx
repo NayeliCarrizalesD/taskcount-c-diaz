@@ -21,27 +21,35 @@ interface PaymentTableProps {
 
 export default function PaymentTable({ pagos }: PaymentTableProps) {
   // Función auxiliar para formatear la fecha de realización de YYYY-MM-DD a DD/MM/YYYY
-  const formatFechaRealizacion = (fecha: string | null | undefined) => {
+  const formatFechaRealizacion = (fecha: any) => {
     if (!fecha) return "No registrada";
+    if (fecha instanceof Date) {
+      return fecha.toLocaleDateString("es-MX", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    }
     try {
-      const parts = fecha.split("-");
+      const dateStr = String(fecha);
+      const parts = dateStr.split("-");
       if (parts.length === 3) {
         return `${parts[2]}/${parts[1]}/${parts[0]}`;
       }
-      return fecha;
+      return dateStr;
     } catch {
-      return fecha;
+      return String(fecha);
     }
   };
 
   // Función auxiliar para extraer fecha y hora legibles de la marca temporal
-  const formatMarcaTemporal = (marca: string | null) => {
+  const formatMarcaTemporal = (marca: any) => {
     if (!marca) return { fecha: "N/A", hora: "--:--:--" };
     try {
-      const d = new Date(marca);
+      const d = marca instanceof Date ? marca : new Date(marca);
       if (isNaN(d.getTime())) {
         // Fallback en caso de que sea un string plano no-ISO
-        return { fecha: marca, hora: "--:--:--" };
+        return { fecha: String(marca), hora: "--:--:--" };
       }
       const fecha = d.toLocaleDateString("es-MX", {
         day: "2-digit",
@@ -56,7 +64,7 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
       });
       return { fecha, hora };
     } catch {
-      return { fecha: marca, hora: "--:--:--" };
+      return { fecha: String(marca), hora: "--:--:--" };
     }
   };
 
