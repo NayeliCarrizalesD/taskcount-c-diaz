@@ -7,7 +7,9 @@ export const GridRegistroChecador = () => {
     return (
         <>
             <div className="px-4 grid gap-3 grid-cols-12">
-                <FormularioChecarEntrada />
+                <div className="lg:col-span-4 sm:col-span-12">
+                    <FormularioChecarEntrada />
+                </div>
                 <TablaEntradaSalida />
             </div>
             <Footer />

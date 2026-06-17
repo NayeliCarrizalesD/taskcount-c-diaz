@@ -193,9 +193,26 @@ export default function DashboardGridClient({
         {/* Panel Izquierdo Principal (col-span-8) */}
         <div className="col-span-12 lg:col-span-8 flex flex-col gap-4">
           
-          {/* Fila 1: Checador Form (Para conservar la entrada del checador del usuario en el dashboard) */}
-          <div className="w-full">
-            {checadorForm}
+          {/* Fila 1: Clientes Nuevos por Año (BarChart) */}
+          <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg">
+            <div className="flex items-center gap-2 mb-4 border-b border-slate-700 pb-2">
+              <FaCalendarAlt className="text-purple-400 text-lg" />
+              <h3 className="text-base font-bold text-white">Clientes Nuevos por Año</h3>
+            </div>
+            <div className="h-60">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={clientesPorAno} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.2} />
+                  <XAxis dataKey="name" stroke="#94a3b8" fontSize={11} tickLine={false} />
+                  <YAxis stroke="#94a3b8" fontSize={11} tickLine={false} allowDecimals={false} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "12px", color: "white" }}
+                    formatter={(value) => [value, "Clientes Nuevos"]}
+                  />
+                  <Bar dataKey="Clientes" fill="#a78bfa" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
           {/* Fila 2: Ganancias Mensuales (LineChart) */}
@@ -268,26 +285,9 @@ export default function DashboardGridClient({
         {/* Panel Derecho de Resúmenes (col-span-4) */}
         <div className="col-span-12 lg:col-span-4 flex flex-col gap-4">
           
-          {/* Tarjeta de Nivel: Clientes por Año (BarChart) */}
-          <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg">
-            <div className="flex items-center gap-2 mb-4 border-b border-slate-700 pb-2">
-              <FaCalendarAlt className="text-purple-400 text-lg" />
-              <h3 className="text-base font-bold text-white">Clientes Nuevos por Año</h3>
-            </div>
-            <div className="h-60">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={clientesPorAno} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.2} />
-                  <XAxis dataKey="name" stroke="#94a3b8" fontSize={11} tickLine={false} />
-                  <YAxis stroke="#94a3b8" fontSize={11} tickLine={false} allowDecimals={false} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "12px", color: "white" }}
-                    formatter={(value) => [value, "Clientes Nuevos"]}
-                  />
-                  <Bar dataKey="Clientes" fill="#a78bfa" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+          {/* Fila 1: Checador Form (Para conservar la entrada del checador del usuario en el dashboard) */}
+          <div className="w-full">
+            {checadorForm}
           </div>
 
           {/* Tarjeta de Ganancias por Año (Crecimiento Histórico) */}
