@@ -1,6 +1,8 @@
 import { getTodosClientes } from '@/app/schema';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     console.log('GET /api/clientes called');

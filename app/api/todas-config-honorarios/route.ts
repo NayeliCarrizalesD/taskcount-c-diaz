@@ -1,5 +1,7 @@
 import { getClienteHonorariosTodosConNombre } from '@/app/schema';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const configHonorarios = await getClienteHonorariosTodosConNombre();

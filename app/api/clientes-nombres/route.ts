@@ -1,5 +1,7 @@
 import { getPagosTodosConNombres } from '@/app/schema';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         const pagos = await getPagosTodosConNombres();
