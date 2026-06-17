@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { 
   ResponsiveContainer, 
-  LineChart, 
-  Line, 
-  BarChart, 
-  Bar, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
   Tooltip, 
   AreaChart, 
   Area, 
+  BarChart, 
+  Bar,
   PieChart, 
   Pie, 
   Cell 
@@ -24,7 +22,8 @@ import {
   FaBoxOpen, 
   FaChartLine, 
   FaCalendarAlt, 
-  FaChartPie 
+  FaChartPie,
+  FaFilter
 } from "react-icons/fa";
 
 interface Pago {
@@ -33,6 +32,7 @@ interface Pago {
   concepto: string | null;
   mes_pago: number | null;
   year_pago: string | null;
+  fecha_realizacion_pago?: string | null;
 }
 
 interface Cliente {
@@ -55,6 +55,55 @@ interface DashboardGridClientProps {
 
 const COLORS = ["#a78bfa", "#22d3ee", "#34d399", "#fbbf24", "#f43f5e"];
 
+// Helper para extraer el día de una fecha en formato YYYY-MM-DD o DD/MM/YYYY
+const getDayFromDate = (dateStr: string | null | undefined): number | null => {
+  if (!dateStr) return null;
+  const dashParts = dateStr.split('-');
+  if (dashParts.length === 3) {
+    if (dashParts[0].length === 4) {
+      return Number(dashParts[2]); // YYYY-MM-DD
+    } else {
+      return Number(dashParts[0]); // DD-MM-YYYY
+    }
+  }
+  const slashParts = dateStr.split('/');
+  if (slashParts.length === 3) {
+    if (slashParts[2].length === 4) {
+      return Number(slashParts[0]); // DD/MM/YYYY
+    } else {
+      return Number(slashParts[2]); // YYYY/MM/DD
+    }
+  }
+  return null;
+};
+
+// Helper para parsear la fecha de alta del cliente de forma robusta
+const parseClientDate = (dateStr: string | null | undefined) => {
+  if (!dateStr) return { year: null, month: null, day: null };
+  
+  const dashParts = dateStr.split('-');
+  if (dashParts.length === 3) {
+    if (dashParts[0].length === 4) {
+      return { year: Number(dashParts[0]), month: Number(dashParts[1]), day: Number(dashParts[2]) };
+    } else {
+      return { year: Number(dashParts[2]), month: Number(dashParts[1]), day: Number(dashParts[0]) };
+    }
+  }
+  
+  const slashParts = dateStr.split('/');
+  if (slashParts.length === 3) {
+    if (slashParts[2].length === 4) {
+      return { year: Number(slashParts[2]), month: Number(slashParts[1]), day: Number(slashParts[0]) };
+    } else {
+      return { year: Number(slashParts[0]), month: Number(slashParts[1]), day: Number(slashParts[2]) };
+    }
+  }
+  
+  const yearMatch = dateStr.match(/\d{4}/);
+  const year = yearMatch ? Number(yearMatch[0]) : null;
+  return { year, month: null, day: null };
+};
+
 export default function DashboardGridClient({ 
   clientes, 
   pagos, 
@@ -62,51 +111,138 @@ export default function DashboardGridClient({
   checadorForm 
 }: DashboardGridClientProps) {
 
-  // 1. Estadísticas Generales
-  const stats = useMemo(() => {
-    const totalGanancias = pagos.reduce((sum, p) => sum + (Number(p.pago) || 0), 0);
-    return {
-      ganancias: totalGanancias,
-      cantidadPagos: pagos.length,
-      cantidadClientes: clientes.length,
-      cantidadConceptos: conceptos.length
-    };
-  }, [pagos, clientes, conceptos]);
+  // Estados de filtros
+  const [selectedYear, setSelectedYear] = useState<string>("Todos");
+  const [selectedMonth, setSelectedMonth] = useState<string>("Todos");
 
-  // 2. Ganancias Mensuales (Año Actual)
-  const gananciasMensuales = useMemo(() => {
-    const yearActual = new Date().getFullYear().toString();
-    const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-    const ganancias = meses.map(m => ({ name: m, Ganancias: 0 }));
-
+  // Obtener listado dinámico de años disponibles en los datos
+  const availableYears = useMemo(() => {
+    const years = new Set<string>();
+    
     pagos.forEach(p => {
-      if (p.year_pago === yearActual && p.mes_pago && p.mes_pago >= 1 && p.mes_pago <= 12) {
-        ganancias[p.mes_pago - 1].Ganancias += Number(p.pago) || 0;
-      }
+      if (p.year_pago) years.add(p.year_pago);
     });
-
-    return ganancias;
-  }, [pagos]);
-
-  // 3. Clientes Registrados por Año
-  const clientesPorAno = useMemo(() => {
-    const conteo: Record<string, number> = {};
     
     clientes.forEach(c => {
-      const year = c.fecha_alta?.match(/\d{4}/)?.[0] || "Desconocido";
-      conteo[year] = (conteo[year] || 0) + 1;
+      const { year } = parseClientDate(c.fecha_alta);
+      if (year) years.add(year.toString());
     });
+    
+    return Array.from(years).sort((a, b) => b.localeCompare(a));
+  }, [pagos, clientes]);
 
-    return Object.keys(conteo)
-      .map(year => ({ name: year, Clientes: conteo[year] }))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }, [clientes]);
+  // Filtrar Pagos
+  const filteredPagos = useMemo(() => {
+    return pagos.filter(p => {
+      const matchYear = selectedYear === "Todos" || p.year_pago === selectedYear;
+      const matchMonth = selectedMonth === "Todos" || p.mes_pago?.toString() === selectedMonth;
+      return matchYear && matchMonth;
+    });
+  }, [pagos, selectedYear, selectedMonth]);
 
-  // 4. Ganancias Totales por Año (Crecimiento)
+  // Filtrar Clientes
+  const filteredClientes = useMemo(() => {
+    return clientes.filter(c => {
+      const { year, month } = parseClientDate(c.fecha_alta);
+      const matchYear = selectedYear === "Todos" || year?.toString() === selectedYear;
+      const matchMonth = selectedMonth === "Todos" || month?.toString() === selectedMonth;
+      return matchYear && matchMonth;
+    });
+  }, [clientes, selectedYear, selectedMonth]);
+
+  // 1. Estadísticas Generales (Filtradas)
+  const stats = useMemo(() => {
+    const totalGanancias = filteredPagos.reduce((sum, p) => sum + (Number(p.pago) || 0), 0);
+    return {
+      ganancias: totalGanancias,
+      cantidadPagos: filteredPagos.length,
+      cantidadClientes: filteredClientes.length,
+      cantidadConceptos: conceptos.length
+    };
+  }, [filteredPagos, filteredClientes, conceptos]);
+
+  // 2. Gráfico de Ganancias Mensuales o Diarias
+  const gananciasChartData = useMemo(() => {
+    // Si no se selecciona un mes específico, mostrar desglose por meses del año seleccionado (o todos)
+    if (selectedMonth === "Todos") {
+      const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+      return meses.map((m, idx) => {
+        const sum = filteredPagos
+          .filter(p => p.mes_pago === idx + 1)
+          .reduce((acc, p) => acc + (Number(p.pago) || 0), 0);
+        return { name: m, Ganancias: sum };
+      });
+    } else {
+      // Si se selecciona un mes específico, mostrar desglose día a día (1 al 31)
+      const yearNum = selectedYear === "Todos" ? new Date().getFullYear() : Number(selectedYear);
+      const monthNum = Number(selectedMonth);
+      const daysInMonth = new Date(yearNum, monthNum, 0).getDate();
+      
+      const data = [];
+      for (let d = 1; d <= daysInMonth; d++) {
+        const sum = filteredPagos
+          .filter(p => {
+            const day = getDayFromDate(p.fecha_realizacion_pago);
+            return day === d;
+          })
+          .reduce((acc, p) => acc + (Number(p.pago) || 0), 0);
+        data.push({ name: d.toString(), Ganancias: sum });
+      }
+      return data;
+    }
+  }, [filteredPagos, selectedYear, selectedMonth]);
+
+  // 3. Clientes Registrados (Año, Mes o Día)
+  const clientesChartData = useMemo(() => {
+    if (selectedYear === "Todos") {
+      // Agrupar clientes por año
+      const conteo: Record<string, number> = {};
+      filteredClientes.forEach(c => {
+        const { year } = parseClientDate(c.fecha_alta);
+        const yStr = year?.toString() || "Desconocido";
+        conteo[yStr] = (conteo[yStr] || 0) + 1;
+      });
+      return Object.keys(conteo)
+        .map(year => ({ name: year, Clientes: conteo[year] }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+    } else if (selectedMonth === "Todos") {
+      // Agrupar clientes por mes del año seleccionado
+      const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+      return meses.map((m, idx) => {
+        const count = filteredClientes.filter(c => {
+          const { month } = parseClientDate(c.fecha_alta);
+          return month === idx + 1;
+        }).length;
+        return { name: m, Clientes: count };
+      });
+    } else {
+      // Agrupar clientes por día del mes seleccionado
+      const yearNum = Number(selectedYear);
+      const monthNum = Number(selectedMonth);
+      const daysInMonth = new Date(yearNum, monthNum, 0).getDate();
+      
+      const data = [];
+      for (let d = 1; d <= daysInMonth; d++) {
+        const count = filteredClientes.filter(c => {
+          const { day } = parseClientDate(c.fecha_alta);
+          return day === d;
+        }).length;
+        data.push({ name: d.toString(), Clientes: count });
+      }
+      return data;
+    }
+  }, [filteredClientes, selectedYear, selectedMonth]);
+
+  // 4. Ganancias Históricas por Año (Ignora el filtro de año para mostrar crecimiento)
   const gananciasPorAno = useMemo(() => {
     const conteo: Record<string, number> = {};
     
-    pagos.forEach(p => {
+    // Solo respeta el filtro de mes si está activo
+    const pagosFiltradosPorMes = selectedMonth === "Todos" 
+      ? pagos 
+      : pagos.filter(p => p.mes_pago?.toString() === selectedMonth);
+
+    pagosFiltradosPorMes.forEach(p => {
       const year = p.year_pago || "Desconocido";
       conteo[year] = (conteo[year] || 0) + (Number(p.pago) || 0);
     });
@@ -114,14 +250,14 @@ export default function DashboardGridClient({
     return Object.keys(conteo)
       .map(year => ({ name: year, Ganancias: conteo[year] }))
       .sort((a, b) => a.name.localeCompare(b.name));
-  }, [pagos]);
+  }, [pagos, selectedMonth]);
 
-  // 5. Top Conceptos / Productos Vendidos
+  // 5. Top Conceptos
   const topConceptos = useMemo(() => {
     const conteo: Record<string, number> = {};
     let totalPagoConceptos = 0;
 
-    pagos.forEach(p => {
+    filteredPagos.forEach(p => {
       const concepto = p.concepto || "Pago Honorarios";
       const monto = Number(p.pago) || 0;
       conteo[concepto] = (conteo[concepto] || 0) + monto;
@@ -135,10 +271,65 @@ export default function DashboardGridClient({
     }));
 
     return items.sort((a, b) => b.value - a.value).slice(0, 4);
-  }, [pagos]);
+  }, [filteredPagos]);
 
   return (
-    <div className="w-full flex flex-col gap-6 py-2">
+    <div className="w-full flex flex-col gap-6 py-2 select-none">
+      
+      {/* Barra de Filtros del Dashboard */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-purple-500/10 text-purple-400 rounded-2xl text-lg">
+            <FaFilter />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-white">Filtros de Analíticas</h2>
+            <p className="text-xs text-slate-400">Filtra gráficos y métricas por año fiscal y mes</p>
+          </div>
+        </div>
+        
+        <div className="flex flex-wrap items-center gap-4">
+          {/* Año */}
+          <div className="flex flex-col gap-1">
+            <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Filtrar Año</label>
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="bg-slate-900/80 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 min-w-[130px] focus:border-purple-500 focus:outline-none transition-colors cursor-pointer"
+            >
+              <option value="Todos">Todos los años</option>
+              {availableYears.map(y => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Mes */}
+          <div className="flex flex-col gap-1">
+            <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Filtrar Mes</label>
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="bg-slate-900/80 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 min-w-[130px] focus:border-purple-500 focus:outline-none transition-colors cursor-pointer"
+            >
+              <option value="Todos">Todos los meses</option>
+              <option value="1">Enero</option>
+              <option value="2">Febrero</option>
+              <option value="3">Marzo</option>
+              <option value="4">Abril</option>
+              <option value="5">Mayo</option>
+              <option value="6">Junio</option>
+              <option value="7">Julio</option>
+              <option value="8">Agosto</option>
+              <option value="9">Septiembre</option>
+              <option value="10">Octubre</option>
+              <option value="11">Noviembre</option>
+              <option value="12">Diciembre</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       {/* Tarjetas de Métricas Principales */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Ventas Totales */}
@@ -147,7 +338,7 @@ export default function DashboardGridClient({
             <FaCoins />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block">Ganancias Totales</span>
+            <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block">Ganancias</span>
             <span className="text-2xl font-bold text-white mt-1 block">
               ${stats.ganancias.toLocaleString("es-MX", { minimumFractionDigits: 2 })}
             </span>
@@ -171,7 +362,7 @@ export default function DashboardGridClient({
             <FaUserFriends />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block">Clientes Registrados</span>
+            <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block">Clientes Activos</span>
             <span className="text-2xl font-bold text-white mt-1 block">{stats.cantidadClientes}</span>
           </div>
         </div>
@@ -193,15 +384,22 @@ export default function DashboardGridClient({
         {/* Panel Izquierdo Principal (col-span-8) */}
         <div className="col-span-12 lg:col-span-8 flex flex-col gap-4">
           
-          {/* Fila 1: Clientes Nuevos por Año (BarChart) */}
+          {/* Fila 1: Clientes Nuevos por Año/Mes (BarChart) */}
           <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg">
             <div className="flex items-center gap-2 mb-4 border-b border-slate-700 pb-2">
               <FaCalendarAlt className="text-purple-400 text-lg" />
-              <h3 className="text-base font-bold text-white">Clientes Nuevos por Año</h3>
+              <h3 className="text-base font-bold text-white">
+                {selectedYear === "Todos" 
+                  ? "Clientes Nuevos por Año" 
+                  : selectedMonth === "Todos" 
+                    ? `Clientes Nuevos en ${selectedYear}`
+                    : `Clientes Nuevos Registrados (Día a Día)`
+                }
+              </h3>
             </div>
             <div className="h-60">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={clientesPorAno} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <BarChart data={clientesChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.2} />
                   <XAxis dataKey="name" stroke="#94a3b8" fontSize={11} tickLine={false} />
                   <YAxis stroke="#94a3b8" fontSize={11} tickLine={false} allowDecimals={false} />
@@ -215,15 +413,20 @@ export default function DashboardGridClient({
             </div>
           </div>
 
-          {/* Fila 2: Ganancias Mensuales (LineChart) */}
+          {/* Fila 2: Ganancias Mensuales o Diarias (LineChart) */}
           <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg">
             <div className="flex items-center gap-2 mb-4 border-b border-slate-700 pb-2">
               <FaChartLine className="text-cyan-400 text-lg" />
-              <h3 className="text-base font-bold text-white">Flujo Mensual de Ganancias ({new Date().getFullYear()})</h3>
+              <h3 className="text-base font-bold text-white">
+                {selectedMonth === "Todos"
+                  ? `Flujo Mensual de Ganancias (${selectedYear === "Todos" ? "Todos los Años" : selectedYear})`
+                  : `Flujo Diario de Ganancias (Mes: ${selectedMonth}, Año: ${selectedYear === "Todos" ? new Date().getFullYear() : selectedYear})`
+                }
+              </h3>
             </div>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={gananciasMensuales} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart data={gananciasChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorGanancias" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.4} />
@@ -250,7 +453,7 @@ export default function DashboardGridClient({
             </h3>
             <div className="flex flex-col gap-4">
               {topConceptos.length === 0 ? (
-                <p className="text-sm text-slate-400">No hay transacciones registradas.</p>
+                <p className="text-sm text-slate-400">No hay transacciones registradas para este periodo.</p>
               ) : (
                 topConceptos.map((item, index) => (
                   <div key={item.name} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
