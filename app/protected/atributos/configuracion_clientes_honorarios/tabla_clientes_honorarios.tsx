@@ -2,11 +2,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Pagination } from "../../components/Pagination";
 
 export default function TablaClienteHonorarios() {
     const [productos, setProductos] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [paginaActual, setPaginaActual] = useState(1);
+    const productosPorPagina = 10;
+    const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+    const productosActuales = productos.slice((paginaActual - 1) * productosPorPagina, paginaActual * productosPorPagina);
 
     useEffect(() => {
         async function fetchClientesHonorarios() {
@@ -57,7 +63,7 @@ export default function TablaClienteHonorarios() {
                     </tr>
                 </thead>
                 <tbody>
-                    {productos && productos.map((producto: any) => (
+                    {productosActuales && productosActuales.map((producto: any) => (
                         <tr className="custom-table-tr" key={producto.id_cliente_honorario}>
                             <td>{producto.nombre_cliente}</td>
                             <td>{producto.concepto}</td>
@@ -66,25 +72,13 @@ export default function TablaClienteHonorarios() {
                     ))}
                 </tbody>
             </table>
-            <nav className="flex items-center my-3 mx-2 flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
-                <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span className="font-semibold text-gray-900 dark:text-white">1-{productos.length}</span> of <span className="font-semibold text-gray-900 dark:text-white">{productos.length}</span></span>
-                <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                    <li>
-                        <a href="#" className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-                    </li>
-                    <li>
-                        <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                    </li>
-                
-                    <li>
-                        <a href="#" aria-current="page" className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                    </li>
-                    
-                    <li>
-                <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            <div className="px-4 pb-2">
+                <Pagination
+                    currentPage={paginaActual}
+                    totalPages={totalPaginas}
+                    onPageChange={setPaginaActual}
+                />
+            </div>
            
         </div>    
         )}

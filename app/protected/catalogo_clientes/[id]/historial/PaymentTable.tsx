@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { FaFileInvoiceDollar, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
+import { Pagination } from "../../../components/Pagination";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { useRouter } from 'next/navigation';
@@ -281,6 +282,18 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
     });
   }, [pagos]);
 
+  const [paginaActual, setPaginaActual] = useState(1);
+  const pagosPorPagina = 10;
+  const totalPaginas = Math.ceil(formattedPagos.length / pagosPorPagina);
+  
+  useEffect(() => {
+    setPaginaActual(1);
+  }, [pagos]);
+
+  const pagosActuales = useMemo(() => {
+    return formattedPagos.slice((paginaActual - 1) * pagosPorPagina, paginaActual * pagosPorPagina);
+  }, [formattedPagos, paginaActual]);
+
   if (formattedPagos.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-neutral-950/40 rounded-xl border border-zinc-700/50 text-stone-400">
@@ -306,7 +319,7 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
           </tr>
         </thead>
         <tbody>
-          {formattedPagos.map((pago) => (
+          {pagosActuales.map((pago) => (
             <tr
               key={pago.id_pago}
               className="custom-table-tr"
@@ -345,6 +358,13 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
           ))}
         </tbody>
       </table>
+      <div className="p-4 border-t border-zinc-800/50">
+        <Pagination
+          currentPage={paginaActual}
+          totalPages={totalPaginas}
+          onPageChange={setPaginaActual}
+        />
+      </div>
     </div>
   );
 }

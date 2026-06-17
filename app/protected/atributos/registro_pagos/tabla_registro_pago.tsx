@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Pagination } from "../../components/Pagination";
 
 export default function TablaPagosHonorarios({
   clienteSeleccionado,
@@ -57,47 +58,14 @@ const meses = [
               ))}
             </tbody>
         </table>
-              {/* Paginación */}
-        <nav className="flex items-center my-3 mx-2 flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-            Mostrando <span className="font-semibold text-gray-900 dark:text-white">{indicePrimerPago + 1}-{Math.min(indiceUltimoPago, datosFiltrados.length)}</span> de <span className="font-semibold text-gray-900 dark:text-white">{datosFiltrados.length}</span>
-          </span>
-          <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-            <li>
-              <button
-                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                disabled={paginaActual === 1}
-                onClick={() => setPaginaActual(paginaActual - 1)}
-              >
-                Anterior
-              </button>
-            </li>
-            {Array.from({ length: totalPaginas }, (_, i) => (
-              <li key={i + 1}>
-                <button
-                  className={`flex items-center justify-center px-3 h-8 leading-tight border border-gray-300 ${
-                    paginaActual === i + 1 
-                      ? "bg-blue-600 text-white border-blue-600 dark:bg-blue-500 dark:border-blue-500" 
-                      : "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  }`}
-                  onClick={() => setPaginaActual(i + 1)}
-                >
-                  {i + 1}
-                </button>
-              </li>
-            ))}
-            <li>
-              <button
-                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                disabled={paginaActual === totalPaginas}
-                onClick={() => setPaginaActual(paginaActual + 1)}
-              >
-                Siguiente
-              </button>
-            </li>
-          </ul>
-        </nav>
-            </div>
+        <div className="px-4 pb-2">
+          <Pagination
+            currentPage={paginaActual}
+            totalPages={totalPaginas}
+            onPageChange={setPaginaActual}
+          />
+        </div>
+      </div>
         </>
     );
 }
