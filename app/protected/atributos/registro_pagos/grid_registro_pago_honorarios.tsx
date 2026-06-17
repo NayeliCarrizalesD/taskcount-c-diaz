@@ -2,6 +2,7 @@
 import Footer from "../footer";
 import FormularioRegistroPagoHonorarios from "./place_formulario_pagos";
 import PlaceholderTablaPagosHonorarios  from "./place_tabla_registro_pagos_honorarios";
+import { BulkUpload } from "../../components/BulkUpload";
 import { useEffect, useState } from "react";
 
 export const GridRegistroPagoHonorarios = () => {
@@ -32,7 +33,10 @@ export const GridRegistroPagoHonorarios = () => {
     return (
         <>
             <div className="px-4 grid gap-3 grid-cols-12">
-                <FormularioRegistroPagoHonorarios onRegistroExitoso={fetchData} />
+                <div className="lg:col-span-4 sm:col-span-12 flex flex-col gap-3">
+                    <FormularioRegistroPagoHonorarios onRegistroExitoso={fetchData} />
+                    <BulkUpload />
+                </div>
                 <PlaceholderTablaPagosHonorarios datosTabla={datosTabla} loading={loading} />
             </div>
             <Footer />
