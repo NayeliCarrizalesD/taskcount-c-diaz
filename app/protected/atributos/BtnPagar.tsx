@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { useEffect } from 'react';
 import withReactContent from 'sweetalert2-react-content';
 import { InputCorreoUsuarioModal } from './InputCorreoUsuarioModal';
+import { useRouter } from 'next/navigation';
 
 const MySwal = withReactContent(Swal);
 
@@ -12,6 +13,7 @@ export function BtnPagar({ cliente, onPagoRealizado }: {
 }) {
 const [loading, setLoading] = useState(false);
 const [correoEmpleado, setCorreoEmpleado] = useState("");
+const router = useRouter();
 
 // Fetch correoUsuario on mount
 
@@ -240,6 +242,7 @@ useEffect(() => {
           }
         });
 
+        router.refresh();
         if (onPagoRealizado) {
           onPagoRealizado();
         }

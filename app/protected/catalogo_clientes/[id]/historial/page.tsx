@@ -2,6 +2,8 @@ import { getClientes, getPagosPorCliente } from "@/app/schema";
 import HistorialClienteDashboard from "@/app/protected/catalogo_clientes/[id]/historial/HistorialClienteDashboard";
 import { TopBar } from "@/app/protected/atributos/topbar/topbar";
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: {
     id: string;
@@ -19,7 +21,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <div className="main-content-card text-white">
       <TopBar />
-      <HistorialClienteDashboard cliente={cliente} inicialPagos={pagos} />
+      <HistorialClienteDashboard cliente={cliente} inicialPagos={pagos || []} />
     </div>
   );
 }

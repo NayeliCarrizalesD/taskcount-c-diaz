@@ -4,18 +4,65 @@ import { SubmitButton } from "@/app/submit-button";
 import { AiOutlineTag } from "react-icons/ai";
 import { createRegistroPagoHonorarios } from "./funcion_registro_pago";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
-export default function FormularioRegistroPagoHonorarios() { 
+export default function FormularioRegistroPagoHonorarios({ onRegistroExitoso }: { onRegistroExitoso?: () => void }) { 
     const router = useRouter();
 
     async function handleRegistro(formData: FormData) {
-        const result = await createRegistroPagoHonorarios(formData);
-        if (result.message === "Registro exitoso") {
-            router.push("/"); // Cambia por la ruta a la que quieres redirigir  
-        } else {
-            alert(result.message);
+        try {
+            const result = await createRegistroPagoHonorarios(formData);
+            if (result.message === "Registro exitoso") {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: 'Pago registrado correctamente',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    color: "white",
+                    background: "black",
+                    customClass: {
+                        popup: 'border-radius-0'
+                    }
+                });
+
+                // Reset the form
+                const form = document.getElementById('registro-pago-form') as HTMLFormElement;
+                if (form) {
+                    form.reset();
+                }
+
+                // Trigger reload
+                if (onRegistroExitoso) {
+                    onRegistroExitoso();
+                } else {
+                    router.push("/");
+                }
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: result.message || 'No se pudo registrar el pago',
+                    color: "white",
+                    background: "black",
+                    customClass: {
+                        popup: 'border-radius-0'
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error al registrar pago:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error de red o del servidor al procesar el pago',
+                color: "white",
+                background: "black",
+                customClass: {
+                    popup: 'border-radius-0'
+                }
+            });
         }
-        
     } 
    
 

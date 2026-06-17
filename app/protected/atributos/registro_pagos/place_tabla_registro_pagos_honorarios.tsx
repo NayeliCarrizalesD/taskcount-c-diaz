@@ -4,19 +4,8 @@ import TablaPagosHonorarios from "./tabla_registro_pago";
 
 import { useState, useEffect } from 'react';
 
-export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTabla: any[]}) {
+export default function PlaceholderTablaPagosHonorarios({ datosTabla, loading }: { datosTabla: any[], loading: boolean }) {
     const [clienteSeleccionado, setClienteSeleccionado] = useState<string>("");
-    const [tablaDatos, setTablaDatos] = useState<any[]>([]);
-
-    const fetchDatos = async () => {
-    const res = await fetch("/api/clientes-nombres");
-    const data = await res.json();
-    setTablaDatos(data);
-    };
-
-    useEffect(() => {
-    fetchDatos();
-    }, []);
 
     return (
         <div className="lg:col-span-8 sm:col-span-12 overflow-hidden rounded-3xl bg-zinc-800 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
@@ -28,16 +17,23 @@ export default function PlaceholderTablaPagosHonorarios({ datosTabla }: {datosTa
                     Ver los pagos que se han realizado de los clientes por honorarios
                 </h3>
             </div>
-            <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
+            <div className="h-[auto] sm:h-auto px-4 flex-row items-center pb-4">
                 <SelectClienteOnChange 
                   clienteSeleccionado={clienteSeleccionado}
                   setClienteSeleccionado={setClienteSeleccionado}
                 />
-                <TablaPagosHonorarios
-                  clienteSeleccionado={clienteSeleccionado}
-                  datosTabla={datosTabla} 
-                />
+                {loading ? (
+                    <div className="flex flex-col items-center justify-center py-12">
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-500"></div>
+                        <p className="mt-3 text-sm text-gray-400">Cargando pagos...</p>
+                    </div>
+                ) : (
+                    <TablaPagosHonorarios
+                      clienteSeleccionado={clienteSeleccionado}
+                      datosTabla={datosTabla} 
+                    />
+                )}
             </div>
         </div>
-    )
+    );
 }

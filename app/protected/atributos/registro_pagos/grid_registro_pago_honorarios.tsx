@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 
 export const GridRegistroPagoHonorarios = () => {
     const [datosTabla, setDatosTabla] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
         try {
+            setLoading(true);
             const res = await fetch("/api/clientes-nombres");
             if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -18,6 +20,8 @@ export const GridRegistroPagoHonorarios = () => {
         } catch (error) {
             console.error('Error fetching data:', error);
             setDatosTabla([]); // Set empty array as fallback
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -28,8 +32,8 @@ export const GridRegistroPagoHonorarios = () => {
     return (
         <>
             <div className="px-4 grid gap-3 grid-cols-12">
-                <FormularioRegistroPagoHonorarios />
-                <PlaceholderTablaPagosHonorarios datosTabla={datosTabla} />
+                <FormularioRegistroPagoHonorarios onRegistroExitoso={fetchData} />
+                <PlaceholderTablaPagosHonorarios datosTabla={datosTabla} loading={loading} />
             </div>
             <Footer />
         </>

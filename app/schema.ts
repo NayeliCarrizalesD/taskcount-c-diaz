@@ -4,10 +4,11 @@ import { eq, desc, and, sum, sql } from 'drizzle-orm';
 import postgres from 'postgres';
 
 
-let client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
+const dbUrl = process.env.POSTGRES_URL ? `${process.env.POSTGRES_URL}?sslmode=require` : "postgres://localhost/db";
+let client = postgres(dbUrl);
 let db = drizzle(client);
 
-export const dbTablas = drizzle(client)
+export const dbTablas = drizzle(client);
 
 // Registro de usuarios
 

@@ -105,8 +105,9 @@ export default function TablaClientesCatalogo() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center p-8">
-        <div className="text-gray-500">Cargando clientes...</div>
+      <div className="flex flex-col justify-center items-center p-12 space-y-3">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-sky-400"></div>
+        <div className="text-gray-400 text-sm">Cargando clientes...</div>
       </div>
     );
   }

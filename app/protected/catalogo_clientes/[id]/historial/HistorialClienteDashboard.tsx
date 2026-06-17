@@ -2,9 +2,11 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import PaymentChart from "@/app/protected/catalogo_clientes/[id]/historial/PaymentChart";
-import PaymentTable from "@/app/protected/catalogo_clientes/[id]/historial/PaymentTable";
+import dynamic from "next/dynamic";
 import { FaArrowLeft, FaCalendarAlt, FaUser } from "react-icons/fa";
+
+const PaymentChart = dynamic(() => import("./PaymentChart"), { ssr: false });
+const PaymentTable = dynamic(() => import("./PaymentTable"), { ssr: false });
 
 interface Cliente {
   id_cliente: number;
@@ -41,11 +43,13 @@ export default function HistorialClienteDashboard({
   // Obtener los años disponibles a partir de los pagos registrados
   const availableYears = useMemo(() => {
     const years = new Set<string>();
-    inicialPagos.forEach((pago) => {
-      if (pago.year_pago) {
-        years.add(pago.year_pago);
-      }
-    });
+    if (Array.isArray(inicialPagos)) {
+      inicialPagos.forEach((pago) => {
+        if (pago.year_pago) {
+          years.add(pago.year_pago);
+        }
+      });
+    }
     // Añadir el año actual por si acaso no hay pagos
     years.add(new Date().getFullYear().toString());
     return Array.from(years).sort((a, b) => b.localeCompare(a));
@@ -53,7 +57,7 @@ export default function HistorialClienteDashboard({
 
   // Año seleccionado para filtrar (por defecto el más reciente con transacciones, o el año actual)
   const [selectedYear, setSelectedYear] = useState<string>(() => {
-    if (inicialPagos.length > 0) {
+    if (Array.isArray(inicialPagos) && inicialPagos.length > 0) {
       // Intentar obtener el año del pago más reciente
       const yearsWithPayments = inicialPagos
         .map((p) => p.year_pago)
@@ -67,6 +71,7 @@ export default function HistorialClienteDashboard({
 
   // Filtrar los pagos por el año seleccionado
   const filteredPagos = useMemo(() => {
+    if (!Array.isArray(inicialPagos)) return [];
     return inicialPagos.filter((pago) => pago.year_pago === selectedYear);
   }, [inicialPagos, selectedYear]);
 
