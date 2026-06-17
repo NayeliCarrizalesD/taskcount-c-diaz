@@ -291,27 +291,25 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
   }
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full max-h-[400px] overflow-y-auto rounded-lg bg-clip-border bg-zinc-900 my-2 scrollbar-thin">
-      <table className="w-full text-sm text-left text-gray-200 bg-neutral-950 table-auto min-w-max">
-        <thead className="text-xs text-gray-400 uppercase bg-zinc-900 sticky top-0 z-10">
+    <div className="custom-table-container max-h-[400px] overflow-y-auto">
+      <table className="custom-table">
+        <thead className="custom-table-thead">
           <tr>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">ID Pago</th>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Concepto</th>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Fecha Sistema</th>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Hora</th>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">F. Realización</th>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Cobrado</th>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Importe</th>
-            <th className="p-4 border-b border-neutral-700 text-slate-100 bg-zinc-900">Registrado Por</th>
+            <th className="custom-table-th">ID Pago</th>
+            <th className="custom-table-th">Concepto</th>
+            <th className="custom-table-th">Fecha Sistema</th>
+            <th className="custom-table-th">Hora</th>
+            <th className="custom-table-th">F. Realización</th>
+            <th className="custom-table-th">Cobrado</th>
+            <th className="custom-table-th">Importe</th>
+            <th className="custom-table-th">Registrado Por</th>
           </tr>
         </thead>
         <tbody>
-          {formattedPagos.map((pago, index) => (
+          {formattedPagos.map((pago) => (
             <tr
               key={pago.id_pago}
-              className={`border-b border-neutral-800 transition-colors duration-150 text-sm hover:bg-sky-950/70 hover:text-white ${
-                index % 2 === 0 ? "bg-zinc-900" : "bg-zinc-900/60"
-              }`}
+              className="custom-table-tr"
             >
               <td className="p-4 font-semibold">
                 <span

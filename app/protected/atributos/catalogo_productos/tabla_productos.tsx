@@ -14,19 +14,19 @@ export default async function TablaProductos() {
 
     return (
         <>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll  rounded-lg bg-clip-border bg-zinc-900 my-5">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800  dark:text-gray-400 table-auto min-w-max">   
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <div className="custom-table-container">
+            <table className="custom-table">   
+                <thead className="custom-table-thead">
                     <tr>
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Nombre del concepto</th>
-                        <th className='p-4 border-b uppercase border-neutral-500 text-slate-100 bg-zinc-900'>Registrado por:</th>
+                        <th className="custom-table-th">Nombre del concepto</th>
+                        <th className="custom-table-th">Registrado por</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {productos && productos.map((producto: any, index: number) => (
-                        <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={producto.id}>
-                            <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{producto.nombre_producto_servicio}</td>
-                            <td className="p-4">{producto.correo_empleado}</td>
+                    {productos && productos.map((producto: any) => (
+                        <tr className="custom-table-tr" key={producto.id}>
+                            <td>{producto.nombre_producto_servicio}</td>
+                            <td>{producto.correo_empleado}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -30,48 +30,33 @@ const meses = [
 
     return (
         <>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full overflow-scroll rounded-lg bg-clip-border bg-zinc-900 my-5">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-neutral-800 table-auto min-w-max">
-          <thead>
+            <div className="custom-table-container">
+        <table className="custom-table">
+          <thead className="custom-table-thead">
             <tr>
-              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Nombre del Cliente</th>
-              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Concepto</th>
-              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Cantidad</th>
-              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Mes de Pago</th>
-              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Año de Pago</th>
-              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Fecha Realización</th>
-              <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Registrado por:</th>
+              <th className="custom-table-th">Nombre del Cliente</th>
+              <th className="custom-table-th">Concepto</th>
+              <th className="custom-table-th">Cantidad</th>
+              <th className="custom-table-th">Mes de Pago</th>
+              <th className="custom-table-th">Año de Pago</th>
+              <th className="custom-table-th">Fecha Realización</th>
+              <th className="custom-table-th">Registrado por:</th>
             </tr>
           </thead>
             <tbody>
-              {pagosActuales.map((item, index) => (
-                <tr className={
-                  index % 2
-                    ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500"
-                    : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"
-                } key={item.id_pago}>
-                  <td className="p-4">{item.nombre_cliente || `Cliente ID: ${item.id_cliente}`}</td>
-                  <td className="p-4">{item.concepto}</td>
-                  <td className="p-4">{item.pago}</td>
-                  <td className="p-4">{meses[Number(item.mes_pago)]}</td>
-                  <td className="p-4">{item.year_pago}</td>
-                  <td className="p-4">{item.fecha_realizacion_pago ? item.fecha_realizacion_pago.split('-').reverse().join('/') : "No registrada"}</td>
-                  <td className="p-4">{item.correo_empleado}</td>
+              {pagosActuales.map((item) => (
+                <tr className="custom-table-tr" key={item.id_pago}>
+                  <td>{item.nombre_cliente || `Cliente ID: ${item.id_cliente}`}</td>
+                  <td>{item.concepto}</td>
+                  <td>{item.pago}</td>
+                  <td>{meses[Number(item.mes_pago)]}</td>
+                  <td>{item.year_pago}</td>
+                  <td>{item.fecha_realizacion_pago ? item.fecha_realizacion_pago.split('-').reverse().join('/') : "No registrada"}</td>
+                  <td>{item.correo_empleado}</td>
                 </tr>
               ))}
-                        {/*{pagosTotales && pagosTotales.map((check: any, index: number) => (
-                            <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={check.id_entrada}>
-                                <td className="p-4">{check.nombre_cliente}</td>
-                                <td className="p-4">{check.concepto}</td>
-                                <td className="p-4">{check.pago}</td>
-                                <td className="p-4">{check.mes_pago}</td>
-                                <td className="p-4">{check.year_pago}</td>
-                                <td className="p-4">{check.correo_empleado}</td>
-                                
-                            </tr>
-                        ))}*/}
-                    </tbody>
-                </table>
+            </tbody>
+        </table>
               {/* Paginación */}
         <nav className="flex items-center my-3 mx-2 flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
           <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">

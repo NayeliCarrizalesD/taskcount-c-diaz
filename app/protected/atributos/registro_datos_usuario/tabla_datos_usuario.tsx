@@ -11,23 +11,23 @@ export default async function TablaDatosUsuarios() {
 
     return (
         <>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll  rounded-lg bg-clip-border bg-zinc-900 my-5">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800  dark:text-gray-400 table-auto min-w-max">   
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <div className="custom-table-container">
+            <table className="custom-table">   
+                <thead className="custom-table-thead">
                     <tr>
-                        <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Alta</th>
-                        <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Telefono</th> 
-                        <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Correo</th>
-                        <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Nivel</th>
+                        <th className="custom-table-th">Alta</th>
+                        <th className="custom-table-th">Telefono</th> 
+                        <th className="custom-table-th">Correo</th>
+                        <th className="custom-table-th">Nivel</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {usuarios && usuarios.map((usuario: any, index: number) => (
-                        <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={usuario.id_usuario}>
-                            <td className="p-4">{usuario.fecha_alta}</td>
-                            <td className="p-4">{usuario.telefono_usuario}</td>
-                            <td className="p-4">{usuario.correo}</td>
-                            <td className="p-4">
+                    {usuarios && usuarios.map((usuario: any) => (
+                        <tr className="custom-table-tr" key={usuario.id_usuario}>
+                            <td>{usuario.fecha_alta}</td>
+                            <td>{usuario.telefono_usuario}</td>
+                            <td>{usuario.correo}</td>
+                            <td>
                                 {usuario.nivel === "na1"?"Administrador":""}
                                 {usuario.nivel === "n1"?"Nivel 1":""}
                                 {usuario.nivel === "n2"?"Nivel 2":""}

@@ -21,24 +21,24 @@ export default async function TablaChecador() {
 
     return (
         <>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg  w-full h-full overflow-scroll  rounded-lg bg-clip-border bg-zinc-900 my-5">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400w-full bg-neutral-800  dark:text-gray-400 table-auto min-w-max">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div className="custom-table-container">
+                <table className="custom-table">
+                    <thead className="custom-table-thead">
                         <tr>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Fecha</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Hora</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Entrada / Salida</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Nombre</th>
-                            <th className='p-4 border-b border-neutral-500 text-slate-100 bg-zinc-900'>Copiar</th>
+                            <th className="custom-table-th">Fecha</th>
+                            <th className="custom-table-th">Hora</th>
+                            <th className="custom-table-th">Entrada / Salida</th>
+                            <th className="custom-table-th">Nombre</th>
+                            <th className="custom-table-th">Copiar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {checador && checador.map((check: any, index: number) => (
-                            <tr className={index % 2 ? "bg-stone-700 text-sm hover:bg-black hover:text-white border-b border-neutral-500" : "text-sm hover:bg-black hover:text-white border-b border-neutral-500"} key={check.id_entrada}>
-                                <td className="p-4">{check.fecha_entrada_salida}</td>
-                                <td className="p-4">{check.hora_entrada_salida}</td>
-                                <td className="p-4">{check.checador}</td>
-                                <td className="p-4">{check.nombre_empleado}</td>
+                        {checador && checador.map((check: any) => (
+                            <tr className="custom-table-tr" key={check.id_entrada}>
+                                <td>{check.fecha_entrada_salida}</td>
+                                <td>{check.hora_entrada_salida}</td>
+                                <td>{check.checador}</td>
+                                <td>{check.nombre_empleado}</td>
                                 <td className='mx-2 my-2'>
                                     <CopyButton hora={check.hora_entrada_salida} />
                                 </td>
