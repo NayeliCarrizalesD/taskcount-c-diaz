@@ -49,7 +49,15 @@ useEffect(() => {
             icon: 'warning',
             title: 'Configuración faltante',
             text: 'Este cliente no tiene configuración de honorarios. Por favor, configúrala primero en "Config Honorarios".',
-            confirmButtonText: 'Entendido'
+            confirmButtonText: 'Entendido',
+            color: "white",
+            background: "#0d0d0e",
+            buttonsStyling: false,
+            customClass: {
+              popup: 'rounded-3xl border border-zinc-800 p-6',
+              title: 'text-xl font-bold tracking-tight text-white pt-2',
+              confirmButton: 'px-5 py-2.5 rounded-xl font-semibold bg-sky-600 hover:bg-sky-500 text-white transition-colors duration-150 text-sm cursor-pointer'
+            }
           });
           return;
         }
@@ -93,27 +101,40 @@ useEffect(() => {
         title: 'Registrar Pago de Honorarios',
         html: `
           <div class="text-left space-y-4">
-            <div class="bg-cyan-900 p-3 rounded-xl">
-              <strong>Cliente:</strong> ${cliente.nombre_cliente || 'Sin nombre'}<br>
-              <strong>Concepto:</strong> ${configData.concepto}<br>
-              <strong>Monto configurado:</strong> $${configData.pago}<br>
-              <strong>Último mes pagado:</strong> ${ultimoMesPagado}
+            <div class="bg-sky-950/30 border border-sky-900/40 p-4 rounded-2xl text-sm space-y-1.5 text-stone-300">
+              <div>
+                <span class="text-stone-500 text-xs uppercase tracking-wider font-semibold">Cliente</span>
+                <div class="font-bold text-white text-base mt-0.5">${cliente.nombre_cliente || 'Sin nombre'}</div>
+              </div>
+              <div class="grid grid-cols-2 gap-3 mt-1.5 pt-2 border-t border-sky-900/20">
+                <div>
+                  <span class="text-stone-500 text-xs uppercase tracking-wider font-semibold block">Concepto</span>
+                  <span class="font-medium text-white text-sm mt-0.5 block">${configData.concepto}</span>
+                </div>
+                <div>
+                  <span class="text-stone-500 text-xs uppercase tracking-wider font-semibold block">Monto Config.</span>
+                  <span class="font-bold text-emerald-400 text-sm mt-0.5 block">$${Number(configData.pago).toLocaleString('es-MX', { minimumFractionDigits: 2 })}</span>
+                </div>
+              </div>
+              <div class="mt-2 text-xs text-sky-300 flex items-center gap-1.5 pt-1">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+                Último mes pagado: <strong>${ultimoMesPagado}</strong>
+              </div>
             </div>
             
-            <div class="columns-2">
+            <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium mb-2">Mes a pagar:</label>
-                <select id="mes-pago" class="swal2-input bg-black rounded-xl border-white">
+                <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Mes a pagar</label>
+                <select id="mes-pago" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm cursor-pointer">
                   <option value="">Seleccionar mes</option>
                   ${meses.slice(1).map((mes, index) =>
             `<option value="${index + 1}" ${index + 1 === mesActual ? 'selected' : ''}>${mes}</option>`
           ).join('')}
                 </select>
               </div>
-              <br />
               <div>
-                <label class="block text-sm font-medium mb-2">Año:</label>
-                <select id="year_pago" class="swal2-input bg-black rounded-xl border-white">
+                <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Año</label>
+                <select id="year_pago" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm cursor-pointer">
                   <option value="">Año</option>
                   ${yearOptions}
                 </select>        
@@ -121,34 +142,42 @@ useEffect(() => {
             </div>
             
             <div>
-              <label class="block text-sm font-medium mb-2">Monto:</label>
-              <input id="monto-pago" type="number" class="swal2-input rounded-xl" value="${configData.pago}" step="0.01">
+              <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Monto a pagar</label>
+              <div class="relative rounded-xl shadow-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <span class="text-stone-500 sm:text-sm">$</span>
+                </div>
+                <input id="monto-pago" type="number" class="w-full pl-7 pr-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm" value="${configData.pago}" step="0.01">
+              </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium mb-2" for="fecha_realizacion_pago">Fecha de pago en oficina:</label>
-              <input id="fecha_realizacion_pago" type="date" class="swal2-input rounded-xl bg-black border-white" value="${new Date().toISOString().split('T')[0]}">
+              <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1" for="fecha_realizacion_pago">Fecha de pago en oficina</label>
+              <input id="fecha_realizacion_pago" type="date" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm" value="${new Date().toISOString().split('T')[0]}">
             </div>
             
             <div>
-              <label class="block text-sm font-medium mb-2" for="correo_empleado">Correo empleado:</label>
-              <input id="correo_empleado" name="correo_empleado" type="email" class="swal2-input rounded-xl" value="${correoEmpleado}" />
+              <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1" for="correo_empleado">Correo empleado</label>
+              <input id="correo_empleado" name="correo_empleado" type="email" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm" value="${correoEmpleado}" />
             </div>
           </div>
         `,
-        width: '500px',
+        width: '460px',
         showCancelButton: true,
         color: "white",
-        background: "black",
+        background: "#0d0d0e",
+        buttonsStyling: false,
         customClass: {
-          popup: 'border-radius-0',
-          confirmButton: 'border-radius-0',
-          cancelButton: 'border-radius-0'
+          popup: 'rounded-3xl border border-zinc-800 p-6 shadow-2xl',
+          title: 'text-xl font-bold tracking-tight text-white pt-2 px-2 text-left w-full',
+          htmlContainer: 'text-left mx-2 my-0',
+          actions: 'flex justify-end gap-3 mt-6 px-2 w-full',
+          confirmButton: 'px-5 py-2.5 rounded-xl font-semibold bg-sky-600 hover:bg-sky-500 text-white transition-colors duration-150 text-sm cursor-pointer',
+          cancelButton: 'px-5 py-2.5 rounded-xl font-semibold bg-zinc-800 hover:bg-zinc-700 text-stone-300 transition-colors duration-150 text-sm cursor-pointer',
+          validationMessage: 'bg-red-950/40 border border-red-900/40 text-red-200 rounded-xl p-3 my-2 text-xs flex items-center gap-2'
         },
         confirmButtonText: 'Registrar Pago',
-        confirmButtonColor: '#2c7aa2',
         cancelButtonText: 'Cancelar',
-        cancelButtonColor: '#d33',
         preConfirm: () => {
           const mes = (document.getElementById('mes-pago') as HTMLSelectElement).value;
           const year = (document.getElementById('year_pago') as HTMLInputElement).value;
@@ -194,9 +223,12 @@ useEffect(() => {
         icon: 'error',
         title: 'Error',
         color: "white",
-        background: "black",
+        background: "#0d0d0e",
+        buttonsStyling: false,
         customClass: {
-          popup: 'border-radius-0'
+          popup: 'rounded-3xl border border-zinc-800 p-6',
+          title: 'text-xl font-bold tracking-tight text-white pt-2',
+          confirmButton: 'px-5 py-2.5 rounded-xl font-semibold bg-sky-600 hover:bg-sky-500 text-white transition-colors duration-150 text-sm cursor-pointer'
         },
         text: error instanceof Error ? error.message : 'Error al cargar datos del cliente'
       });
@@ -236,9 +268,9 @@ useEffect(() => {
           timer: 2000,
           showConfirmButton: false,
           color: "white",
-          background: "black",
+          background: "#0d0d0e",
           customClass: {
-            popup: 'border-radius-0'
+            popup: 'rounded-3xl border border-zinc-800 p-6'
           }
         });
 
@@ -257,9 +289,12 @@ useEffect(() => {
         title: 'Error',
         text: error instanceof Error ? error.message : 'Error al registrar el pago',
         color: "white",
-        background: "black",
+        background: "#0d0d0e",
+        buttonsStyling: false,
         customClass: {
-          popup: 'border-radius-0'
+          popup: 'rounded-3xl border border-zinc-800 p-6',
+          title: 'text-xl font-bold tracking-tight text-white pt-2',
+          confirmButton: 'px-5 py-2.5 rounded-xl font-semibold bg-sky-600 hover:bg-sky-500 text-white transition-colors duration-150 text-sm cursor-pointer'
         }
       });
     }

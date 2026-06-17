@@ -15,8 +15,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
     }
 
-    // Solo devuelve el correo
-    return NextResponse.json({ correo: usuario.correo });
+    // Devuelve el correo y el nivel
+    return NextResponse.json({ correo: usuario.correo, nivel: usuario.nivel });
   } catch (error) {
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }

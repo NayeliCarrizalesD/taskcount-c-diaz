@@ -450,6 +450,23 @@ export async function createRegistroPago( marca_temporal: string, id_cliente: st
   return await db.insert(registroPago).values([{ marca_temporal, id_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado, fecha_realizacion_pago }]);
 }
 
+export async function updateRegistroPago(id_pago: number, concepto: string, pago: number, mes_pago: number, year_pago: number, correo_empleado: string, fecha_realizacion_pago?: string) {
+  const registroPago = await ensureTableRegistroPagoExists();
+  const pagoStr = pago.toString();
+  const year_pagoStr = year_pago.toString();
+  return await db.update(registroPago)
+    .set({
+      concepto,
+      pago: pagoStr,
+      mes_pago,
+      year_pago: year_pagoStr,
+      correo_empleado,
+      fecha_realizacion_pago
+    })
+    .where(eq(registroPago.id_pago, id_pago))
+    .returning();
+}
+
 export async function getPagosTodosConNombres() {
   try {
     const result = await dbTablas
