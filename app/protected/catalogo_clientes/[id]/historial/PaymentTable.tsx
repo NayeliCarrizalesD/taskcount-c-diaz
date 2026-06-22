@@ -9,6 +9,11 @@ import { useRouter } from 'next/navigation';
 
 const MySwal = withReactContent(Swal);
 
+const MESES = [
+  "", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
+
 interface Pago {
   id_pago: number;
   marca_temporal: string | null;
@@ -49,11 +54,6 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
   const handleEditPago = async (pago: Pago) => {
     if (!isAdmin) return;
 
-    const meses = [
-      "", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-    ];
-
     const currentYear = new Date().getFullYear();
     const yearOptions = Array.from({ length: 9 }, (_, i) => {
       const year = currentYear - i;
@@ -90,7 +90,7 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
               <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Mes a pagar</label>
               <select id="edit-mes-pago" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm cursor-pointer">
                 <option value="">Seleccionar mes</option>
-                ${meses.slice(1).map((mes, index) =>
+                ${MESES.slice(1).map((mes, index) =>
                   `<option value="${index + 1}" ${index + 1 === Number(pago.mes_pago) ? 'selected' : ''}>${mes}</option>`
                 ).join('')}
               </select>
@@ -272,7 +272,16 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
   };
 
   const formattedPagos = useMemo(() => {
-    return pagos.map((pago) => {
+    const sorted = [...pagos].sort((a, b) => {
+      const mesA = a.mes_pago ?? 0;
+      const mesB = b.mes_pago ?? 0;
+      if (mesB !== mesA) {
+        return mesB - mesA;
+      }
+      return b.id_pago - a.id_pago;
+    });
+
+    return sorted.map((pago) => {
       const { fecha, hora } = formatMarcaTemporal(pago.marca_temporal);
       return {
         ...pago,
@@ -310,8 +319,8 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
           <tr>
             <th className="custom-table-th">ID Pago</th>
             <th className="custom-table-th">Concepto</th>
-            <th className="custom-table-th">Fecha Sistema</th>
-            <th className="custom-table-th">Hora</th>
+            <th className="custom-table-th">Mes Pagado</th>
+            <th className="custom-table-th">Año Pagado</th>
             <th className="custom-table-th">F. Realización</th>
             <th className="custom-table-th">Cobrado</th>
             <th className="custom-table-th">Importe</th>
@@ -335,8 +344,12 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
                 </span>
               </td>
               <td className="p-4 font-medium text-stone-200">{pago.concepto || "Pago Honorarios"}</td>
-              <td className="p-4 text-stone-300">{pago.fecha}</td>
-              <td className="p-4 text-stone-400 font-mono text-xs">{pago.hora}</td>
+              <td className="p-4 text-stone-300">
+                {pago.mes_pago && MESES[pago.mes_pago] ? MESES[pago.mes_pago] : "No registrado"}
+              </td>
+              <td className="p-4 text-stone-400 font-mono text-xs">
+                {pago.year_pago || "No registrado"}
+              </td>
               <td className="p-4 text-sky-300 font-medium">{formatFechaRealizacion(pago.fecha_realizacion_pago)}</td>
               <td className="p-4">
                 <span className="inline-flex items-center gap-1 text-emerald-400 font-semibold text-xs bg-emerald-950/50 border border-emerald-800 px-2 py-0.5 rounded-full">
