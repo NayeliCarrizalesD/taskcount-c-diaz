@@ -1,20 +1,48 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { BtnEditar } from "../BtnEditar";
 import Swal from "sweetalert2";
 import { BtnPagar } from "../BtnPagar";
 import { BtnVerHistorialDePago } from "../BtnVerHistorialDePago";
 import { Pagination } from "../../components/Pagination";
+import { FaSearch } from "react-icons/fa";
 
 export default function TablaClientes() {
   const [clientes, setClientes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [paginaActual, setPaginaActual] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const clientesPorPagina = 10;
-  const totalPaginas = Math.ceil(clientes.length / clientesPorPagina);
 
-  const clientesActuales = clientes.slice((paginaActual - 1) * clientesPorPagina, paginaActual * clientesPorPagina);
+  useEffect(() => {
+    setPaginaActual(1);
+  }, [searchQuery]);
+
+  const filteredClientes = useMemo(() => {
+    if (!searchQuery.trim()) return clientes;
+    const query = searchQuery.toLowerCase().trim();
+    return clientes.filter((cliente) => {
+      const idStr = String(cliente.id_cliente);
+      const nombre = (cliente.nombre_cliente || "").toLowerCase();
+      const correo = (cliente.correo_cliente || "").toLowerCase();
+      const telefono = (cliente.telefono_cliente || "").toLowerCase();
+      const rfc = (cliente.rfc || "").toLowerCase();
+      return (
+        idStr.includes(query) ||
+        nombre.includes(query) ||
+        correo.includes(query) ||
+        telefono.includes(query) ||
+        rfc.includes(query)
+      );
+    });
+  }, [clientes, searchQuery]);
+
+  const totalPaginas = Math.ceil(filteredClientes.length / clientesPorPagina);
+
+  const clientesActuales = useMemo(() => {
+    return filteredClientes.slice((paginaActual - 1) * clientesPorPagina, paginaActual * clientesPorPagina);
+  }, [filteredClientes, paginaActual]);
 
   useEffect(() => {
     const fetchClientes = async () => {
@@ -130,6 +158,20 @@ export default function TablaClientes() {
 
   return (
     <>
+      <div className="mb-4">
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-400">
+            <FaSearch className="h-4 w-4" />
+          </span>
+          <input
+            type="text"
+            placeholder="Buscar cliente por nombre, ID, correo, teléfono o RFC..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-neutral-900/60 border border-zinc-700/60 hover:border-zinc-500/60 focus:border-sky-500 rounded-2xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition-all duration-200"
+          />
+        </div>
+      </div>
       <div className="custom-table-container">
         <table className="custom-table">
           <thead className="custom-table-thead">
@@ -141,18 +183,26 @@ export default function TablaClientes() {
             </tr>
           </thead>
           <tbody>
-            {clientesActuales.map((cliente) => (
-              <tr key={cliente.id_cliente} className="custom-table-tr">
-                <td>{cliente.id_cliente}</td>
-                <td>{cliente.nombre_cliente}</td>
-                <td>{cliente.correo_cliente}</td>
-                <td>
-                  <BtnEditar onClick={handleUpdateCliente} cliente={cliente} />
-                  <BtnPagar cliente={cliente} />
-                  <BtnVerHistorialDePago cliente={cliente} />
+            {clientesActuales.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="p-8 text-center text-gray-400 text-sm">
+                  No se encontraron clientes coincidentes.
                 </td>
               </tr>
-            ))}
+            ) : (
+              clientesActuales.map((cliente) => (
+                <tr key={cliente.id_cliente} className="custom-table-tr">
+                  <td>{cliente.id_cliente}</td>
+                  <td>{cliente.nombre_cliente}</td>
+                  <td>{cliente.correo_cliente}</td>
+                  <td>
+                    <BtnEditar onClick={handleUpdateCliente} cliente={cliente} />
+                    <BtnPagar cliente={cliente} />
+                    <BtnVerHistorialDePago cliente={cliente} />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
         <div className="px-4 pb-2">
