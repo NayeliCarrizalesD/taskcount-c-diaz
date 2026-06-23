@@ -754,6 +754,27 @@ export async function updateEstadoTarea(id_tarea: number, estado: string, fecha_
   return await db.update(table).set(updateData).where(eq(table.id_tarea, id_tarea)).returning();
 }
 
+export async function updateTarea(
+  id_tarea: number,
+  updateFields: {
+    titulo?: string;
+    descripcion?: string;
+    prioridad?: string;
+    estado?: string;
+    fecha_limite?: string;
+    fecha_completada?: string | null;
+    asignado_a?: string | null;
+  }
+) {
+  const table = await ensureTableTareasExists();
+  return await db.update(table).set(updateFields).where(eq(table.id_tarea, id_tarea)).returning();
+}
+
+export async function deleteTarea(id_tarea: number) {
+  const table = await ensureTableTareasExists();
+  return await db.delete(table).where(eq(table.id_tarea, id_tarea)).returning();
+}
+
 export async function createComentarioTarea(
   id_tarea: number,
   usuario: string,

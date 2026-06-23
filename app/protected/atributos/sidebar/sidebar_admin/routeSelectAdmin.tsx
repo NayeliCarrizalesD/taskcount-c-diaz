@@ -4,7 +4,7 @@ import { IconType } from "react-icons";
 import { FiHome } from "react-icons/fi";
 import { MdOutlineInventory } from "react-icons/md";
 import Link from "next/link";
-import { FaPen, FaUserEdit, FaUserClock } from "react-icons/fa";
+import { FaPen, FaUserEdit, FaUserClock, FaTasks, FaPlusSquare } from "react-icons/fa";
 import { LuNotebookText } from "react-icons/lu";
 import { FaRegPenToSquare } from "react-icons/fa6";
 import { RiContactsBook3Line } from "react-icons/ri";
@@ -24,6 +24,8 @@ export const RouteSelectAdmin = () => {
       <TransitionLink Icon={RiContactsBook3Line} title="Catalogo de Clientes" href="/protected/catalogo_clientes" />
       <TransitionLink Icon={MdOutlineInventory} title="Config Honorarios" href="/protected/config_clientes_honorarios" />
       <TransitionLink Icon={LuNotebookText} title="Pago Honorarios" href="/protected/registro_pago_honorarios" />
+      <TransitionLink Icon={FaTasks} title="Ver Tareas" href="/protected/tareas" />
+      <TransitionLink Icon={FaPlusSquare} title="Asignar Tareas" href="/protected/tareas/asignar" />
     </ul>
   );
 };
