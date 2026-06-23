@@ -58,6 +58,21 @@ export default function TablaPagosHonorarios({
     return datosFiltrados.slice(indicePrimerPago, indiceUltimoPago);
   }, [datosFiltrados, indicePrimerPago, indiceUltimoPago]);
 
+  const formatFechaRealizacion = (fecha: any) => {
+    if (!fecha) return "No registrada";
+    try {
+      const dateStr = String(fecha).trim();
+      const onlyDate = dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
+      const parts = onlyDate.split("-");
+      if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      return dateStr;
+    } catch {
+      return String(fecha);
+    }
+  };
+
   return (
     <>
       <div className="custom-table-container">
@@ -88,7 +103,7 @@ export default function TablaPagosHonorarios({
                   <td>{item.pago}</td>
                   <td>{meses[Number(item.mes_pago)]}</td>
                   <td>{item.year_pago}</td>
-                  <td>{item.fecha_realizacion_pago ? item.fecha_realizacion_pago.split('-').reverse().join('/') : "No registrada"}</td>
+                  <td>{formatFechaRealizacion(item.fecha_realizacion_pago)}</td>
                   <td>{item.correo_empleado}</td>
                 </tr>
               ))

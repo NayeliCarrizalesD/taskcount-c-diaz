@@ -234,8 +234,9 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
       });
     }
     try {
-      const dateStr = String(fecha);
-      const parts = dateStr.split("-");
+      const dateStr = String(fecha).trim();
+      const onlyDate = dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
+      const parts = onlyDate.split("-");
       if (parts.length === 3) {
         return `${parts[2]}/${parts[1]}/${parts[0]}`;
       }
