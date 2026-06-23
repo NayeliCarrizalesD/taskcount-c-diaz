@@ -49,7 +49,7 @@ export default function TablaPagosHonorarios({
   }, [datosTabla, searchQuery]);
 
   // PAGINACIÓN
-  const pagosPorPagina = 20;
+  const pagosPorPagina = 10;
   const totalPaginas = Math.ceil(datosFiltrados.length / pagosPorPagina);
 
   const indiceUltimoPago = paginaActual * pagosPorPagina;

@@ -17,7 +17,7 @@ interface TablaDatosUsuariosClientProps {
 
 export default function TablaDatosUsuariosClient({ initialUsuarios }: TablaDatosUsuariosClientProps) {
   const [paginaActual, setPaginaActual] = useState(1);
-  const itemsPorPagina = 5; // Keep 5 per page as it was originally limited to 5
+  const itemsPorPagina = 10;
   const totalPaginas = Math.ceil(initialUsuarios.length / itemsPorPagina);
 
   const usuariosActuales = initialUsuarios.slice(
