@@ -30,7 +30,7 @@
   }
 
   .main-content-card {
-    @apply p-4 my-3 mr-3 ml-0 bg-zinc-700 rounded-l-none rounded-r-3xl pb-4 shadow h-auto;
+    @apply p-4 my-3 mr-3 ml-0 bg-zinc-700 rounded-3xl pb-4 shadow h-auto;
   }
 
   .custom-table-container {
