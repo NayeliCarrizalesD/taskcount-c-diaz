@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { FiTrash2, FiMessageSquare } from "react-icons/fi";
+import { FiTrash2, FiMessageSquare, FiEdit } from "react-icons/fi";
 import Swal from "sweetalert2";
 import { Pagination } from "../../components/Pagination";
 
@@ -32,11 +32,27 @@ export default function TablaTareasAsignadas({
 }: TablaTareasAsignadasProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [paginaActual, setPaginaActual] = useState(1);
+  const [usuarios, setUsuarios] = useState<any[]>([]);
   const tareasPorPagina = 10;
 
   useEffect(() => {
     setPaginaActual(1);
   }, [searchQuery]);
+
+  useEffect(() => {
+    const fetchUsuarios = async () => {
+      try {
+        const res = await fetch("/api/usuarios");
+        if (res.ok) {
+          const data = await res.json();
+          setUsuarios(data);
+        }
+      } catch (err) {
+        console.error("Error al cargar usuarios:", err);
+      }
+    };
+    fetchUsuarios();
+  }, []);
 
   // Filtro LIKE
   const tareasFiltradas = useMemo(() => {
@@ -178,7 +194,7 @@ export default function TablaTareasAsignadas({
           ${commentsHtml}
           <div class="text-left">
             <label class="block text-[11px] font-semibold text-stone-400 uppercase tracking-wider mb-1">Nuevo Comentario</label>
-            <textarea id="swal-comentario" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm" placeholder="Escribe un comentario..." rows="2"></textarea>
+            <textarea id="swal-comentario" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] text-sm" placeholder="Escribe un comentario..." rows="2"></textarea>
           </div>
         `,
         preConfirm: () => {
@@ -192,7 +208,7 @@ export default function TablaTareasAsignadas({
         background: "#0d0d0e",
         customClass: {
           popup: "rounded-3xl border border-zinc-800 p-6 shadow-2xl w-[460px]",
-          confirmButton: "px-5 py-2.5 rounded-xl font-semibold bg-sky-600 hover:bg-sky-500 text-white text-sm cursor-pointer mr-2",
+          confirmButton: "px-5 py-2.5 rounded-xl font-semibold bg-[#008fcb] hover:bg-[#007cb0] text-white text-sm cursor-pointer mr-2",
           cancelButton: "px-5 py-2.5 rounded-xl font-semibold bg-zinc-800 hover:bg-zinc-700 text-stone-300 text-sm cursor-pointer",
         },
         buttonsStyling: false,
@@ -215,6 +231,119 @@ export default function TablaTareasAsignadas({
     }
   };
 
+  const handleEditTarea = async (t: Tarea) => {
+    const userOptions = usuarios
+      .map(
+        (u) =>
+          `<option value="${u.email}" ${u.email === t.asignado_a ? "selected" : ""}>${u.email}</option>`
+      )
+      .join("");
+
+    const result = await Swal.fire({
+      title: "Editar Tarea",
+      html: `
+        <div class="text-left space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Nombre de la actividad *</label>
+            <input id="edit-titulo" type="text" class="w-full px-3 py-2.5 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] text-sm" value="${t.titulo || ""}">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Descripción</label>
+            <textarea id="edit-descripcion" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] text-sm resize-none" rows="2">${t.descripcion || ""}</textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Prioridad</label>
+              <select id="edit-prioridad" class="w-full px-3 py-2.5 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] text-sm">
+                <option value="baja" ${t.prioridad === "baja" ? "selected" : ""}>Baja</option>
+                <option value="media" ${t.prioridad === "media" ? "selected" : ""}>Media</option>
+                <option value="alta" ${t.prioridad === "alta" ? "selected" : ""}>Alta</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Fecha Límite</label>
+              <input id="edit-fecha" type="date" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] text-sm" value="${t.fecha_limite || ""}">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Responsable (Asignado a)</label>
+            <select id="edit-asignado" class="w-full px-3 py-2.5 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] text-sm">
+              <option value="">Sin asignar</option>
+              ${userOptions}
+            </select>
+          </div>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: "Guardar Cambios",
+      cancelButtonText: "Cancelar",
+      color: "white",
+      background: "#0d0d0e",
+      customClass: {
+        popup: "rounded-3xl border border-zinc-800 p-6 shadow-2xl w-[460px]",
+        confirmButton: "px-5 py-2.5 rounded-xl font-semibold bg-[#008fcb] hover:bg-[#007cb0] text-white text-sm cursor-pointer mr-2",
+        cancelButton: "px-5 py-2.5 rounded-xl font-semibold bg-zinc-800 hover:bg-zinc-700 text-stone-300 text-sm cursor-pointer",
+      },
+      buttonsStyling: false,
+      preConfirm: () => {
+        const titulo = (document.getElementById("edit-titulo") as HTMLInputElement).value;
+        const descripcion = (document.getElementById("edit-descripcion") as HTMLTextAreaElement).value;
+        const prioridad = (document.getElementById("edit-prioridad") as HTMLSelectElement).value;
+        const fecha_limite = (document.getElementById("edit-fecha") as HTMLInputElement).value;
+        const asignado_a = (document.getElementById("edit-asignado") as HTMLSelectElement).value;
+
+        if (!titulo.trim()) {
+          Swal.showValidationMessage("El título es obligatorio");
+          return false;
+        }
+
+        return {
+          titulo: titulo.trim(),
+          descripcion: descripcion.trim() || null,
+          prioridad,
+          fecha_limite: fecha_limite || null,
+          asignado_a: asignado_a || null,
+        };
+      },
+    });
+
+    if (result.isConfirmed && result.value) {
+      try {
+        const res = await fetch(`/api/tareas/${t.id_tarea}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(result.value),
+        });
+
+        if (res.ok) {
+          Swal.fire({
+            icon: "success",
+            title: "¡Guardado!",
+            text: "La tarea ha sido actualizada correctamente.",
+            timer: 1500,
+            showConfirmButton: false,
+            color: "white",
+            background: "#0d0d0e",
+            customClass: { popup: "rounded-3xl border border-zinc-800" },
+          });
+          onTareaModificada();
+        } else {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "No se pudo guardar los cambios");
+        }
+      } catch (err: any) {
+        console.error(err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: err.message || "No se pudo actualizar la tarea.",
+          color: "white",
+          background: "#0d0d0e",
+        });
+      }
+    }
+  };
+
   // Clases y estilos de los Badges
   const getPriorityClass = (priority: string | null) => {
     switch (priority) {
@@ -224,7 +353,7 @@ export default function TablaTareasAsignadas({
         return "bg-teal-950/50 border border-teal-800 text-teal-400";
       case "media":
       default:
-        return "bg-sky-950/50 border border-sky-800 text-sky-400";
+        return "bg-[#008fcb]/10 border border-[#008fcb]/30 text-[#008fcb]";
     }
   };
 
@@ -233,7 +362,7 @@ export default function TablaTareasAsignadas({
       case "completada":
         return "bg-emerald-950/40 border border-emerald-800/80 text-emerald-400";
       case "en_progreso":
-        return "bg-blue-950/40 border border-blue-800/80 text-blue-400";
+        return "bg-[#008fcb]/10 border border-[#008fcb]/40 text-[#008fcb]";
       case "cancelada":
         return "bg-zinc-900 border border-zinc-800 text-stone-400";
       case "pendiente":
@@ -257,7 +386,7 @@ export default function TablaTareasAsignadas({
         showFullWidth ? "lg:col-span-12" : "lg:col-span-8"
       } sm:col-span-12 overflow-hidden rounded-3xl bg-zinc-800 shadow-xl border border-zinc-700/30 flex flex-col`}
     >
-      <div className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h3 className="text-lg font-medium text-white">Tareas del Equipo</h3>
           <p className="text-xs text-stone-400">Listado de tareas asignadas y estados actuales.</p>
@@ -271,12 +400,12 @@ export default function TablaTareasAsignadas({
             placeholder="Buscar tarea..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-neutral-900 border border-zinc-700 hover:border-zinc-500 focus:border-sky-500 rounded-2xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition-all duration-200"
+            className="w-full pl-10 pr-4 py-2 bg-neutral-900 border border-zinc-700 hover:border-zinc-500 focus:border-[#008fcb] rounded-2xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#008fcb]/20 transition-all duration-200"
           />
         </div>
       </div>
 
-      <div className="custom-table-container flex-grow overflow-x-auto">
+      <div className="custom-table-container flex-grow overflow-x-auto mx-6 mb-6">
         <table className="custom-table">
           <thead className="custom-table-thead">
             <tr>
@@ -326,7 +455,7 @@ export default function TablaTareasAsignadas({
                     <select
                       value={t.estado || "pendiente"}
                       onChange={(e) => handleEstadoChange(t.id_tarea, e.target.value)}
-                      className={`px-2.5 py-1 rounded-xl text-xs font-bold border focus:outline-none focus:ring-2 focus:ring-sky-500/20 cursor-pointer transition-all duration-150 ${getStatusSelectClass(
+                      className={`px-2.5 py-1 rounded-xl text-xs font-bold border focus:outline-none focus:ring-2 focus:ring-[#008fcb]/20 cursor-pointer transition-all duration-150 ${getStatusSelectClass(
                         t.estado
                       )}`}
                     >
@@ -340,9 +469,16 @@ export default function TablaTareasAsignadas({
                   <td>
                     <div className="flex items-center gap-2">
                       <button
+                        onClick={() => handleEditTarea(t)}
+                        title="Editar Tarea"
+                        className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-[#008fcb] hover:text-[#008fcb] text-stone-400 transition-colors cursor-pointer"
+                      >
+                        <FiEdit className="h-4 w-4" />
+                      </button>
+                      <button
                         onClick={() => showComments(t.id_tarea, t.titulo)}
                         title="Comentarios"
-                        className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-sky-500 hover:text-sky-400 text-stone-400 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-700 hover:border-[#008fcb] hover:text-[#008fcb] text-stone-400 transition-colors cursor-pointer"
                       >
                         <FiMessageSquare className="h-4 w-4" />
                       </button>
@@ -362,7 +498,7 @@ export default function TablaTareasAsignadas({
         </table>
       </div>
 
-      <div className="p-4 border-t border-zinc-800/50">
+      <div className="p-6 border-t border-zinc-800/50">
         <Pagination
           currentPage={paginaActual}
           totalPages={totalPaginas}

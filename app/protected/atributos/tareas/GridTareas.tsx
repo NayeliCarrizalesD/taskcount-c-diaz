@@ -34,7 +34,7 @@ export default function GridTareas({ showAsignarLayout = false }: GridTareasProp
 
   return (
     <>
-      <div className="px-4 grid gap-3 grid-cols-12">
+      <div className="px-6 sm:px-8 grid gap-4 grid-cols-12">
         {loading ? (
           <div className="col-span-12 flex flex-col justify-center items-center p-12 space-y-3">
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-sky-400"></div>

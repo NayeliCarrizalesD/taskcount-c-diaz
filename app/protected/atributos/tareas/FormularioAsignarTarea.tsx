@@ -108,7 +108,7 @@ export default function FormularioAsignarTarea({ onTareaCreada }: FormularioAsig
     <div className="lg:col-span-4 sm:col-span-12 overflow-hidden rounded-3xl bg-slate-800 shadow-xl p-6 border border-zinc-700/30">
       <div className="mb-4">
         <h3 className="flex items-center text-lg gap-2 font-medium text-white">
-          <FiClipboard className="text-sky-400" /> Asignar Tarea
+          <FiClipboard className="text-[#008fcb]" /> Asignar Tarea
         </h3>
         <p className="text-xs text-stone-300 mt-1">
           Crea y asigna una tarea a un integrante del equipo.
@@ -127,7 +127,7 @@ export default function FormularioAsignarTarea({ onTareaCreada }: FormularioAsig
             placeholder="Ej. Revisar estados financieros"
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm"
+            className="w-full px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm placeholder-gray-400"
           />
         </div>
 
@@ -141,7 +141,7 @@ export default function FormularioAsignarTarea({ onTareaCreada }: FormularioAsig
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
             rows={3}
-            className="w-full px-3.5 py-2.5 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm resize-none"
+            className="w-full px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm resize-none placeholder-gray-400"
           />
         </div>
 
@@ -154,7 +154,7 @@ export default function FormularioAsignarTarea({ onTareaCreada }: FormularioAsig
               id="task-prioridad"
               value={prioridad}
               onChange={(e) => setPrioridad(e.target.value)}
-              className="w-full px-3 py-2.5 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm cursor-pointer"
+              className="w-full px-3 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm cursor-pointer"
             >
               <option value="baja">Baja</option>
               <option value="media">Media</option>
@@ -171,7 +171,7 @@ export default function FormularioAsignarTarea({ onTareaCreada }: FormularioAsig
               type="date"
               value={fechaLimite}
               onChange={(e) => setFechaLimite(e.target.value)}
-              className="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm cursor-pointer"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm cursor-pointer"
             />
           </div>
         </div>
@@ -185,7 +185,7 @@ export default function FormularioAsignarTarea({ onTareaCreada }: FormularioAsig
             value={asignadoA}
             onChange={(e) => setAsignadoA(e.target.value)}
             disabled={loadingUsers}
-            className="w-full px-3 py-2.5 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm cursor-pointer"
+            className="w-full px-3 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm cursor-pointer"
           >
             <option value="">{loadingUsers ? "Cargando..." : "Sin asignar"}</option>
             {usuarios.map((u) => (
@@ -199,7 +199,7 @@ export default function FormularioAsignarTarea({ onTareaCreada }: FormularioAsig
         <button
           type="submit"
           disabled={submitting}
-          className="mt-2 w-full py-2.5 rounded-xl font-bold bg-sky-600 hover:bg-sky-500 text-white transition-colors duration-150 text-sm disabled:bg-zinc-700 disabled:text-zinc-500 cursor-pointer shadow-lg shadow-sky-950/20"
+          className="mt-2 w-full py-2.5 rounded-xl font-bold bg-[#008fcb] hover:bg-[#007cb0] text-white transition-colors duration-150 text-sm disabled:bg-zinc-700 disabled:text-zinc-500 cursor-pointer shadow-lg shadow-[#008fcb]/20"
         >
           {submitting ? "Asignando..." : "Asignar Tarea"}
         </button>

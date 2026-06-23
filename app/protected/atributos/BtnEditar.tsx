@@ -13,20 +13,37 @@ export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, 
     Swal.fire({
       title: "Editar cliente",
       html: `
-        <input id="swal-input1" class="swal2-input" value="${cliente.nombre_cliente || ''}" placeholder="Nombre">
-        <input id="swal-input2" class="swal2-input" value="${cliente.telefono_cliente || ''}" placeholder="Teléfono">
-        <input id="swal-input3" class="swal2-input" value="${cliente.correo_cliente || ''}" placeholder="Correo">
-        <input id="swal-input4" class="swal2-input" value="${cliente.rfc || ''}" placeholder="RFC">
+        <div class="text-left space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Nombre</label>
+            <input id="swal-input1" type="text" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm" value="${cliente.nombre_cliente || ''}">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Teléfono</label>
+            <input id="swal-input2" type="text" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm" value="${cliente.telefono_cliente || ''}">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">Correo</label>
+            <input id="swal-input3" type="email" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm" value="${cliente.correo_cliente || ''}">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1">RFC</label>
+            <input id="swal-input4" type="text" class="w-full px-3 py-2 bg-neutral-900 border border-zinc-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm" value="${cliente.rfc || ''}">
+          </div>
+        </div>
       `,
       focusConfirm: false,
       color: "white",
-      background: "black",
-      customClass: {
-        popup: 'border-radius-0'
-      },
+      background: "#0d0d0e",
       showCancelButton: true,
       confirmButtonText: 'Guardar',
       cancelButtonText: 'Cancelar',
+      buttonsStyling: false,
+      customClass: {
+        popup: 'rounded-3xl border border-zinc-800 p-6 shadow-2xl w-[400px]',
+        confirmButton: 'px-5 py-2.5 rounded-xl font-semibold bg-[#008fcb] hover:bg-[#007cb0] text-white text-sm cursor-pointer mr-2',
+        cancelButton: 'px-5 py-2.5 rounded-xl font-semibold bg-zinc-800 hover:bg-zinc-700 text-stone-300 text-sm cursor-pointer',
+      },
       preConfirm: () => {
         const nombre = (document.getElementById('swal-input1') as HTMLInputElement).value.trim();
         const telefono = (document.getElementById('swal-input2') as HTMLInputElement).value.trim();
@@ -64,11 +81,9 @@ export function BtnEditar({ onClick, cliente }: { onClick: (data: any) => void, 
   return (
     <button
       onClick={handleEditar}
-      className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
+      className="px-4 py-2.5 rounded-xl font-bold bg-[#008fcb] hover:bg-[#007cb0] text-white transition-colors duration-150 text-sm cursor-pointer shadow-lg shadow-[#008fcb]/10 mb-2 me-2"
     >
-      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-transparent group-hover:dark:bg-transparent">
-        Editar
-      </span>
+      Editar
     </button>
   );
 }
