@@ -1,4 +1,4 @@
-import { pgTable, numeric, serial, text, integer } from "drizzle-orm/pg-core";
+import { pgTable, numeric, serial, text, integer, varchar } from "drizzle-orm/pg-core";
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { eq, desc, and, sum, sql } from 'drizzle-orm';
 import postgres from 'postgres';
@@ -630,6 +630,150 @@ export async function getActivityHistory() {
   const activityHistory = await ensureTableActivityHistoryExists();
   return await db.select().from(activityHistory).orderBy(desc(activityHistory.id));
 }
+
+// ==========================================
+// Módulo de Creación y Asignación de Tareas
+// ==========================================
+
+export const tareas = pgTable('tareas', {
+  id_tarea: serial('id_tarea').primaryKey(),
+  titulo: text('titulo').notNull(),
+  descripcion: text('descripcion'),
+  prioridad: varchar('prioridad', { length: 16 }).default('media'),
+  estado: varchar('estado', { length: 24 }).default('pendiente'),
+  fecha_limite: text('fecha_limite'),
+  fecha_creacion: text('fecha_creacion'),
+  fecha_completada: text('fecha_completada'),
+  creado_por: text('creado_por'), // Correo o ID del admin
+  asignado_a: text('asignado_a'), // Correo o ID del staff
+});
+
+export const comentarios_tarea = pgTable('comentarios_tarea', {
+  id_comentario: serial('id_comentario').primaryKey(),
+  id_tarea: integer('id_tarea').references(() => tareas.id_tarea, { onDelete: 'cascade' }),
+  usuario: text('usuario'),
+  comentario: text('comentario').notNull(),
+  fecha_registro: text('fecha_registro'),
+});
+
+// Funciones para asegurar la existencia de las tablas
+export async function ensureTableTareasExists() {
+  const result = await client`
+    SELECT EXISTS (
+      SELECT FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_name = 'tareas'
+    );`;
+
+  if (!result[0].exists) {
+    await client`
+      CREATE TABLE "tareas" (
+        id_tarea SERIAL PRIMARY KEY,
+        titulo TEXT NOT NULL,
+        descripcion TEXT,
+        prioridad VARCHAR(16) DEFAULT 'media',
+        estado VARCHAR(24) DEFAULT 'pendiente',
+        fecha_limite TEXT,
+        fecha_creacion TEXT,
+        fecha_completada TEXT,
+        creado_por TEXT,
+        asignado_a TEXT
+      );`;
+  }
+
+  return tareas;
+}
+
+export async function ensureTableComentariosTareaExists() {
+  const result = await client`
+    SELECT EXISTS (
+      SELECT FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      AND table_name = 'comentarios_tarea'
+    );`;
+
+  if (!result[0].exists) {
+    // Primero nos aseguramos de que exista la tabla de tareas padre
+    await ensureTableTareasExists();
+    await client`
+      CREATE TABLE "comentarios_tarea" (
+        id_comentario SERIAL PRIMARY KEY,
+        id_tarea INTEGER REFERENCES tareas(id_tarea) ON DELETE CASCADE,
+        usuario TEXT,
+        comentario TEXT NOT NULL,
+        fecha_registro TEXT
+      );`;
+  }
+
+  return comentarios_tarea;
+}
+
+// Funciones de consulta y creación (CRUD) para el módulo de tareas
+export async function getTodasTareas() {
+  const table = await ensureTableTareasExists();
+  return await db.select().from(table).orderBy(desc(table.id_tarea));
+}
+
+export async function getTareasAsignadas(correo: string) {
+  const table = await ensureTableTareasExists();
+  return await db.select().from(table).where(eq(table.asignado_a, correo)).orderBy(desc(table.id_tarea));
+}
+
+export async function getTareasCreadas(correo: string) {
+  const table = await ensureTableTareasExists();
+  return await db.select().from(table).where(eq(table.creado_por, correo)).orderBy(desc(table.id_tarea));
+}
+
+export async function createTarea(
+  titulo: string,
+  descripcion: string,
+  prioridad: string,
+  fecha_limite: string,
+  fecha_creacion: string,
+  creado_por: string,
+  asignado_a: string
+) {
+  const table = await ensureTableTareasExists();
+  return await db.insert(table).values([{
+    titulo,
+    descripcion,
+    prioridad,
+    fecha_limite,
+    fecha_creacion,
+    creado_por,
+    asignado_a
+  }]).returning();
+}
+
+export async function updateEstadoTarea(id_tarea: number, estado: string, fecha_completada?: string) {
+  const table = await ensureTableTareasExists();
+  const updateData: any = { estado };
+  if (fecha_completada !== undefined) {
+    updateData.fecha_completada = fecha_completada;
+  }
+  return await db.update(table).set(updateData).where(eq(table.id_tarea, id_tarea)).returning();
+}
+
+export async function createComentarioTarea(
+  id_tarea: number,
+  usuario: string,
+  comentario: string,
+  fecha_registro: string
+) {
+  const table = await ensureTableComentariosTareaExists();
+  return await db.insert(table).values([{
+    id_tarea,
+    usuario,
+    comentario,
+    fecha_registro
+  }]).returning();
+}
+
+export async function getComentariosTarea(id_tarea: number) {
+  const table = await ensureTableComentariosTareaExists();
+  return await db.select().from(table).where(eq(table.id_tarea, id_tarea)).orderBy(table.id_comentario);
+}
+
 
 
 
