@@ -13,7 +13,7 @@ export default async function SelectCorreos() {
             id="correo"
             name="correo"
             required
-            className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="w-full mt-1 px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm cursor-pointer"
         >
             <option value={""}>Seleccione una opción</option>
             {user.map((user: any) => (

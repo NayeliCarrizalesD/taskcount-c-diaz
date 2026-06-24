@@ -15,7 +15,7 @@ export function FormDatosUsuario({
         <div>
           <label
             htmlFor="fecha_alta"
-            className="block text-xs text-white uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             fecha alta
           </label>
@@ -24,13 +24,13 @@ export function FormDatosUsuario({
             name="fecha_alta"
             type="date"
             required
-            className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="w-full mt-1 px-3.5 py-2 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm cursor-pointer"
           />
         </div>
         <div>
           <label
             htmlFor="telefono_usuario"
-            className="block text-xs text-white uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             Telefono
           </label>
@@ -38,13 +38,13 @@ export function FormDatosUsuario({
             id="telefono_usuario"
             name="telefono_usuario"
             required
-            className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="w-full mt-1 px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm placeholder-gray-400"
           />
         </div>  
         <div>
           <label
             htmlFor="correo"
-            className="block text-xs text-white uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             Correo
           </label>
@@ -54,7 +54,7 @@ export function FormDatosUsuario({
         <div>
           <label
             htmlFor="nivel"
-            className="block text-xs text-white uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             Nivel
           </label>
@@ -62,7 +62,7 @@ export function FormDatosUsuario({
             id="nivel"
             name="nivel"
             required
-            className="mt-1 block w-full text-black rounded-full border border-gray-700 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="w-full mt-1 px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm cursor-pointer"
           >
                 <option value={""}>Seleccione una opción</option>
                 <option value={"na1"}>Administrador</option>

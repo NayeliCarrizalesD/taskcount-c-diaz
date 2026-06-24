@@ -21,7 +21,7 @@ export const InputCorreoUsuario = () => {
     <>
     <label
         htmlFor="correo_empleado"
-        className="block text-xs uppercase"
+        className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
         >
         correo de la persona que registra:
     </label>
@@ -33,7 +33,7 @@ export const InputCorreoUsuario = () => {
     required
     readOnly
     type="email"
-    className="bg-gray-800 border border-gray-600 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    className="w-full mt-1 px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm placeholder-gray-400"
 />
 </>
    

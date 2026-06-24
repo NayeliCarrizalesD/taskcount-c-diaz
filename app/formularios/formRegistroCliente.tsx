@@ -22,7 +22,7 @@ export function FormRegistroCliente({
         <div>
           <label
             htmlFor="nombre_cliente"
-            className="block text-xs uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             nombre cliente
           </label>
@@ -31,41 +31,41 @@ export function FormRegistroCliente({
             id="nombre_cliente"
             name="nombre_cliente"
             required
-            className="mt-1 block uppercase w-full text-black appearance-none rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="w-full mt-1 uppercase px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm placeholder-gray-400"
           />
         </div>
         <div>
           <label
             htmlFor="rfc"
-            className="block text-xs uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             rfc 
           </label>
           <input
-          type="text"
+            type="text"
             id="rfc"
             name="rfc"
-            className="mt-1 block uppercase w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-            /> 
+            className="w-full mt-1 uppercase px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm placeholder-gray-400"
+          /> 
         </div>
         <div>
           <label
             htmlFor="telefono_cliente"
-            className="block text-xs uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             telefono cliente
           </label>
           <input
-          type="number"
+            type="number"
             id="telefono_cliente"
             name="telefono_cliente"
-            className="mt-1 uppercase block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+            className="w-full mt-1 px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm placeholder-gray-400"
           />
         </div>
         <div>
           <label
             htmlFor="correo_cliente"
-            className="block text-xs uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             correo cliente 
           </label>
@@ -73,8 +73,8 @@ export function FormRegistroCliente({
             type="text"
             id="correo_cliente"
             name="correo_cliente"
-            className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-            />
+            className="w-full mt-1 px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm placeholder-gray-400"
+          />
         </div>
         
         <div>
@@ -84,7 +84,7 @@ export function FormRegistroCliente({
         <div>
           <label
             htmlFor="fecha_alta"
-            className="block text-xs uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             fecha de alta del cliente 
           </label>
@@ -92,8 +92,8 @@ export function FormRegistroCliente({
             type="date"
             id="fecha_alta"
             name="fecha_alta"
-            className="mt-1 block w-full text-black rounded-full border border-gray-300 px-3 py-2 placeholder-gray-700 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
-            />
+            className="w-full mt-1 px-3.5 py-2 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm cursor-pointer"
+          />
         </div>
 
         {children}

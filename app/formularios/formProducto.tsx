@@ -22,7 +22,7 @@ export function FormRegistroProductos({
         <div>
           <label
             htmlFor="nombre_producto_servicio"
-            className="block text-xs uppercase"
+            className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1"
           >
             nombre servicio / producto
           </label>
@@ -30,7 +30,7 @@ export function FormRegistroProductos({
             id="nombre_producto_servicio"
             name="nombre_producto_servicio"
             required
-            className="mt-1 placeholder-gray-700 shadow-sm focus:outline-none sm:text-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-full mt-1 px-3.5 py-2.5 bg-gray-700 border border-gray-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#008fcb] focus:border-transparent text-sm placeholder-gray-400"
           />
            
         </div>
