@@ -9,13 +9,13 @@ export default function SumaTotalPagos() {
     async function fetchPagos() {
       const res = await fetch("/api/pagos");
       const datos = await res.json();
-      // Obtiene los años únicos disponibles en los datos
-      const years = Array.from(new Set(datos.map((item: any) => Number(item.year_pago)))) as number[];
+      // Obtiene los años únicos disponibles en los datos (excluyendo cancelados)
+      const years = Array.from(new Set(datos.filter((item: any) => item.estatus !== 'cancelado').map((item: any) => Number(item.year_pago)))) as number[];
       years.sort((a, b) => b - a);
       setYearsDisponibles(years);
-      // Filtra y suma solo los pagos del año seleccionado
+      // Filtra y suma solo los pagos del año seleccionado (excluyendo cancelados)
       const suma = datos
-        .filter((item: any) => Number(item.year_pago) === Number(year))
+        .filter((item: any) => Number(item.year_pago) === Number(year) && item.estatus !== 'cancelado')
         .reduce((acc: number, item: any) => acc + Number(item.pago || 0), 0);
       setTotal(suma);
     }

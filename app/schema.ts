@@ -1,6 +1,6 @@
 import { pgTable, numeric, serial, text, integer, varchar } from "drizzle-orm/pg-core";
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { eq, desc, and, sum, sql } from 'drizzle-orm';
+import { eq, desc, and, sum, sql, ne } from 'drizzle-orm';
 import postgres from 'postgres';
 
 
@@ -424,7 +424,7 @@ export async function getUltimoPagoCliente(id_cliente: string) {
   return await dbTablas
     .select()
     .from(registroPago)
-    .where(eq(registroPago.id_cliente, id_cliente))
+    .where(and(eq(registroPago.id_cliente, id_cliente), ne(registroPago.estatus, 'cancelado')))
     .orderBy(desc(registroPago.year_pago), desc(registroPago.mes_pago))
     .limit(1);
 }
@@ -440,29 +440,41 @@ export async function getPagosPorCliente(id_cliente: string) {
 }
 export async function getSumaPagosPorCliente(id_cliente: string) {
   const registroPago = await ensureTableRegistroPagoExists();
-  return await db.select({value: sum(registroPago.pago)}).from(registroPago).where(eq(registroPago.id_cliente, id_cliente));
+  return await db.select({value: sum(registroPago.pago)}).from(registroPago).where(and(eq(registroPago.id_cliente, id_cliente), ne(registroPago.estatus, 'cancelado')));
 }
 
 export async function createRegistroPago( marca_temporal: string, id_cliente: string, concepto: string, pago: number, mes_pago: number,  year_pago: number, correo_empleado: string, fecha_realizacion_pago?: string) {
   const registroPago = await ensureTableRegistroPagoExists();
   const pagoStr = pago.toString();
   const year_pagoStr = year_pago.toString();
-  return await db.insert(registroPago).values([{ marca_temporal, id_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado, fecha_realizacion_pago }]);
+  return await db.insert(registroPago).values([{ marca_temporal, id_cliente, concepto, pago: pagoStr, mes_pago, year_pago: year_pagoStr, correo_empleado, fecha_realizacion_pago, estatus: 'activo' }]);
 }
 
-export async function updateRegistroPago(id_pago: number, concepto: string, pago: number, mes_pago: number, year_pago: number, correo_empleado: string, fecha_realizacion_pago?: string) {
+export async function updateRegistroPago(id_pago: number, concepto: string, pago: number, mes_pago: number, year_pago: number, correo_empleado: string, fecha_realizacion_pago?: string, estatus?: string) {
   const registroPago = await ensureTableRegistroPagoExists();
   const pagoStr = pago.toString();
   const year_pagoStr = year_pago.toString();
+  const updateData: any = {
+    concepto,
+    pago: pagoStr,
+    mes_pago,
+    year_pago: year_pagoStr,
+    correo_empleado,
+    fecha_realizacion_pago
+  };
+  if (estatus) {
+    updateData.estatus = estatus;
+  }
   return await db.update(registroPago)
-    .set({
-      concepto,
-      pago: pagoStr,
-      mes_pago,
-      year_pago: year_pagoStr,
-      correo_empleado,
-      fecha_realizacion_pago
-    })
+    .set(updateData)
+    .where(eq(registroPago.id_pago, id_pago))
+    .returning();
+}
+
+export async function updateEstatusPago(id_pago: number, estatus: string) {
+  const registroPago = await ensureTableRegistroPagoExists();
+  return await db.update(registroPago)
+    .set({ estatus })
     .where(eq(registroPago.id_pago, id_pago))
     .returning();
 }
@@ -480,7 +492,8 @@ export async function getPagosTodosConNombres() {
         mes_pago: registroPago.mes_pago,
         year_pago: registroPago.year_pago,
         correo_empleado: registroPago.correo_empleado,
-        fecha_realizacion_pago: registroPago.fecha_realizacion_pago
+        fecha_realizacion_pago: registroPago.fecha_realizacion_pago,
+        estatus: registroPago.estatus
       })
       .from(registroPago)
       .leftJoin(catalogo_clientes, eq(registroPago.id_cliente, sql`${catalogo_clientes.id_cliente}::text`))
@@ -514,8 +527,17 @@ async function ensureTableRegistroPagoExists() {
         mes_pago INTEGER,
         year_pago TEXT,
         correo_empleado TEXT,
-        fecha_realizacion_pago TEXT
+        fecha_realizacion_pago TEXT,
+        estatus TEXT DEFAULT 'activo'
       );`;
+  } else {
+    // Migración automática para agregar la columna estatus si no existe
+    await client`
+      ALTER TABLE "registroPago" ADD COLUMN IF NOT EXISTS "estatus" TEXT DEFAULT 'activo';
+    `;
+    await client`
+      UPDATE "registroPago" SET "estatus" = 'activo' WHERE "estatus" IS NULL;
+    `;
   }
 
   const registroPago = pgTable('registroPago', {
@@ -527,7 +549,8 @@ async function ensureTableRegistroPagoExists() {
     mes_pago : integer('mes_pago'),
     year_pago : text('year_pago'),
     correo_empleado: text('correo_empleado'),
-    fecha_realizacion_pago: text('fecha_realizacion_pago')
+    fecha_realizacion_pago: text('fecha_realizacion_pago'),
+    estatus: text('estatus').default('activo')
   });
 
   return registroPago;
@@ -535,14 +558,15 @@ async function ensureTableRegistroPagoExists() {
 
 export const registroPago = pgTable('registroPago', {
   id_pago: serial('id_pago').primaryKey(),
-    marca_temporal: text('marca_temporal'),
-    id_cliente: text('id_cliente'),
-    concepto: text('concepto'),
-    pago: numeric('pago'),
-    mes_pago : integer('mes_pago'),
-    year_pago : text('year_pago'),
-    correo_empleado: text('correo_empleado'),
-    fecha_realizacion_pago: text('fecha_realizacion_pago')
+  marca_temporal: text('marca_temporal'),
+  id_cliente: text('id_cliente'),
+  concepto: text('concepto'),
+  pago: numeric('pago'),
+  mes_pago : integer('mes_pago'),
+  year_pago : text('year_pago'),
+  correo_empleado: text('correo_empleado'),
+  fecha_realizacion_pago: text('fecha_realizacion_pago'),
+  estatus: text('estatus').default('activo')
 });
 
 

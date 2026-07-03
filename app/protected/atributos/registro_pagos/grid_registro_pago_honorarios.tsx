@@ -37,7 +37,7 @@ export const GridRegistroPagoHonorarios = () => {
                     <FormularioRegistroPagoHonorarios onRegistroExitoso={fetchData} />
                     <BulkUpload />
                 </div>
-                <PlaceholderTablaPagosHonorarios datosTabla={datosTabla} loading={loading} />
+                <PlaceholderTablaPagosHonorarios datosTabla={datosTabla} loading={loading} onRefresh={fetchData} />
             </div>
             <Footer />
         </>

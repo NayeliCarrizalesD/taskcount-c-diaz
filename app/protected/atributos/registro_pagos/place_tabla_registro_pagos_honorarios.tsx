@@ -3,7 +3,7 @@ import TablaPagosHonorarios from "./tabla_registro_pago";
 import { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 
-export default function PlaceholderTablaPagosHonorarios({ datosTabla, loading }: { datosTabla: any[], loading: boolean }) {
+export default function PlaceholderTablaPagosHonorarios({ datosTabla, loading, onRefresh }: { datosTabla: any[], loading: boolean, onRefresh?: () => void }) {
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     return (
@@ -40,6 +40,7 @@ export default function PlaceholderTablaPagosHonorarios({ datosTabla, loading }:
                     <TablaPagosHonorarios
                       searchQuery={searchQuery}
                       datosTabla={datosTabla} 
+                      onRefresh={onRefresh}
                     />
                 )}
             </div>

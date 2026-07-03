@@ -33,6 +33,7 @@ interface Pago {
   mes_pago: number | null;
   year_pago: string | null;
   fecha_realizacion_pago?: string | null;
+  estatus?: string | null;
 }
 
 interface Cliente {
@@ -120,7 +121,7 @@ export default function DashboardGridClient({
     const years = new Set<string>();
     
     pagos.forEach(p => {
-      if (p.year_pago) years.add(p.year_pago);
+      if (p.year_pago && p.estatus !== 'cancelado') years.add(p.year_pago);
     });
     
     clientes.forEach(c => {
@@ -134,6 +135,7 @@ export default function DashboardGridClient({
   // Filtrar Pagos
   const filteredPagos = useMemo(() => {
     return pagos.filter(p => {
+      if (p.estatus === 'cancelado') return false;
       const matchYear = selectedYear === "Todos" || p.year_pago === selectedYear;
       const matchMonth = selectedMonth === "Todos" || p.mes_pago?.toString() === selectedMonth;
       return matchYear && matchMonth;
@@ -237,10 +239,10 @@ export default function DashboardGridClient({
   const gananciasPorAno = useMemo(() => {
     const conteo: Record<string, number> = {};
     
-    // Solo respeta el filtro de mes si está activo
+    // Solo respeta el filtro de mes si está activo y excluye cancelados
     const pagosFiltradosPorMes = selectedMonth === "Todos" 
-      ? pagos 
-      : pagos.filter(p => p.mes_pago?.toString() === selectedMonth);
+      ? pagos.filter(p => p.estatus !== 'cancelado') 
+      : pagos.filter(p => p.mes_pago?.toString() === selectedMonth && p.estatus !== 'cancelado');
 
     pagosFiltradosPorMes.forEach(p => {
       const year = p.year_pago || "Desconocido";
