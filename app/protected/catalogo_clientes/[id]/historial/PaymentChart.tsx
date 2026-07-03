@@ -34,6 +34,7 @@ interface Pago {
   year_pago: string | null;
   correo_empleado: string | null;
   fecha_realizacion_pago?: string | null;
+  estatus?: string | null;
 }
 
 interface PaymentChartProps {
@@ -47,7 +48,9 @@ export default function PaymentChart({ pagos, year }: PaymentChartProps) {
     const conceptsMap: Record<string, number> = {};
     let totalCount = 0;
 
-    pagos.forEach((pago) => {
+    const activePagos = pagos.filter(p => p.estatus !== 'cancelado');
+
+    activePagos.forEach((pago) => {
       const rawConcept = pago.concepto || "Pago Honorarios";
       conceptsMap[rawConcept] = (conceptsMap[rawConcept] || 0) + 1;
       totalCount++;
@@ -93,7 +96,9 @@ export default function PaymentChart({ pagos, year }: PaymentChartProps) {
   const barData = useMemo(() => {
     const monthlySums = Array(12).fill(0);
 
-    pagos.forEach((pago) => {
+    const activePagos = pagos.filter(p => p.estatus !== 'cancelado');
+
+    activePagos.forEach((pago) => {
       const mesIndex = pago.mes_pago !== null && pago.mes_pago !== undefined ? pago.mes_pago - 1 : -1; // 1-12 a 0-11
       if (mesIndex >= 0 && mesIndex < 12) {
         monthlySums[mesIndex] += Number(pago.pago) || 0;
@@ -235,6 +240,7 @@ export default function PaymentChart({ pagos, year }: PaymentChartProps) {
           <span className="text-xs text-sky-400 font-medium">
             Total Anual: $
             {pagos
+              .filter(p => p.estatus !== 'cancelado')
               .reduce((acc, curr) => acc + (Number(curr.pago) || 0), 0)
               .toLocaleString("es-MX", {
                 minimumFractionDigits: 2,

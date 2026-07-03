@@ -29,6 +29,7 @@ interface Pago {
   year_pago: string | null;
   correo_empleado: string | null;
   fecha_realizacion_pago?: string | null;
+  estatus?: string | null;
 }
 
 interface HistorialClienteDashboardProps {
@@ -40,12 +41,12 @@ export default function HistorialClienteDashboard({
   cliente,
   inicialPagos,
 }: HistorialClienteDashboardProps) {
-  // Obtener los años disponibles a partir de los pagos registrados
+  // Obtener los años disponibles a partir de los pagos registrados (excluyendo cancelados)
   const availableYears = useMemo(() => {
     const years = new Set<string>();
     if (Array.isArray(inicialPagos)) {
       inicialPagos.forEach((pago) => {
-        if (pago.year_pago) {
+        if (pago.year_pago && pago.estatus !== 'cancelado') {
           years.add(pago.year_pago);
         }
       });
@@ -55,11 +56,12 @@ export default function HistorialClienteDashboard({
     return Array.from(years).sort((a, b) => b.localeCompare(a));
   }, [inicialPagos]);
 
-  // Año seleccionado para filtrar (por defecto el más reciente con transacciones, o el año actual)
+  // Año seleccionado para filtrar (por defecto el más reciente con transacciones activas, o el año actual)
   const [selectedYear, setSelectedYear] = useState<string>(() => {
     if (Array.isArray(inicialPagos) && inicialPagos.length > 0) {
-      // Intentar obtener el año del pago más reciente
+      // Intentar obtener el año del pago más reciente que no esté cancelado
       const yearsWithPayments = inicialPagos
+        .filter((p) => p.estatus !== 'cancelado')
         .map((p) => p.year_pago)
         .filter((y): y is string => !!y);
       if (yearsWithPayments.length > 0) {
