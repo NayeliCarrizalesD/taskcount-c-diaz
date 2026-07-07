@@ -48,11 +48,24 @@ export default function TablaClientes() {
     });
   }, [filteredClientes]);
 
-  const totalPaginas = Math.ceil(sortedClientes.length / clientesPorPagina);
+  const [tabActiva, setTabActiva] = useState<'activos' | 'inactivos'>('activos');
+
+  const tabClientes = useMemo(() => {
+    return sortedClientes.filter(cliente => {
+      const isBaja = cliente.estado === 'baja';
+      if (tabActiva === 'activos') {
+        return !isBaja;
+      } else {
+        return isBaja;
+      }
+    });
+  }, [sortedClientes, tabActiva]);
+
+  const totalPaginas = Math.ceil(tabClientes.length / clientesPorPagina);
 
   const clientesActuales = useMemo(() => {
-    return sortedClientes.slice((paginaActual - 1) * clientesPorPagina, paginaActual * clientesPorPagina);
-  }, [sortedClientes, paginaActual]);
+    return tabClientes.slice((paginaActual - 1) * clientesPorPagina, paginaActual * clientesPorPagina);
+  }, [tabClientes, paginaActual]);
 
   useEffect(() => {
     const fetchClientes = async () => {
@@ -256,6 +269,40 @@ export default function TablaClientes() {
             className="w-full pl-10 pr-4 py-2.5 bg-neutral-900/60 border border-zinc-700/60 hover:border-zinc-500/60 focus:border-sky-500 rounded-2xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition-all duration-200"
           />
         </div>
+      </div>
+      <div className="flex border-b border-zinc-700/60 mb-4 ml-2">
+        <button
+          onClick={() => {
+            setTabActiva('activos');
+            setPaginaActual(1);
+          }}
+          className={`px-5 py-3 font-bold text-xs uppercase tracking-wider transition-all duration-150 relative cursor-pointer focus:outline-none ${
+            tabActiva === 'activos'
+              ? 'text-purple-400'
+              : 'text-stone-400 hover:text-stone-300'
+          }`}
+        >
+          Clientes Activos
+          {tabActiva === 'activos' && (
+            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-purple-400 transition-all duration-300" />
+          )}
+        </button>
+        <button
+          onClick={() => {
+            setTabActiva('inactivos');
+            setPaginaActual(1);
+          }}
+          className={`px-5 py-3 font-bold text-xs uppercase tracking-wider transition-all duration-150 relative cursor-pointer focus:outline-none ${
+            tabActiva === 'inactivos'
+              ? 'text-purple-400'
+              : 'text-stone-400 hover:text-stone-300'
+          }`}
+        >
+          Clientes Inactivos (Baja)
+          {tabActiva === 'inactivos' && (
+            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-purple-400 transition-all duration-300" />
+          )}
+        </button>
       </div>
       <div className="custom-table-container">
         <table className="custom-table">
