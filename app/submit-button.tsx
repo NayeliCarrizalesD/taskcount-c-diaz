@@ -9,7 +9,8 @@ export function SubmitButton({ children }: { children: React.ReactNode }) {
     <button
       type={pending ? 'button' : 'submit'}
       aria-disabled={pending}
-      className="flex w-full py-2.5 rounded-xl font-bold bg-[#008fcb] hover:bg-[#007cb0] text-white transition-colors duration-150 text-sm disabled:bg-zinc-700 disabled:text-zinc-500 cursor-pointer shadow-lg shadow-[#008fcb]/20 items-center justify-center focus:outline-none mt-2"
+      disabled={pending}
+      className="flex w-full py-2.5 rounded-xl font-bold bg-[#008fcb] hover:bg-[#007cb0] text-white transition-colors duration-150 text-sm disabled:bg-zinc-700/60 disabled:text-zinc-500 disabled:cursor-not-allowed cursor-pointer shadow-lg shadow-[#008fcb]/20 items-center justify-center focus:outline-none mt-2"
     >
       {children}
       {pending && (

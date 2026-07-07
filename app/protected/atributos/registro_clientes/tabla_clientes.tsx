@@ -11,6 +11,7 @@ export default function TablaClientesCatalogo() {
   const [error, setError] = useState<string | null>(null);
   const [paginaActual, setPaginaActual] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [updatingIds, setUpdatingIds] = useState<number[]>([]);
   const clientesPorPagina = 10;
 
   useEffect(() => {
@@ -173,6 +174,7 @@ export default function TablaClientesCatalogo() {
 
     if (result.isConfirmed) {
       try {
+        setUpdatingIds(prev => [...prev, cliente.id_cliente]);
         const response = await fetch(`/api/updateCliente/${cliente.id_cliente}`, {
           method: 'PUT',
           headers: {
@@ -214,6 +216,8 @@ export default function TablaClientesCatalogo() {
           color: "white",
           background: "#0d0d0e",
         });
+      } finally {
+        setUpdatingIds(prev => prev.filter(id => id !== cliente.id_cliente));
       }
     }
   };
@@ -292,14 +296,15 @@ export default function TablaClientesCatalogo() {
                     <BtnEditar onClick={handleUpdateCliente} cliente={cliente} />
                     <button
                       onClick={() => handleToggleEstado(cliente)}
-                      className={`relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium rounded-full group focus:ring-4 focus:outline-none ${
+                      disabled={updatingIds.includes(cliente.id_cliente)}
+                      className={`relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium rounded-full group focus:ring-4 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
                         cliente.estado === 'baja'
                           ? 'bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white focus:ring-emerald-800 text-white'
                           : 'bg-gradient-to-br from-red-500 to-orange-500 hover:text-white focus:ring-red-800 text-white'
                       }`}
                     >
                       <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-transparent group-hover:dark:bg-transparent">
-                        {cliente.estado === 'baja' ? 'Reactivar' : 'Dar de Baja'}
+                        {updatingIds.includes(cliente.id_cliente) ? 'Cargando...' : (cliente.estado === 'baja' ? 'Reactivar' : 'Dar de Baja')}
                       </span>
                     </button>
                   </td>
