@@ -375,7 +375,7 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
   }, [pagos, mostrarCancelados]);
 
   const [paginaActual, setPaginaActual] = useState(1);
-  const pagosPorPagina = 10;
+  const pagosPorPagina = 12;
   const totalPaginas = Math.ceil(formattedPagos.length / pagosPorPagina);
   
   useEffect(() => {
