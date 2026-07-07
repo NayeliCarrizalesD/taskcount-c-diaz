@@ -36,11 +36,20 @@ export default function TablaClientesCatalogo() {
     });
   }, [clientes, searchQuery]);
 
-  const totalPaginas = Math.ceil(filteredClientes.length / clientesPorPagina);
+  const sortedClientes = useMemo(() => {
+    return [...filteredClientes].sort((a, b) => {
+      const estadoA = a.estado === 'baja' ? 1 : 0;
+      const estadoB = b.estado === 'baja' ? 1 : 0;
+      if (estadoA !== estadoB) return estadoA - estadoB;
+      return (a.nombre_cliente || "").localeCompare(b.nombre_cliente || "");
+    });
+  }, [filteredClientes]);
+
+  const totalPaginas = Math.ceil(sortedClientes.length / clientesPorPagina);
 
   const clientesActuales = useMemo(() => {
-    return filteredClientes.slice((paginaActual - 1) * clientesPorPagina, paginaActual * clientesPorPagina);
-  }, [filteredClientes, paginaActual]);
+    return sortedClientes.slice((paginaActual - 1) * clientesPorPagina, paginaActual * clientesPorPagina);
+  }, [sortedClientes, paginaActual]);
 
   useEffect(() => {
     const fetchClientes = async () => {
@@ -74,68 +83,140 @@ export default function TablaClientesCatalogo() {
   }, []);
 
   const handleUpdateCliente = async (clienteData: any) => {
-  try {
-    console.log('Sending update request for client:', clienteData);
-    
-    const response = await fetch(`/api/updateCliente/${clienteData.id_cliente}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        nombre_cliente: clienteData.nombre_cliente,
-        telefono_cliente: clienteData.telefono_cliente,
-        correo_cliente: clienteData.correo_cliente,
-        rfc: clienteData.rfc
-      }),
-    });
+    try {
+      console.log('Sending update request for client:', clienteData);
+      
+      const response = await fetch(`/api/updateCliente/${clienteData.id_cliente}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre_cliente: clienteData.nombre_cliente,
+          telefono_cliente: clienteData.telefono_cliente,
+          correo_cliente: clienteData.correo_cliente,
+          rfc: clienteData.rfc
+        }),
+      });
 
-    console.log('Response status:', response.status);
-    console.log('Response headers:', response.headers);
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
 
-    if (!response.ok) {
-      let errorMessage = `HTTP ${response.status}`;
-      try {
-        const errorData = await response.json();
-        errorMessage = errorData.error || errorData.details || errorMessage;
-        console.error('Error response:', errorData);
-      } catch (parseError) {
-        console.error('Could not parse error response:', parseError);
-        const textResponse = await response.text();
-        console.error('Raw error response:', textResponse);
+      if (!response.ok) {
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorData.details || errorMessage;
+          console.error('Error response:', errorData);
+        } catch (parseError) {
+          console.error('Could not parse error response:', parseError);
+          const textResponse = await response.text();
+          console.error('Raw error response:', textResponse);
+        }
+        throw new Error(errorMessage);
       }
-      throw new Error(errorMessage);
+
+      const result = await response.json();
+      console.log('Update successful:', result);
+      
+      // Actualizar el estado local
+      setClientes(prevClientes =>
+        prevClientes.map(cliente =>
+          cliente.id_cliente === clienteData.id_cliente
+            ? { ...cliente, ...clienteData }
+            : cliente
+        )
+      );
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: 'Cliente actualizado correctamente',
+        timer: 2000,
+        showConfirmButton: false,
+        color: "white",
+        background: "#0d0d0e",
+      });
+
+    } catch (error) {
+      console.error('Error al actualizar cliente:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error instanceof Error ? error.message : 'Error de conexión',
+        color: "white",
+        background: "#0d0d0e",
+      });
     }
+  };
 
-    const result = await response.json();
-    console.log('Update successful:', result);
+  const handleToggleEstado = async (cliente: any) => {
+    const nuevoEstado = cliente.estado === 'baja' ? 'activo' : 'baja';
+    const accionTexto = nuevoEstado === 'baja' ? 'dar de baja' : 'reactivar';
     
-    // Actualizar el estado local
-    setClientes(prevClientes =>
-      prevClientes.map(cliente =>
-        cliente.id_cliente === clienteData.id_cliente
-          ? { ...cliente, ...clienteData }
-          : cliente
-      )
-    );
-
-    Swal.fire({
-      icon: 'success',
-      title: '¡Éxito!',
-      text: 'Cliente actualizado correctamente',
-      timer: 2000,
-      showConfirmButton: false
+    const result = await Swal.fire({
+      title: `¿Estás seguro?`,
+      text: `Vas a ${accionTexto} al cliente: ${cliente.nombre_cliente}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
+      color: "white",
+      background: "#0d0d0e",
+      buttonsStyling: false,
+      customClass: {
+        popup: 'rounded-3xl border border-zinc-800 p-6 shadow-2xl w-[400px]',
+        confirmButton: 'px-5 py-2.5 rounded-xl font-semibold bg-[#008fcb] hover:bg-[#007cb0] text-white text-sm cursor-pointer mr-2',
+        cancelButton: 'px-5 py-2.5 rounded-xl font-semibold bg-zinc-800 hover:bg-zinc-700 text-stone-300 text-sm cursor-pointer',
+      }
     });
 
-  } catch (error) {
-    console.error('Error al actualizar cliente:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: error instanceof Error ? error.message : 'Error de conexión'
-    });
-  }
-};
+    if (result.isConfirmed) {
+      try {
+        const response = await fetch(`/api/updateCliente/${cliente.id_cliente}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            estado: nuevoEstado
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al actualizar el estado del cliente');
+        }
+
+        // Actualizar el estado local
+        setClientes(prevClientes =>
+          prevClientes.map(c =>
+            c.id_cliente === cliente.id_cliente
+              ? { ...c, estado: nuevoEstado }
+              : c
+          )
+        );
+
+        Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: `Cliente ${nuevoEstado === 'baja' ? 'dado de baja' : 'reactivado'} correctamente`,
+          timer: 2000,
+          showConfirmButton: false,
+          color: "white",
+          background: "#0d0d0e",
+        });
+      } catch (error) {
+        console.error('Error al cambiar estado del cliente:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error instanceof Error ? error.message : 'Error de conexión',
+          color: "white",
+          background: "#0d0d0e",
+        });
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -179,13 +260,14 @@ export default function TablaClientesCatalogo() {
               <th className="custom-table-th">Teléfono</th>
               <th className="custom-table-th">Correo</th>
               <th className="custom-table-th">RFC</th>
+              <th className="custom-table-th">Estado</th>
               <th className="custom-table-th">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {clientesActuales.length === 0 ? (
               <tr>
-                <td colSpan={6} className="p-8 text-center text-gray-400 text-sm">
+                <td colSpan={7} className="p-8 text-center text-gray-400 text-sm">
                   No se encontraron clientes coincidentes.
                 </td>
               </tr>
@@ -198,7 +280,28 @@ export default function TablaClientesCatalogo() {
                   <td>{cliente.correo_cliente}</td>
                   <td>{cliente.rfc}</td>
                   <td>
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                      cliente.estado === 'baja' 
+                        ? 'bg-red-500/20 text-red-400 border border-red-500/30' 
+                        : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                    }`}>
+                      {cliente.estado === 'baja' ? 'Baja' : 'Activo'}
+                    </span>
+                  </td>
+                  <td>
                     <BtnEditar onClick={handleUpdateCliente} cliente={cliente} />
+                    <button
+                      onClick={() => handleToggleEstado(cliente)}
+                      className={`relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium rounded-full group focus:ring-4 focus:outline-none ${
+                        cliente.estado === 'baja'
+                          ? 'bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white focus:ring-emerald-800 text-white'
+                          : 'bg-gradient-to-br from-red-500 to-orange-500 hover:text-white focus:ring-red-800 text-white'
+                      }`}
+                    >
+                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-full group-hover:bg-transparent group-hover:dark:bg-transparent">
+                        {cliente.estado === 'baja' ? 'Reactivar' : 'Dar de Baja'}
+                      </span>
+                    </button>
                   </td>
                 </tr>
               ))

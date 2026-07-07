@@ -8,7 +8,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const body = await request.json();
     console.log('Request body:', body);
     
-    const { nombre_cliente, telefono_cliente, correo_cliente, rfc } = body;
+    const { nombre_cliente, telefono_cliente, correo_cliente, rfc, estado } = body;
 
     const id_cliente = parseInt(params.id);
 
@@ -28,7 +28,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       correo_cliente,
       rfc,
       correo_empleado,
-      fecha_alta
+      fecha_alta,
+      estado
     });
 
     const result = await updateCliente(
@@ -38,7 +39,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       correo_cliente,
       rfc,
       correo_empleado,
-      fecha_alta
+      fecha_alta,
+      estado
     );
 
     console.log('Update result:', result);

@@ -40,6 +40,7 @@ interface Cliente {
   id_cliente: number;
   nombre_cliente: string | null;
   fecha_alta: string | null;
+  estado?: string | null;
 }
 
 interface Concepto {
@@ -158,7 +159,7 @@ export default function DashboardGridClient({
     return {
       ganancias: totalGanancias,
       cantidadPagos: filteredPagos.length,
-      cantidadClientes: filteredClientes.length,
+      cantidadClientes: filteredClientes.filter(c => c.estado !== 'baja').length,
       cantidadConceptos: conceptos.length
     };
   }, [filteredPagos, filteredClientes, conceptos]);

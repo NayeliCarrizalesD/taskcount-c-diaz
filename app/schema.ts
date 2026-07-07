@@ -80,20 +80,24 @@ export async function getClientes(id_cliente: string) {
 }
 export async function getTodosClientes() {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.select().from(catalogoClientes).orderBy(catalogoClientes.nombre_cliente);
+  return await db.select().from(catalogoClientes).orderBy(
+    sql`CASE WHEN ${catalogoClientes.estado} = 'activo' THEN 0 ELSE 1 END`,
+    catalogoClientes.nombre_cliente
+  );
 }
 
 // ...existing code...
 export async function updateCliente(
   id_cliente: number, 
-  nombre_cliente: string, 
-  telefono_cliente: string, 
-  correo_cliente: string, 
-  rfc: string, 
+  nombre_cliente?: string, 
+  telefono_cliente?: string, 
+  correo_cliente?: string, 
+  rfc?: string, 
   correo_empleado?: string, 
-  fecha_alta?: string
+  fecha_alta?: string,
+  estado?: string
 ) {
-  console.log('updateCliente called with:', { id_cliente, nombre_cliente, telefono_cliente, correo_cliente, rfc });
+  console.log('updateCliente called with:', { id_cliente, nombre_cliente, telefono_cliente, correo_cliente, rfc, estado });
   
   const catalogoClientes = await ensureTableCatalogoClientesExists();
 
@@ -107,6 +111,7 @@ export async function updateCliente(
     if (rfc?.trim()) updateData.rfc = rfc.trim();
     if (correo_empleado?.trim()) updateData.correo_empleado = correo_empleado.trim();
     if (fecha_alta?.trim()) updateData.fecha_alta = fecha_alta.trim();
+    if (estado?.trim()) updateData.estado = estado.trim();
 
     console.log('Update data:', updateData);
 
@@ -157,8 +162,17 @@ async function ensureTableCatalogoClientesExists() {
         correo_cliente TEXT,
         rfc TEXT,
         correo_empleado TEXT,
-        fecha_alta TEXT
+        fecha_alta TEXT,
+        estado TEXT DEFAULT 'activo'
       );`;
+  } else {
+    // Migración automática para agregar la columna estado si no existe
+    await client`
+      ALTER TABLE "catalogo_clientes" ADD COLUMN IF NOT EXISTS "estado" TEXT DEFAULT 'activo';
+    `;
+    await client`
+      UPDATE "catalogo_clientes" SET "estado" = 'activo' WHERE "estado" IS NULL;
+    `;
   }
 
   const tableCatalogo_clientes = pgTable('catalogo_clientes', {
@@ -169,7 +183,8 @@ async function ensureTableCatalogoClientesExists() {
     correo_cliente: text('correo_cliente'),
     rfc: text('rfc'),
     correo_empleado: text('correo_empleado'),
-    fecha_alta: text('fecha_alta')
+    fecha_alta: text('fecha_alta'),
+    estado: text('estado').default('activo')
   });
 
   return tableCatalogo_clientes;
@@ -183,7 +198,8 @@ export const catalogo_clientes = pgTable('catalogo_clientes', {
     correo_cliente: text('correo_cliente'),
     rfc: text('rfc'),
     correo_empleado: text('correo_empleado'),
-    fecha_alta: text('fecha_alta')
+    fecha_alta: text('fecha_alta'),
+    estado: text('estado').default('activo')
 });
 
 
@@ -349,22 +365,33 @@ export async function getClienteHonorariosTodosConNombre() {
   const honorarios = await db.select().from(configClienteHonorario);
   const clientes = await db.select().from(catalogoClientes);
   
-  // Crear un mapa de clientes por ID
+  // Crear un mapa de clientes por ID con nombre y estado
   const clientesMap = clientes.reduce((acc, cliente) => {
-    acc[cliente.id_cliente.toString()] = cliente.nombre_cliente ?? '';
+    acc[cliente.id_cliente.toString()] = {
+      nombre: cliente.nombre_cliente ?? '',
+      estado: cliente.estado ?? 'activo'
+    };
     return acc;
-  }, {} as Record<string, string>);
+  }, {} as Record<string, { nombre: string; estado: string }>);
   
   // Combinar los datos
-  const resultado = honorarios.map(honorario => ({
-    id_cliente_honorario: honorario.id_cliente_honorario,
-    nombre_cliente: clientesMap[(honorario.id_cliente ?? '').toString()] || `Cliente ID: ${honorario.id_cliente ?? ''}`,
-    concepto: honorario.concepto,
-    pago: honorario.pago
-  }));
+  const resultado = honorarios.map(honorario => {
+    const info = clientesMap[(honorario.id_cliente ?? '').toString()];
+    return {
+      id_cliente_honorario: honorario.id_cliente_honorario,
+      nombre_cliente: info ? info.nombre : `Cliente ID: ${honorario.id_cliente ?? ''}`,
+      estado_cliente: info ? info.estado : 'activo',
+      concepto: honorario.concepto,
+      pago: honorario.pago
+    };
+  });
   
-  // Ordenar por nombre de cliente
-  return resultado.sort((a, b) => a.nombre_cliente.localeCompare(b.nombre_cliente));
+  // Ordenar primero por estado (activos primero) y luego por nombre de cliente
+  return resultado.sort((a, b) => {
+    if (a.estado_cliente === 'activo' && b.estado_cliente !== 'activo') return -1;
+    if (a.estado_cliente !== 'activo' && b.estado_cliente === 'activo') return 1;
+    return a.nombre_cliente.localeCompare(b.nombre_cliente);
+  });
 }
 
 
