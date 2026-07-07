@@ -215,6 +215,11 @@ export async function getEntradaSalidaUnUsuario(correo_empleado: string) {
   return await db.select().from(entrada_salida).where(eq(entrada_salida.correo_empleado,correo_empleado)).orderBy(desc(entrada_salida.id_entrada)).limit(5);
 }
 
+export async function getEntradasSalidasTodas() {
+  const entrada_salida = await ensureTableEntradaSalida();
+  return await db.select().from(entrada_salida).orderBy(desc(entrada_salida.id_entrada));
+}
+
 export async function getLastEntradaSalida(correo_empleado: string) {
   const entrada_salida = await ensureTableEntradaSalida();
   return (await db.select().from(entrada_salida).where(eq(entrada_salida.correo_empleado, correo_empleado)).orderBy(desc(entrada_salida.id_entrada)).limit(1))[0];
