@@ -43,7 +43,7 @@ export default function PaymentTable({ pagos }: PaymentTableProps) {
         if (res.ok) {
           const data = await res.json();
           setCurrentUser(data.correo || "");
-          setIsAdmin(data.nivel === "na1"); // na1 = Administrador
+          setIsAdmin(data.nivel === "na1" || data.nivel === "n1"); // na1 = Administrador, n1 = Nivel 1
         }
       } catch (err) {
         console.error("Error checking user:", err);
