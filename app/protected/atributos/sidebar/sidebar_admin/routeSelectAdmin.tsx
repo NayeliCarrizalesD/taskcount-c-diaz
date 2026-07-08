@@ -22,7 +22,7 @@ export const RouteSelectAdmin = () => {
       <TransitionLink Icon={FaPen} title="Datos Usuario" href="/protected/registro_datos_usuario" />
       <TransitionLink Icon={FaUserEdit} title="Registro Clientes" href="/protected/registro_clientes" />
       <TransitionLink Icon={RiContactsBook3Line} title="Catalogo de Clientes" href="/protected/catalogo_clientes" />
-      <TransitionLink Icon={MdOutlineInventory} title="Config Honorarios" href="/protected/config_clientes_honorarios" />
+      <TransitionLink Icon={MdOutlineInventory} title="Config Concepto" href="/protected/config_clientes_honorarios" />
       <TransitionLink Icon={LuNotebookText} title="Pago Honorarios" href="/protected/registro_pago_honorarios" />
       <TransitionLink Icon={FaTasks} title="Ver Tareas" href="/protected/tareas" />
       <TransitionLink Icon={FaPlusSquare} title="Asignar Tareas" href="/protected/tareas/asignar" />

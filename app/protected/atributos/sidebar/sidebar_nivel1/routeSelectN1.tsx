@@ -18,7 +18,7 @@ export const RouteSelectNivel1 = () => {
       <TransitionLink Icon={TbClockCheck} title="Reloj checador" href="/protected/registro_checador" />
       <TransitionLink Icon={FaUserEdit} title="Registro Clientes" href="/protected/registro_clientes" />
       <TransitionLink Icon={RiContactsBook3Line} title="Catalogo de Clientes" href="/protected/catalogo_clientes" />
-      <TransitionLink Icon={MdOutlineInventory} title="Config Honorarios" href="/protected/config_clientes_honorarios" />
+      <TransitionLink Icon={MdOutlineInventory} title="Config Concepto" href="/protected/config_clientes_honorarios" />
 
     </ul>
   );
