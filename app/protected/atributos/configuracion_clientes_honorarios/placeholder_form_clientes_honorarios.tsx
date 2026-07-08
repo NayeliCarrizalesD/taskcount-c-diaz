@@ -26,7 +26,7 @@ export default function FormularioClientesHonorarios() {
     }
 
     return (
-        <div className="lg:col-span-4 sm:col-span-12 overflow-hidden rounded-3xl bg-slate-800 shadow-xl h-[auto] sm:h-auto overflow-y-scroll scrollbar-thin">
+        <div className="lg:col-span-4 sm:col-span-12 overflow-hidden rounded-3xl bg-slate-800 shadow-xl self-start h-fit pb-4">
             <div className="p-4">
                 <h3 className="flex items-center text-lg gap-1.5 font-medium">
                     <AiOutlineTag />
@@ -36,7 +36,7 @@ export default function FormularioClientesHonorarios() {
                     Registrar un concepto en el catalogo de productos y servicios
                 </h3>
             </div>
-            <div className="h-[auto] sm:h-auto px-4 flex-row items-center ">
+            <div className="px-4 flex-row items-center">
                 <FormConfigClienteHonorarios action={CreateCosto}>
                     <SubmitButton>Registrar</SubmitButton>
                 </FormConfigClienteHonorarios>
