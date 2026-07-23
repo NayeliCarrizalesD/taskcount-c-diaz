@@ -78,6 +78,10 @@ export async function getClientes(id_cliente: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
   return await db.select().from(catalogoClientes).where(eq(catalogoClientes.id_cliente, Number(id_cliente)));
 }
+export async function getClientePorNombre(nombre_cliente: string) {
+  const catalogoClientes = await ensureTableCatalogoClientesExists();
+  return await db.select().from(catalogoClientes).where(eq(catalogoClientes.nombre_cliente, nombre_cliente));
+}
 export async function getTodosClientes() {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
   return await db.select().from(catalogoClientes).orderBy(

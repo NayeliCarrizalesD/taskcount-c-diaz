@@ -1,5 +1,5 @@
 import { FormRegistroCliente } from "@/app/formularios/formRegistroCliente";
-import { createNewClient, getClientes } from "@/app/schema";
+import { createNewClient, getClientePorNombre } from "@/app/schema";
 import { SubmitButton } from "@/app/submit-button";
 import { redirect } from "next/navigation";
 import { FiFolder } from "react-icons/fi";
@@ -17,7 +17,7 @@ export default function FormularioClientes() {
         let correo_empleado = formData.get('correo_empleado') as string;
         let fecha_alta = formData.get('fecha_alta') as unknown as string;
 
-        let cliente = await getClientes(nombre_cliente.toString());
+        let cliente = await getClientePorNombre(nombre_cliente.toString());
     
         if (cliente.length > 0) {
             return console.log('El cliente ya existe');              
