@@ -10,14 +10,14 @@ export default function FormularioClientes() {
         'use server';
         
         let marca_temporal = formData.get('marca_temporal') as string;
-        let nombre_cliente = formData.get('nombre_cliente') as string;
+        let nombre_cliente = (formData.get('nombre_cliente') as string || '').toUpperCase().trim();
         let telefono_cliente = formData.get('telefono_cliente') as string;
         let correo_cliente = formData.get('correo_cliente') as string;
-        let rfc = formData.get('rfc') as string;
+        let rfc = (formData.get('rfc') as string || '').toUpperCase().trim();
         let correo_empleado = formData.get('correo_empleado') as string;
         let fecha_alta = formData.get('fecha_alta') as unknown as string;
 
-        let cliente = await getClientePorNombre(nombre_cliente.toString());
+        let cliente = await getClientePorNombre(nombre_cliente);
     
         if (cliente.length > 0) {
             return console.log('El cliente ya existe');              

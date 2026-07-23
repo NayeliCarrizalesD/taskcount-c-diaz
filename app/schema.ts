@@ -108,11 +108,10 @@ export async function updateCliente(
   try {
     // Construir objeto de actualización solo con campos no vacíos
     const updateData: any = {};
-    
-    if (nombre_cliente?.trim()) updateData.nombre_cliente = nombre_cliente.trim();
+       if (nombre_cliente?.trim()) updateData.nombre_cliente = nombre_cliente.trim().toUpperCase();
     if (telefono_cliente?.trim()) updateData.telefono_cliente = telefono_cliente.trim();
     if (correo_cliente?.trim()) updateData.correo_cliente = correo_cliente.trim();
-    if (rfc?.trim()) updateData.rfc = rfc.trim();
+    if (rfc?.trim()) updateData.rfc = rfc.trim().toUpperCase();
     if (correo_empleado?.trim()) updateData.correo_empleado = correo_empleado.trim();
     if (fecha_alta?.trim()) updateData.fecha_alta = fecha_alta.trim();
     if (estado?.trim()) updateData.estado = estado.trim();
@@ -145,8 +144,16 @@ export async function updateCliente(
 
 export async function createNewClient(marca_temporal: string, nombre_cliente: string, telefono_cliente: string, correo_cliente: string, rfc: string, correo_empleado: string,fecha_alta: string) {
   const catalogoClientes = await ensureTableCatalogoClientesExists();
-  return await db.insert(catalogoClientes).values([{ marca_temporal, nombre_cliente, telefono_cliente, correo_cliente, rfc,  correo_empleado, fecha_alta }]);
-}
+  return await db.insert(catalogoClientes).values([{ 
+    marca_temporal, 
+    nombre_cliente: nombre_cliente.toUpperCase(), 
+    telefono_cliente, 
+    correo_cliente, 
+    rfc: rfc.toUpperCase(),  
+    correo_empleado, 
+    fecha_alta 
+  }]);
+};
 
 async function ensureTableCatalogoClientesExists() {
   const result = await client`
