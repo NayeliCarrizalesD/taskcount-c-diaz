@@ -24,7 +24,7 @@ export function SideBarN3({ name, email }: { name?: string | null, email?: strin
             Icon={LuNotebookText}
             subItems={[
               { title: "Registro Productos", href: "/protected/registro_productos", Icon: FaRegPenToSquare },
-              { title: "Catálogo Productos", href: "/protected/catalogo_productos" }
+              { title: "Catálogo Productos", href: "/protected/catalogo_productos", Icon: LuNotebookText }
             ]}
           />
         </SidebarGroup>

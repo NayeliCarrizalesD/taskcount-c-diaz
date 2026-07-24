@@ -47,7 +47,6 @@ export const SidebarHeader = ({ isCollapsed }: { isCollapsed: boolean }) => {
           </div>
         )}
       </div>
-      {!isCollapsed && <LuChevronsUpDown className="text-zinc-500 shrink-0 cursor-pointer hover:text-zinc-300 transition-colors" size={16} />}
     </div>
   );
 };

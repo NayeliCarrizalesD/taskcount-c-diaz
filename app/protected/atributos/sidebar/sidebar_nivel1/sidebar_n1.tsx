@@ -30,7 +30,7 @@ export function SideBarN1({ name, email }: { name?: string | null, email?: strin
             Icon={RiContactsBook3Line}
             subItems={[
               { title: "Registro Clientes", href: "/protected/registro_clientes", Icon: FaUserEdit },
-              { title: "Catálogo de Clientes", href: "/protected/catalogo_clientes" }
+              { title: "Catálogo de Clientes", href: "/protected/catalogo_clientes", Icon: RiContactsBook3Line }
             ]}
           />
         </SidebarGroup>

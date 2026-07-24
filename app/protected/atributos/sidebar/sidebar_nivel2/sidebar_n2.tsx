@@ -26,7 +26,7 @@ export function SideBarN2({ name, email }: { name?: string | null, email?: strin
             subItems={[
               { title: "Cotizador", href: "/protected/cotizador", Icon: FiDollarSign },
               { title: "Consultar Fletes", href: "/protected/consultar_flete", Icon: GrDeliver },
-              { title: "Inventario", href: "/protected/inventario" },
+              { title: "Inventario", href: "/protected/inventario", Icon: MdOutlineInventory },
               { title: "Catálogo Productos", href: "/protected/catalogo_productos", Icon: LuNotebookText }
             ]}
           />

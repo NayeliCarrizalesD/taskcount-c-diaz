@@ -27,7 +27,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
             title="Checador" 
             Icon={TbClockCheck}
             subItems={[
-              { title: "Reloj Checador", href: "/protected/registro_checador" },
+              { title: "Reloj Checador", href: "/protected/registro_checador", Icon: TbClockCheck },
               { title: "Consultar Checador", href: "/protected/consultar_checador", Icon: FaUserClock }
             ]}
           />
@@ -39,7 +39,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
             Icon={RiContactsBook3Line}
             subItems={[
               { title: "Registro Clientes", href: "/protected/registro_clientes", Icon: FaUserEdit },
-              { title: "Catálogo de Clientes", href: "/protected/catalogo_clientes" }
+              { title: "Catálogo de Clientes", href: "/protected/catalogo_clientes", Icon: RiContactsBook3Line }
             ]}
           />
         </SidebarGroup>
@@ -50,7 +50,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
             Icon={MdOutlineInventory}
             subItems={[
               { title: "Registro de Conceptos", href: "/protected/registro_productos", Icon: FaRegPenToSquare },
-              { title: "Config Concepto", href: "/protected/config_clientes_honorarios" },
+              { title: "Config Concepto", href: "/protected/config_clientes_honorarios", Icon: MdOutlineInventory },
               { title: "Pago Honorarios", href: "/protected/registro_pago_honorarios", Icon: LuNotebookText }
             ]}
           />
@@ -61,7 +61,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
             title="Tareas" 
             Icon={FaTasks}
             subItems={[
-              { title: "Ver Tareas", href: "/protected/tareas" },
+              { title: "Ver Tareas", href: "/protected/tareas", Icon: FaTasks },
               { title: "Asignar Tareas", href: "/protected/tareas/asignar", Icon: FaPlusSquare }
             ]}
           />
