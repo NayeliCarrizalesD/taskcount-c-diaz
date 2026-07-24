@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconType } from "react-icons";
 import { LuChevronsUpDown, LuChevronRight, LuLogOut } from "react-icons/lu";
+import { FaYinYang } from "react-icons/fa";
 import { logoutAction } from "../actions";
 import { useSidebar } from "../context/SidebarContext";
 
@@ -33,8 +34,8 @@ export const SidebarHeader = ({ isCollapsed }: { isCollapsed: boolean }) => {
   return (
     <div className={`flex items-center p-2 mb-6 border-b border-zinc-800/30 pb-4 ${isCollapsed ? "justify-center" : "justify-between"}`}>
       <div className="flex items-center gap-3 min-w-0">
-        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-base shadow-md shadow-blue-500/10 shrink-0">
-          C
+        <div className="w-8 h-8 rounded-lg bg-zinc-800/60 border border-zinc-700/30 flex items-center justify-center text-zinc-200 shadow-md shrink-0">
+          <FaYinYang size={16} />
         </div>
         {!isCollapsed && (
           <div className="flex flex-col min-w-0">
