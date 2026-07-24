@@ -1,33 +1,46 @@
 "use client";
 
-import { Plan } from "../plan";
-import { AccountAdminToggle } from "../account_Admin_Toggle";
-import { RouteSelectNivel1 } from "./routeSelectN1";
 import { useSidebar } from "../../../context/SidebarContext";
+import { SidebarContainer, SidebarHeader, SidebarFooter, SidebarGroup, SidebarItem } from "../../../components/SidebarComponents";
+import { FiHome } from "react-icons/fi";
+import { TbClockCheck } from "react-icons/tb";
+import { FaUserEdit } from "react-icons/fa";
+import { RiContactsBook3Line } from "react-icons/ri";
+import { MdOutlineInventory } from "react-icons/md";
 
 export function SideBarN1({ name, email }: { name?: string | null, email?: string | null }) {
   const { isCollapsed } = useSidebar();
 
   return (
-    <aside
-      className={`fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] transition-all duration-300 bg-black dark:bg-black
-        ${isCollapsed ? "w-20" : "w-64"}
-        `}
-      aria-label="Sidebar"
-    >
-      <div className="h-full px-3 py-4 overflow-y-auto text-white overflow-x-hidden">
-        <div className={`${isCollapsed ? "justify-center flex" : ""}`}>
-          <AccountAdminToggle name={name} email={email} />
-        </div>
+    <SidebarContainer isCollapsed={isCollapsed}>
+      <SidebarHeader isCollapsed={isCollapsed} />
+      
+      <div className="flex-1 overflow-y-auto overflow-x-hidden space-y-4 pr-1 scrollbar-thin">
+        <SidebarGroup title="Plataforma" isCollapsed={isCollapsed}>
+          <SidebarItem title="Inicio" href="/" Icon={FiHome} />
+        </SidebarGroup>
 
-        <div className="mt-4">
-          <RouteSelectNivel1 />
-        </div>
+        <SidebarGroup title="Checador" isCollapsed={isCollapsed}>
+          <SidebarItem title="Reloj Checador" href="/protected/registro_checador" Icon={TbClockCheck} />
+        </SidebarGroup>
 
-        <div className={`mt-auto ${isCollapsed ? "hidden" : "block"}`}>
-          <Plan />
-        </div>
+        <SidebarGroup title="Clientes" isCollapsed={isCollapsed}>
+          <SidebarItem 
+            title="Clientes" 
+            Icon={RiContactsBook3Line}
+            subItems={[
+              { title: "Registro Clientes", href: "/protected/registro_clientes", Icon: FaUserEdit },
+              { title: "Catálogo de Clientes", href: "/protected/catalogo_clientes" }
+            ]}
+          />
+        </SidebarGroup>
+
+        <SidebarGroup title="Conceptos" isCollapsed={isCollapsed}>
+          <SidebarItem title="Config Concepto" href="/protected/config_clientes_honorarios" Icon={MdOutlineInventory} />
+        </SidebarGroup>
       </div>
-    </aside>
+
+      <SidebarFooter name={name} email={email} isCollapsed={isCollapsed} />
+    </SidebarContainer>
   );
 }

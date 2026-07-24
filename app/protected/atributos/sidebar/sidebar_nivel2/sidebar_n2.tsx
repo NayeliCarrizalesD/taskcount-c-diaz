@@ -1,33 +1,39 @@
 "use client";
 
-import { Plan } from "../plan";
-import { AccountAdminToggle } from "../account_Admin_Toggle";
-import { RouteSelectNivel2 } from "./routeSelectN2";
 import { useSidebar } from "../../../context/SidebarContext";
+import { SidebarContainer, SidebarHeader, SidebarFooter, SidebarGroup, SidebarItem } from "../../../components/SidebarComponents";
+import { FiHome, FiDollarSign } from "react-icons/fi";
+import { GrDeliver } from "react-icons/gr";
+import { MdOutlineInventory } from "react-icons/md";
+import { LuNotebookText } from "react-icons/lu";
 
 export function SideBarN2({ name, email }: { name?: string | null, email?: string | null }) {
   const { isCollapsed } = useSidebar();
 
   return (
-    <aside
-      className={`fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] transition-all duration-300 bg-black dark:bg-black
-        ${isCollapsed ? "w-20" : "w-64"}
-        `}
-      aria-label="Sidebar"
-    >
-      <div className="h-full px-3 py-4 overflow-y-auto text-white overflow-x-hidden">
-        <div className={`${isCollapsed ? "justify-center flex" : ""}`}>
-          <AccountAdminToggle name={name} email={email} />
-        </div>
+    <SidebarContainer isCollapsed={isCollapsed}>
+      <SidebarHeader isCollapsed={isCollapsed} />
+      
+      <div className="flex-1 overflow-y-auto overflow-x-hidden space-y-4 pr-1 scrollbar-thin">
+        <SidebarGroup title="Plataforma" isCollapsed={isCollapsed}>
+          <SidebarItem title="Inicio" href="/" Icon={FiHome} />
+        </SidebarGroup>
 
-        <div className="mt-4">
-          <RouteSelectNivel2 />
-        </div>
-
-        <div className={`mt-auto ${isCollapsed ? "hidden" : "block"}`}>
-          <Plan />
-        </div>
+        <SidebarGroup title="Ventas & Stock" isCollapsed={isCollapsed}>
+          <SidebarItem 
+            title="Gestión" 
+            Icon={MdOutlineInventory}
+            subItems={[
+              { title: "Cotizador", href: "/protected/cotizador", Icon: FiDollarSign },
+              { title: "Consultar Fletes", href: "/protected/consultar_flete", Icon: GrDeliver },
+              { title: "Inventario", href: "/protected/inventario" },
+              { title: "Catálogo Productos", href: "/protected/catalogo_productos", Icon: LuNotebookText }
+            ]}
+          />
+        </SidebarGroup>
       </div>
-    </aside>
+
+      <SidebarFooter name={name} email={email} isCollapsed={isCollapsed} />
+    </SidebarContainer>
   );
 }

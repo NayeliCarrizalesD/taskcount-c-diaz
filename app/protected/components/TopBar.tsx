@@ -3,27 +3,28 @@
 
 import React from "react";
 import { useSidebar } from "../context/SidebarContext";
-import { FaBars } from "react-icons/fa";
+import { LuPanelLeftClose, LuPanelLeftOpen } from "react-icons/lu";
 
 export function TopBar() {
     const { toggleSidebar, isCollapsed } = useSidebar();
 
     return (
         <div
-            className="fixed top-0 left-0 right-0 z-50 flex items-center bg-zinc-800 shadow-md border-b border-zinc-700 h-16 transition-all duration-300 ease-in-out"
+            className={`fixed top-0 right-0 z-30 flex items-center bg-slate-900 border-b border-zinc-800/80 h-16 transition-all duration-300 ease-in-out ${
+                isCollapsed ? "left-[70px]" : "left-[260px]"
+            }`}
         >
             <div className="px-4">
                 <button
                     onClick={toggleSidebar}
-                    className="p-2 rounded-md text-zinc-300 hover:text-white hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-700"
+                    className="p-2 rounded-lg text-zinc-400 hover:text-slate-100 hover:bg-zinc-800/50 transition-colors focus:outline-none focus:ring-1 focus:ring-zinc-700"
                 >
                     <span className="sr-only">Toggle sidebar</span>
-                    <FaBars size={20} />
+                    {isCollapsed ? <LuPanelLeftOpen size={18} /> : <LuPanelLeftClose size={18} />}
                 </button>
             </div>
             <div className="flex-1 px-4">
-                {/* Breadcrumbs or Title could go here */}
-                <span className="font-semibold text-zinc-100">Panel de Control</span>
+                <span className="font-semibold text-sm tracking-wide text-slate-200 uppercase">Panel de Control</span>
             </div>
         </div>
     );

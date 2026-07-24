@@ -1,35 +1,79 @@
 "use client";
 
-import { Plan } from "../plan";
-import { AccountAdminToggle } from "../account_Admin_Toggle";
-import { RouteSelectAdmin } from "./routeSelectAdmin";
 import { useSidebar } from "../../../context/SidebarContext";
+import { SidebarContainer, SidebarHeader, SidebarFooter, SidebarGroup, SidebarItem } from "../../../components/SidebarComponents";
+import { FiHome } from "react-icons/fi";
+import { TbClockCheck } from "react-icons/tb";
+import { FaUserClock, FaTasks, FaPlusSquare, FaPen, FaUserEdit } from "react-icons/fa";
+import { MdOutlineInventory } from "react-icons/md";
+import { LuNotebookText } from "react-icons/lu";
+import { FaRegPenToSquare } from "react-icons/fa6";
+import { RiContactsBook3Line } from "react-icons/ri";
 
 export function SideBarAdmin({ name, email }: { name?: string | null, email?: string | null }) {
   const { isCollapsed } = useSidebar();
 
   return (
-    <aside
-      className={`fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] transition-all duration-300 bg-black dark:bg-black
-        ${isCollapsed ? "w-20" : "w-64"}
-        `}
-      aria-label="Sidebar"
-    >
-      <div className="h-full px-3 py-4 overflow-y-auto text-white overflow-x-hidden">
-        {/* Account Toggle could also be adjusted or hidden */}
-        <div className={`${isCollapsed ? "justify-center flex" : ""}`}>
-          <AccountAdminToggle name={name} email={email} />
-        </div>
+    <SidebarContainer isCollapsed={isCollapsed}>
+      <SidebarHeader isCollapsed={isCollapsed} />
+      
+      <div className="flex-1 overflow-y-auto overflow-x-hidden space-y-4 pr-1 scrollbar-thin">
+        <SidebarGroup title="Plataforma" isCollapsed={isCollapsed}>
+          <SidebarItem title="Inicio" href="/" Icon={FiHome} />
+        </SidebarGroup>
 
-        <div className="mt-4">
-          <RouteSelectAdmin />
-        </div>
+        <SidebarGroup title="Checador" isCollapsed={isCollapsed}>
+          <SidebarItem 
+            title="Checador" 
+            Icon={TbClockCheck}
+            subItems={[
+              { title: "Reloj Checador", href: "/protected/registro_checador" },
+              { title: "Consultar Checador", href: "/protected/consultar_checador", Icon: FaUserClock }
+            ]}
+          />
+        </SidebarGroup>
 
-        <div className={`mt-auto ${isCollapsed ? "hidden" : "block"}`}>
-          <Plan />
-        </div>
+        <SidebarGroup title="Clientes" isCollapsed={isCollapsed}>
+          <SidebarItem 
+            title="Clientes" 
+            Icon={RiContactsBook3Line}
+            subItems={[
+              { title: "Registro Clientes", href: "/protected/registro_clientes", Icon: FaUserEdit },
+              { title: "Catálogo de Clientes", href: "/protected/catalogo_clientes" }
+            ]}
+          />
+        </SidebarGroup>
+
+        <SidebarGroup title="Conceptos" isCollapsed={isCollapsed}>
+          <SidebarItem 
+            title="Conceptos" 
+            Icon={MdOutlineInventory}
+            subItems={[
+              { title: "Registro de Conceptos", href: "/protected/registro_productos", Icon: FaRegPenToSquare },
+              { title: "Config Concepto", href: "/protected/config_clientes_honorarios" },
+              { title: "Pago Honorarios", href: "/protected/registro_pago_honorarios", Icon: LuNotebookText }
+            ]}
+          />
+        </SidebarGroup>
+
+        <SidebarGroup title="Tareas" isCollapsed={isCollapsed}>
+          <SidebarItem 
+            title="Tareas" 
+            Icon={FaTasks}
+            subItems={[
+              { title: "Ver Tareas", href: "/protected/tareas" },
+              { title: "Asignar Tareas", href: "/protected/tareas/asignar", Icon: FaPlusSquare }
+            ]}
+          />
+        </SidebarGroup>
+
+        <SidebarGroup title="Configuración" isCollapsed={isCollapsed}>
+          <SidebarItem title="Datos Usuario" href="/protected/registro_datos_usuario" Icon={FaPen} />
+        </SidebarGroup>
       </div>
-    </aside>
+
+      <SidebarFooter name={name} email={email} isCollapsed={isCollapsed} />
+    </SidebarContainer>
   );
 }
 

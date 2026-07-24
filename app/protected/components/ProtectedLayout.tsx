@@ -20,15 +20,16 @@ export function ProtectedLayout({ children, sidebar }: ProtectedLayoutProps) {
           But we can control the container here too if needed, but sidebars usually are fixed.
           We just render the sidebar here.
        */}
-            <div className={`fixed top-16 left-0 h-[calc(100vh-4rem)] z-40 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+            <div className={`fixed top-0 left-0 h-screen z-40 transition-all duration-300 ${isCollapsed ? 'w-[70px]' : 'w-[260px]'}`}>
                 {sidebar}
             </div>
 
             <TopBar />
 
             <div
-                className={`py-3 pr-3 pl-0 mt-16 transition-all duration-300 ease-in-out ${isCollapsed ? "ml-20" : "ml-64"
-                    }`}
+                className={`py-3 pr-3 pl-0 mt-16 transition-all duration-300 ease-in-out ${
+                    isCollapsed ? "ml-[70px]" : "ml-[260px]"
+                }`}
             >
                 {children}
             </div>
