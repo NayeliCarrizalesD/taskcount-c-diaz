@@ -58,9 +58,13 @@ interface DashboardGridClientProps {
 const COLORS = ["#a78bfa", "#22d3ee", "#34d399", "#fbbf24", "#f43f5e"];
 
 // Helper para extraer el día de una fecha en formato YYYY-MM-DD o DD/MM/YYYY
-const getDayFromDate = (dateStr: string | null | undefined): number | null => {
+const getDayFromDate = (dateStr: any): number | null => {
   if (!dateStr) return null;
-  const dashParts = dateStr.split('-');
+  if (dateStr instanceof Date) {
+    return dateStr.getDate();
+  }
+  const str = String(dateStr).trim();
+  const dashParts = str.split('-');
   if (dashParts.length === 3) {
     if (dashParts[0].length === 4) {
       return Number(dashParts[2]); // YYYY-MM-DD
@@ -68,7 +72,7 @@ const getDayFromDate = (dateStr: string | null | undefined): number | null => {
       return Number(dashParts[0]); // DD-MM-YYYY
     }
   }
-  const slashParts = dateStr.split('/');
+  const slashParts = str.split('/');
   if (slashParts.length === 3) {
     if (slashParts[2].length === 4) {
       return Number(slashParts[0]); // DD/MM/YYYY
@@ -80,10 +84,19 @@ const getDayFromDate = (dateStr: string | null | undefined): number | null => {
 };
 
 // Helper para parsear la fecha de alta del cliente de forma robusta
-const parseClientDate = (dateStr: string | null | undefined) => {
+const parseClientDate = (dateStr: any) => {
   if (!dateStr) return { year: null, month: null, day: null };
   
-  const dashParts = dateStr.split('-');
+  if (dateStr instanceof Date) {
+    return { 
+      year: dateStr.getFullYear(), 
+      month: dateStr.getMonth() + 1, 
+      day: dateStr.getDate() 
+    };
+  }
+
+  const str = String(dateStr).trim();
+  const dashParts = str.split('-');
   if (dashParts.length === 3) {
     if (dashParts[0].length === 4) {
       return { year: Number(dashParts[0]), month: Number(dashParts[1]), day: Number(dashParts[2]) };
@@ -92,7 +105,7 @@ const parseClientDate = (dateStr: string | null | undefined) => {
     }
   }
   
-  const slashParts = dateStr.split('/');
+  const slashParts = str.split('/');
   if (slashParts.length === 3) {
     if (slashParts[2].length === 4) {
       return { year: Number(slashParts[2]), month: Number(slashParts[1]), day: Number(slashParts[0]) };
@@ -101,7 +114,7 @@ const parseClientDate = (dateStr: string | null | undefined) => {
     }
   }
   
-  const yearMatch = dateStr.match(/\d{4}/);
+  const yearMatch = str.match(/\d{4}/);
   const year = yearMatch ? Number(yearMatch[0]) : null;
   return { year, month: null, day: null };
 };
