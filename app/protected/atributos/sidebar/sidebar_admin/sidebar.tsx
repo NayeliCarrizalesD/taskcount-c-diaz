@@ -16,15 +16,15 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
   return (
     <SidebarContainer isCollapsed={isCollapsed}>
       <SidebarHeader isCollapsed={isCollapsed} />
-      
+
       <div className="flex-1 overflow-y-auto overflow-x-hidden space-y-4 pr-1 scrollbar-thin">
         <SidebarGroup title="Plataforma" isCollapsed={isCollapsed}>
           <SidebarItem title="Inicio" href="/" Icon={FiHome} />
         </SidebarGroup>
 
-        <SidebarGroup title="Checador" isCollapsed={isCollapsed}>
-          <SidebarItem 
-            title="Checador" 
+        <SidebarGroup title="Asistencia" isCollapsed={isCollapsed}>
+          <SidebarItem
+            title="Checador"
             Icon={TbClockCheck}
             subItems={[
               { title: "Reloj Checador", href: "/protected/registro_checador", Icon: TbClockCheck },
@@ -34,8 +34,8 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
         </SidebarGroup>
 
         <SidebarGroup title="Clientes" isCollapsed={isCollapsed}>
-          <SidebarItem 
-            title="Clientes" 
+          <SidebarItem
+            title="Clientes"
             Icon={RiContactsBook3Line}
             subItems={[
               { title: "Registro Clientes", href: "/protected/registro_clientes", Icon: FaUserEdit },
@@ -45,8 +45,8 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
         </SidebarGroup>
 
         <SidebarGroup title="Conceptos" isCollapsed={isCollapsed}>
-          <SidebarItem 
-            title="Conceptos" 
+          <SidebarItem
+            title="Conceptos"
             Icon={MdOutlineInventory}
             subItems={[
               { title: "Registro de Conceptos", href: "/protected/registro_productos", Icon: FaRegPenToSquare },
@@ -57,8 +57,8 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
         </SidebarGroup>
 
         <SidebarGroup title="Tareas" isCollapsed={isCollapsed}>
-          <SidebarItem 
-            title="Tareas" 
+          <SidebarItem
+            title="Tareas"
             Icon={FaTasks}
             subItems={[
               { title: "Ver Tareas", href: "/protected/tareas", Icon: FaTasks },
