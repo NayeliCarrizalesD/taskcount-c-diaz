@@ -18,7 +18,7 @@ export const SidebarContainer = ({
 }) => {
   return (
     <aside
-      className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 bg-slate-900 border-r border-zinc-800/80 flex flex-col p-3 select-none ${
+      className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 bg-[#09090b] border-r border-zinc-800/40 flex flex-col p-3 select-none ${
         isCollapsed ? "w-[70px]" : "w-[260px]"
       }`}
       aria-label="Sidebar"
@@ -31,14 +31,14 @@ export const SidebarContainer = ({
 // Sidebar Header (Organization switcher)
 export const SidebarHeader = ({ isCollapsed }: { isCollapsed: boolean }) => {
   return (
-    <div className={`flex items-center p-2 mb-6 border-b border-zinc-800/50 pb-4 ${isCollapsed ? "justify-center" : "justify-between"}`}>
+    <div className={`flex items-center p-2 mb-6 border-b border-zinc-800/30 pb-4 ${isCollapsed ? "justify-center" : "justify-between"}`}>
       <div className="flex items-center gap-3 min-w-0">
         <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-base shadow-md shadow-blue-500/10 shrink-0">
           C
         </div>
         {!isCollapsed && (
           <div className="flex flex-col min-w-0">
-            <span className="font-bold text-xs text-slate-200 truncate leading-tight uppercase tracking-wide">
+            <span className="font-bold text-xs text-zinc-100 truncate leading-tight uppercase tracking-wide">
               CARRIZALES DIAZ
             </span>
             <span className="text-zinc-500 text-[10px] uppercase font-bold tracking-wider leading-none mt-1">
@@ -115,12 +115,12 @@ export const SidebarItem = ({
           onClick={() => !isCollapsed && setIsOpen(!isOpen)}
           className={`w-full flex items-center justify-between p-2 rounded-lg transition-all duration-200 group relative text-left ${
             hasActiveSubItem
-              ? "text-slate-100 font-medium bg-zinc-800/20"
-              : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40"
+              ? "text-zinc-100 font-medium bg-zinc-900/50"
+              : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/40"
           }`}
         >
           <div className="flex items-center min-w-0">
-            <Icon className={`text-lg transition-colors min-w-[20px] ${hasActiveSubItem ? "text-slate-100" : ""}`} />
+            <Icon className={`text-lg transition-colors min-w-[20px] ${hasActiveSubItem ? "text-zinc-100" : ""}`} />
             <span
               className={`ms-3 transition-all duration-300 whitespace-nowrap truncate ${
                 isCollapsed ? "opacity-0 w-0 pointer-events-none hidden" : "opacity-100"
@@ -136,7 +136,7 @@ export const SidebarItem = ({
             />
           )}
           {isCollapsed && (
-            <span className="absolute left-full rounded-md px-2 py-1 ml-6 bg-slate-950 text-white text-xs font-semibold invisible opacity-0 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-50 whitespace-nowrap shadow-md border border-slate-800">
+            <span className="absolute left-full rounded-md px-2 py-1 ml-6 bg-zinc-950 text-white text-xs font-semibold invisible opacity-0 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-50 whitespace-nowrap shadow-md border border-zinc-800/40">
               {title}
             </span>
           )}
@@ -149,7 +149,7 @@ export const SidebarItem = ({
           }`}
         >
           <div className="overflow-hidden">
-            <ul className="pl-4 ml-4.5 border-l border-zinc-800 space-y-1">
+            <ul className="pl-4 ml-4.5 border-l border-zinc-800/60 space-y-1">
               {subItems.map((sub, idx) => {
                 const isSubActive = pathname === sub.href;
                 const SubIcon = sub.Icon;
@@ -159,8 +159,8 @@ export const SidebarItem = ({
                       href={sub.href}
                       className={`flex items-center p-2 rounded-lg text-sm transition-all duration-200 ${
                         isSubActive
-                          ? "bg-zinc-800 text-slate-100 font-medium shadow-sm"
-                          : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/30"
+                          ? "bg-zinc-900 text-zinc-100 font-medium shadow-sm border border-zinc-800/30"
+                          : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/30"
                       }`}
                     >
                       {SubIcon && <SubIcon className="mr-2 text-md" />}
@@ -182,11 +182,11 @@ export const SidebarItem = ({
         href={href || "#"}
         className={`flex items-center p-2 rounded-lg transition-all duration-200 group relative ${
           isDirectActive
-            ? "bg-zinc-800 text-slate-100 font-medium shadow-sm border border-zinc-700/30"
-            : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40"
+            ? "bg-zinc-900 text-zinc-100 font-medium shadow-sm border border-zinc-800/30"
+            : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/40"
         }`}
       >
-        <Icon className={`text-lg transition-colors min-w-[20px] ${isDirectActive ? "text-slate-100" : ""}`} />
+        <Icon className={`text-lg transition-colors min-w-[20px] ${isDirectActive ? "text-zinc-100" : ""}`} />
         <span
           className={`ms-3 transition-all duration-300 whitespace-nowrap truncate ${
             isCollapsed ? "opacity-0 w-0 pointer-events-none hidden" : "opacity-100"
@@ -195,7 +195,7 @@ export const SidebarItem = ({
           {title}
         </span>
         {isCollapsed && (
-          <span className="absolute left-full rounded-md px-2 py-1 ml-6 bg-slate-950 text-white text-xs font-semibold invisible opacity-0 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-50 whitespace-nowrap shadow-md border border-slate-800">
+          <span className="absolute left-full rounded-md px-2 py-1 ml-6 bg-zinc-950 text-white text-xs font-semibold invisible opacity-0 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-50 whitespace-nowrap shadow-md border border-zinc-800/40">
             {title}
           </span>
         )}
@@ -239,18 +239,18 @@ export const SidebarFooter = ({
   const initials = getInitials(name);
 
   return (
-    <div className="relative mt-auto border-t border-zinc-800/50 pt-4" ref={dropdownRef}>
+    <div className="relative mt-auto border-t border-zinc-800/40 pt-4" ref={dropdownRef}>
       {dropdownOpen && (
-        <div className={`absolute bottom-full left-0 mb-2 w-full bg-slate-900 border border-zinc-800/80 rounded-lg shadow-xl py-1.5 z-50 text-sm ${isCollapsed ? "min-w-[160px]" : ""}`}>
-          <div className="px-3 py-2 border-b border-zinc-800/50">
+        <div className={`absolute bottom-full left-0 mb-2 w-full bg-[#09090b] border border-zinc-800/50 rounded-lg shadow-xl py-1.5 z-50 text-sm ${isCollapsed ? "min-w-[160px]" : ""}`}>
+          <div className="px-3 py-2 border-b border-zinc-800/30">
             <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Conectado como</p>
-            <p className="font-semibold text-slate-200 truncate mt-0.5">{name || "Usuario"}</p>
+            <p className="font-semibold text-zinc-200 truncate mt-0.5">{name || "Usuario"}</p>
           </div>
           <button
             onClick={async () => {
               await logoutAction();
             }}
-            className="w-full text-left px-3 py-2.5 text-red-400 hover:bg-zinc-800/50 hover:text-red-300 flex items-center gap-2 transition-colors font-medium text-xs uppercase tracking-wider"
+            className="w-full text-left px-3 py-2.5 text-red-400 hover:bg-zinc-900/60 hover:text-red-300 flex items-center gap-2 transition-colors font-medium text-xs uppercase tracking-wider"
           >
             <LuLogOut size={14} />
             <span>Cerrar Sesión</span>
@@ -260,17 +260,17 @@ export const SidebarFooter = ({
 
       <button
         onClick={() => setDropdownOpen(!dropdownOpen)}
-        className={`w-full flex items-center gap-3 p-1.5 rounded-lg hover:bg-zinc-800/40 transition-colors text-left group ${
+        className={`w-full flex items-center gap-3 p-1.5 rounded-lg hover:bg-zinc-900/40 transition-colors text-left group relative ${
           isCollapsed ? "justify-center" : "justify-between"
         }`}
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-200 font-semibold text-sm shrink-0 border border-zinc-700/50 uppercase">
+          <div className="w-8 h-8 rounded-full bg-zinc-850 flex items-center justify-center text-zinc-300 font-semibold text-sm shrink-0 border border-zinc-800/50 uppercase">
             {initials}
           </div>
           {!isCollapsed && (
             <div className="flex flex-col min-w-0">
-              <span className="font-medium text-xs text-slate-200 truncate leading-tight">
+              <span className="font-medium text-xs text-zinc-200 truncate leading-tight">
                 {name || "Usuario"}
               </span>
               <span className="text-zinc-500 text-[10px] truncate leading-none mt-1">
@@ -281,7 +281,7 @@ export const SidebarFooter = ({
         </div>
         {!isCollapsed && <LuChevronsUpDown className="text-zinc-500 shrink-0" size={14} />}
         {isCollapsed && (
-          <span className="absolute left-full rounded-md px-2 py-1 ml-6 bg-slate-950 text-white text-xs font-semibold invisible opacity-0 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-50 whitespace-nowrap shadow-md border border-slate-800">
+          <span className="absolute left-full rounded-md px-2 py-1 ml-6 bg-zinc-950 text-white text-xs font-semibold invisible opacity-0 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-50 whitespace-nowrap shadow-md border border-zinc-800/40">
             {name || "Usuario"}
           </span>
         )}

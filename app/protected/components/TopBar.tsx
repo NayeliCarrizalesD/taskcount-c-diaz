@@ -10,7 +10,7 @@ export function TopBar() {
 
     return (
         <div
-            className={`fixed top-0 right-0 z-30 flex items-center bg-slate-900 border-b border-zinc-800/80 h-16 transition-all duration-300 ease-in-out ${
+            className={`fixed top-0 right-0 z-30 flex items-center bg-[#09090b] border-b border-zinc-800/40 h-16 transition-all duration-300 ease-in-out ${
                 isCollapsed ? "left-[70px]" : "left-[260px]"
             }`}
         >
