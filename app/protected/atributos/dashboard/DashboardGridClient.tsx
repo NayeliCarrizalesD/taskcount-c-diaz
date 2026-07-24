@@ -349,48 +349,48 @@ export default function DashboardGridClient({
       {/* Tarjetas de Métricas Principales */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Ventas Totales */}
-        <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg flex items-center gap-4 hover:border-purple-500/50 transition-all duration-300">
-          <div className="p-4 rounded-2xl bg-purple-500/10 text-purple-400 text-2xl">
+        <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-4 sm:p-6 shadow-lg flex items-center gap-3 sm:gap-4 hover:border-purple-500/50 transition-all duration-300 min-w-0">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-purple-500/10 text-purple-400 text-xl sm:text-2xl shrink-0">
             <FaCoins />
           </div>
-          <div>
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block">Ganancias</span>
-            <span className="text-2xl font-bold text-white mt-1 block">
+          <div className="flex-1 min-w-0">
+            <span className="text-[10px] sm:text-xs text-slate-400 font-semibold uppercase tracking-wider block leading-tight break-words">Ganancias</span>
+            <span className="text-lg sm:text-xl xl:text-2xl font-bold text-white mt-1 block break-all sm:break-normal leading-tight">
               ${stats.ganancias.toLocaleString("es-MX", { minimumFractionDigits: 2 })}
             </span>
           </div>
         </div>
 
         {/* Card 2: Cantidad de Pagos */}
-        <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg flex items-center gap-4 hover:border-cyan-500/50 transition-all duration-300">
-          <div className="p-4 rounded-2xl bg-cyan-500/10 text-cyan-400 text-2xl">
+        <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-4 sm:p-6 shadow-lg flex items-center gap-3 sm:gap-4 hover:border-cyan-500/50 transition-all duration-300 min-w-0">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-cyan-500/10 text-cyan-400 text-xl sm:text-2xl shrink-0">
             <FaFileInvoiceDollar />
           </div>
-          <div>
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block">Transacciones</span>
-            <span className="text-2xl font-bold text-white mt-1 block">{stats.cantidadPagos}</span>
+          <div className="flex-1 min-w-0">
+            <span className="text-[10px] sm:text-xs text-slate-400 font-semibold uppercase tracking-wider block leading-tight break-words">Transacciones</span>
+            <span className="text-lg sm:text-xl xl:text-2xl font-bold text-white mt-1 block break-all sm:break-normal leading-tight">{stats.cantidadPagos}</span>
           </div>
         </div>
 
         {/* Card 3: Clientes */}
-        <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg flex items-center gap-4 hover:border-emerald-500/50 transition-all duration-300">
-          <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-400 text-2xl">
+        <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-4 sm:p-6 shadow-lg flex items-center gap-3 sm:gap-4 hover:border-emerald-500/50 transition-all duration-300 min-w-0">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-emerald-500/10 text-emerald-400 text-xl sm:text-2xl shrink-0">
             <FaUserFriends />
           </div>
-          <div>
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block">Clientes Activos</span>
-            <span className="text-2xl font-bold text-white mt-1 block">{stats.cantidadClientes}</span>
+          <div className="flex-1 min-w-0">
+            <span className="text-[10px] sm:text-xs text-slate-400 font-semibold uppercase tracking-wider block leading-tight break-words">Clientes Activos</span>
+            <span className="text-lg sm:text-xl xl:text-2xl font-bold text-white mt-1 block break-all sm:break-normal leading-tight">{stats.cantidadClientes}</span>
           </div>
         </div>
 
         {/* Card 4: Conceptos */}
-        <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-6 shadow-lg flex items-center gap-4 hover:border-amber-500/50 transition-all duration-300">
-          <div className="p-4 rounded-2xl bg-amber-500/10 text-amber-400 text-2xl">
+        <div className="bg-slate-800 border border-slate-700/40 rounded-3xl p-4 sm:p-6 shadow-lg flex items-center gap-3 sm:gap-4 hover:border-amber-500/50 transition-all duration-300 min-w-0">
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 text-amber-400 text-xl sm:text-2xl shrink-0">
             <FaBoxOpen />
           </div>
-          <div>
-            <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block">Conceptos</span>
-            <span className="text-2xl font-bold text-white mt-1 block">{stats.cantidadConceptos}</span>
+          <div className="flex-1 min-w-0">
+            <span className="text-[10px] sm:text-xs text-slate-400 font-semibold uppercase tracking-wider block leading-tight break-words">Conceptos</span>
+            <span className="text-lg sm:text-xl xl:text-2xl font-bold text-white mt-1 block break-all sm:break-normal leading-tight">{stats.cantidadConceptos}</span>
           </div>
         </div>
       </div>
