@@ -22,7 +22,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
           <SidebarItem title="Inicio" href="/" Icon={FiHome} />
         </SidebarGroup>
 
-        <SidebarGroup title="Asistencia" isCollapsed={isCollapsed}>
+        <SidebarGroup title="" isCollapsed={isCollapsed}>
           <SidebarItem
             title="Checador"
             Icon={TbClockCheck}
@@ -33,7 +33,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
           />
         </SidebarGroup>
 
-        <SidebarGroup title="Clientes" isCollapsed={isCollapsed}>
+        <SidebarGroup title="" isCollapsed={isCollapsed}>
           <SidebarItem
             title="Clientes"
             Icon={RiContactsBook3Line}
@@ -44,7 +44,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
           />
         </SidebarGroup>
 
-        <SidebarGroup title="Conceptos" isCollapsed={isCollapsed}>
+        <SidebarGroup title="" isCollapsed={isCollapsed}>
           <SidebarItem
             title="Conceptos"
             Icon={MdOutlineInventory}
@@ -56,7 +56,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
           />
         </SidebarGroup>
 
-        <SidebarGroup title="Tareas" isCollapsed={isCollapsed}>
+        <SidebarGroup title="" isCollapsed={isCollapsed}>
           <SidebarItem
             title="Tareas"
             Icon={FaTasks}
@@ -67,7 +67,7 @@ export function SideBarAdmin({ name, email }: { name?: string | null, email?: st
           />
         </SidebarGroup>
 
-        <SidebarGroup title="Configuración" isCollapsed={isCollapsed}>
+        <SidebarGroup title="" isCollapsed={isCollapsed}>
           <SidebarItem title="Datos Usuario" href="/protected/registro_datos_usuario" Icon={FaPen} />
         </SidebarGroup>
       </div>

@@ -14,19 +14,19 @@ export function SideBarN1({ name, email }: { name?: string | null, email?: strin
   return (
     <SidebarContainer isCollapsed={isCollapsed}>
       <SidebarHeader isCollapsed={isCollapsed} />
-      
+
       <div className="flex-1 overflow-y-auto overflow-x-hidden space-y-4 pr-1 scrollbar-thin">
         <SidebarGroup title="Plataforma" isCollapsed={isCollapsed}>
           <SidebarItem title="Inicio" href="/" Icon={FiHome} />
         </SidebarGroup>
 
-        <SidebarGroup title="Checador" isCollapsed={isCollapsed}>
+        <SidebarGroup title="" isCollapsed={isCollapsed}>
           <SidebarItem title="Reloj Checador" href="/protected/registro_checador" Icon={TbClockCheck} />
         </SidebarGroup>
 
-        <SidebarGroup title="Clientes" isCollapsed={isCollapsed}>
-          <SidebarItem 
-            title="Clientes" 
+        <SidebarGroup title="" isCollapsed={isCollapsed}>
+          <SidebarItem
+            title="Clientes"
             Icon={RiContactsBook3Line}
             subItems={[
               { title: "Registro Clientes", href: "/protected/registro_clientes", Icon: FaUserEdit },
@@ -35,7 +35,7 @@ export function SideBarN1({ name, email }: { name?: string | null, email?: strin
           />
         </SidebarGroup>
 
-        <SidebarGroup title="Conceptos" isCollapsed={isCollapsed}>
+        <SidebarGroup title="" isCollapsed={isCollapsed}>
           <SidebarItem title="Config Concepto" href="/protected/config_clientes_honorarios" Icon={MdOutlineInventory} />
         </SidebarGroup>
       </div>
